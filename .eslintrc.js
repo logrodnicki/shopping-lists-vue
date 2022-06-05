@@ -6,9 +6,10 @@ module.exports = {
     'eslint-config-prettier'
   ],
   rules: {
-    'vue/multi-word-component-names': 0
+    'vue/multi-word-component-names': 0,
+    'semi': [2, 'always']
   },
   env: {
     node: true
   }
-}
+};

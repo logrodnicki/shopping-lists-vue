@@ -7,11 +7,20 @@ const projectRootDir = path.resolve(__dirname);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), eslintPlugin()],
   resolve: {
     alias: {
       '@': path.resolve(projectRootDir, 'src'),
       '@views': path.resolve(projectRootDir, 'src', 'views')
     }
-  }
-})
+  },
+  server: {
+    proxy: {
+      "^/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
+  plugins: [vue(), eslintPlugin()],
+});
