@@ -13,6 +13,7 @@ module.exports = {
       'periwinkle-blue': '#bfd7ff',
       'light-cyan': '#e2fdff',
       'white': '#ffffff',
+      'black': '#000000',
       'gray': colors.gray,
       'orange': colors.orange,
       'red': colors.red,

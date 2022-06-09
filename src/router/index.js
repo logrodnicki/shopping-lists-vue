@@ -6,13 +6,13 @@ const routes = [
   {
     path: '/',
     name: 'Main',
-    component: Main,
+    component: Main
   },
   {
     path: '/login',
     name: 'Login',
     component: Login
-  },
+  }
 ];
 
 const router = createRouter({
