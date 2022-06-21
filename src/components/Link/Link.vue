@@ -1,6 +1,6 @@
 <template>
   <router-link
-    class="h-8 border-2 border-orange-400 rounded-3xl px-3 flex items-center flex items-center gap-2 shadow-sm shadow-orange-300"
+    class="h-8 border-2 border-orange-400 rounded-md px-3 flex items-center flex items-center gap-2 shadow-sm shadow-orange-300"
     :to="to"
   >
     <div class="text-orange-400 flex">
@@ -12,11 +12,7 @@
 
 <script>
 import { toRefs } from 'vue';
-
-export const LinkIconTypes = {
-  List: 'list',
-  Create: 'create'
-};
+import { LINK_ICONS } from '@/constants/link';
 
 export default {
   props: {
@@ -31,9 +27,9 @@ export default {
     },
     iconType: {
       validator(value) {
-        return Object.values(LinkIconTypes).includes(value);
+        return Object.values(LINK_ICONS).includes(value);
       },
-      default: LinkIconTypes.List
+      default: LINK_ICONS.LIST
     }
   },
   setup(props) {
@@ -42,10 +38,10 @@ export default {
     const getIconClassBasedOnType = () => {
       switch (iconType.value) {
         default:
-        case LinkIconTypes.List: {
+        case LINK_ICONS.LIST: {
           return 'list';
         }
-        case LinkIconTypes.Create: {
+        case LINK_ICONS.CREATE: {
           return 'plus';
         }
       }

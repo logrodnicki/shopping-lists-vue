@@ -18,7 +18,11 @@ module.exports = {
       'orange': colors.orange,
       'red': colors.red,
       'blue': colors.blue,
-      'purple': colors.purple
+      'purple': colors.purple,
+      'stone': colors.stone,
+      'slate': colors.slate,
+      'neutral': colors.neutral,
+      'dark-mode': '#1a1a1a'
     },
     fontFamily: {
       inter: ['Inter', 'sans-serif']
@@ -35,6 +39,9 @@ module.exports = {
       },
       animation: {
         'fade-out': 'fadeOut 300ms linear forwards'
+      },
+      translate: {
+        '-1/2': '-50%'
       }
     },
   },

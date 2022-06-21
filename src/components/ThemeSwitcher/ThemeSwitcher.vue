@@ -1,6 +1,6 @@
 <template>
   <button
-    class="border-2 border-orange-400 rounded-3xl h-8 w-14 p-0.5 relative"
+    class="border-2 border-orange-400 rounded-3xl h-8 w-14 p-0.5 relative flex"
     @click="toggleDarkMode"
   >
     <span class="text-orange-400 absolute left-2">

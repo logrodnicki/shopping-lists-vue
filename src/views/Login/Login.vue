@@ -1,49 +1,32 @@
 <template>
-  <div class="w-72 max-w-90 min-h-72 flex flex-col items-center justify-between">
-    <div class="text-gray-800 mb-2.5">
+  <div class="w-72 h-72 flex flex-col items-center justify-between my-auto translate-y-[-25%]">
+    <div class="mb-2.5" :class="[isDarkMode ? 'text-white' : 'text-gray-800']">
       <font-awesome-icon icon="circle-user" size="6x" />
     </div>
-    <h1 class="text-2xl font-bold text-gray-800">Log in</h1>
-    <Message v-if="!!errorMessage" :message="errorMessage" :type="messageTypes.error"></Message>
-    <div>
-      <div class="my-4">
-        <label for="email" class="text-sm text-black font-bold text-gray-800">Email</label>
-        <input
-          id="email"
-          v-model="email"
-          type="email"
-          class="border-2 w-full rounded-md border-gray-200 focus:border-orange-400 text-sm py-1 px-2 placeholder-gray-300 outline-none transition duration-300"
-          placeholder="test@test.com"
-        />
-        <div class="h-4">
-          <div v-if="emailErrorMessage" class="transition text-red-500 text-xs">
-            {{ emailErrorMessage }}
-          </div>
-        </div>
-      </div>
-      <div class="my-4">
-        <label for="password" class="text-sm text-black font-bold text-gray-800">Password</label>
-        <input
-          id="password"
-          v-model="password"
-          type="password"
-          class="border-2 w-full rounded-md border-gray-200 focus:border-orange-400 text-sm py-1 px-2 placeholder-gray-300 outline-none transition duration-300"
-          placeholder="****"
-        />
-        <div class="h-4">
-          <div v-if="passwordErrorMessage" class="transition text-red-500 text-xs">
-            {{ passwordErrorMessage }}
-          </div>
-        </div>
-      </div>
+    <h1 class="text-2xl font-bold" :class="[isDarkMode ? 'text-white' : 'text-gray-800']">
+      Log in
+    </h1>
+    <Message v-if="!!errorMessage" :message="errorMessage" :type="MESSAGE_TYPES.error"></Message>
+    <div class="w-full">
+      <TextInput
+        id="email"
+        v-model="email"
+        placeholder="test@test.com"
+        type="text"
+        label="Email"
+        :error="emailErrorMessage"
+      />
+      <TextInput
+        id="password"
+        v-model="password"
+        placeholder="***"
+        type="password"
+        label="Password"
+        :error="passwordErrorMessage"
+      />
     </div>
     <div class="w-full">
-      <button
-        class="text-white h-8 w-full bg-orange-400 border-orange-500 rounded-md shadow-lg shadow-orange-300 transition duration-300 hover:bg-orange-500"
-        @click="loginHandler"
-      >
-        Log in
-      </button>
+      <Button label="Log in" @click="loginHandler" />
     </div>
   </div>
 </template>
@@ -52,14 +35,18 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Message, { types as messageTypes } from '@/components/Message/Message.vue';
+import { MESSAGE_TYPES } from '@/constants/message';
+import { Button, Message, TextInput } from '@/components';
 import { JWT_TOKEN_KEY } from '@/consts';
 import { LOGIN_URL, getUrl } from '@/api';
-import router from '../../router';
+import router from '@/router';
+import useDarkMode from '@/hooks/useDarkMode';
 
 export default {
   components: {
-    Message
+    Message,
+    TextInput,
+    Button
   },
   setup() {
     const email = ref('');
@@ -74,6 +61,8 @@ export default {
       passwordErrorMessage.value = '';
 
       if (!email.value || !password.value) {
+        console.log('TEST');
+
         if (!email.value) {
           emailErrorMessage.value = "Email can't be empty";
         }
@@ -101,6 +90,8 @@ export default {
       }
     };
 
+    const { isDarkMode } = useDarkMode();
+
     return {
       email,
       emailErrorMessage,
@@ -108,7 +99,8 @@ export default {
       passwordErrorMessage,
       loginHandler,
       errorMessage,
-      messageTypes
+      MESSAGE_TYPES,
+      isDarkMode
     };
   }
 };

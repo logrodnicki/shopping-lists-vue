@@ -2,8 +2,8 @@
   <div
     class="p-1 rounded w-full animate-fade-out text-xs"
     :class="{
-      'bg-red-200 border-2 border-red-400': type === types.error,
-      'bg-periwinkle-blue border-2 border-cornflower-blue': type === types.info
+      'bg-red-200 border-2 border-red-400': type === MESSAGE_TYPES.error,
+      'bg-periwinkle-blue border-2 border-cornflower-blue': type === MESSAGE_TYPES.info
     }"
   >
     {{ message }}
@@ -11,10 +11,7 @@
 </template>
 
 <script>
-export const types = {
-  info: 'info',
-  error: 'error'
-};
+import { MESSAGE_TYPES } from '@/constants/message';
 
 export default {
   props: {
@@ -24,14 +21,14 @@ export default {
     },
     type: {
       validator: value => {
-        return Object.values(types).includes(value);
+        return Object.values(MESSAGE_TYPES).includes(value);
       },
       required: true
     }
   },
   setup() {
     return {
-      types
+      MESSAGE_TYPES
     };
   }
 };

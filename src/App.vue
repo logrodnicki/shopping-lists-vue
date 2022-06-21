@@ -1,7 +1,9 @@
 <template>
-  <div class="w-screen h-screen flex justify-center items-center">
+  <Layout>
     <router-view></router-view>
-  </div>
+  </Layout>
 </template>
 
-<script setup></script>
+<script setup>
+import { Layout } from '@/components';
+</script>
