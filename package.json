@@ -8,8 +8,10 @@
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue ./src",
     "lint:fix": "eslint --ext .js,.vue --fix src",
+    "test": "npm run lint && npm run pretty",
     "pretty": "prettier --check ./src",
-    "pretty:fix": "prettier --write ./src"
+    "pretty:fix": "prettier --write ./src",
+    "prepare:husky": "husky install"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -28,6 +30,7 @@
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-vue": "^8.7.1",
+    "husky": "^8.0.1",
     "postcss": "^8.4.13",
     "prettier": "^2.6.2",
     "tailwindcss": "^3.0.24",
