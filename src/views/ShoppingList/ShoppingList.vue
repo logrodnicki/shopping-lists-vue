@@ -9,10 +9,14 @@
       <h1 class="text-xl">{{ shoppingList?.name }}</h1>
     </div>
     <ul class="flex flex-col gap-4">
-      <Product v-for="product in shoppingList?.products?.data || []" :key="product.id" :product="product" @toggle-select="toggleSelectProductHandler" />
+      <Product
+        v-for="product in shoppingList?.products?.data || []"
+        :key="product.id"
+        :product="product"
+        @toggle-select="toggleSelectProductHandler"
+      />
     </ul>
   </div>
-
 </template>
 
 <script>
@@ -46,7 +50,9 @@ export default {
       }
 
       const {
-        data: { data: { attributes } }
+        data: {
+          data: { attributes }
+        }
       } = response;
 
       shoppingList.value = attributes;
