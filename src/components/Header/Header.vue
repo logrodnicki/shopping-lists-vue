@@ -19,8 +19,9 @@
 
 <script>
 import useDarkMode from '@/hooks/useDarkMode';
-import { ThemeSwitcher, Link } from '@/components';
 import { LINK_ICONS } from '@/constants/link';
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher.vue';
+import Link from '@/components/Link/Link.vue';
 
 export default {
   components: {

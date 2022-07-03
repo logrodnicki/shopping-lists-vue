@@ -2,6 +2,7 @@
   <li
     class="rounded-xl shadow-gray-300 px-3 py-2 box-border flex items-center gap-4 cursor-pointer"
     :class="[isDarkMode ? 'bg-neutral-800' : $style['light-mode']]"
+    @click="selectHandler"
   >
     <Checkbox :checked="completed" />
     <div class="flex flex-col mr-auto">
@@ -17,11 +18,16 @@
 <script setup>
 import { defineProps, toRefs } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
-import { Checkbox } from '@/components';
+import router from '@/router';
+import Checkbox from '@/components/Form/Checkbox/Checkbox.vue';
 
 const props = defineProps({
   list: {
     type: Object,
+    required: true
+  },
+  id: {
+    type: Number,
     required: true
   }
 });
@@ -39,6 +45,8 @@ const {
 const { isDarkMode } = useDarkMode();
 
 const productsCount = listProducts.length;
+
+const selectHandler = () => router.push({ name: 'ShoppingList', params: { id: props.id } });
 </script>
 
 <style module>

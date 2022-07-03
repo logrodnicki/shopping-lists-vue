@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import { Header } from '@/components';
 import useDarkMode from '@/hooks/useDarkMode';
+import Header from '@/components/Header/Header.vue';
 
 export default {
   components: {

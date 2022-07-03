@@ -2,14 +2,15 @@
   <div>
     <Filters :selected-filters="selectedFilter" @select="selectFilterHandler" />
     <ul class="flex flex-col gap-3">
-      <ListItem v-for="{ id, attributes } in filteredLists" :key="id" :list="attributes" />
+      <ListItem v-for="{ id, attributes } in filteredLists" :id="id" :key="id" :list="attributes"/>
     </ul>
   </div>
 </template>
 
 <script>
 import { ref, computed } from 'vue';
-import { ListItem, Filters } from '@/components';
+import ListItem from '@/components/Lists/ListItem/ListsItem.vue';
+import Filters from '@/components/Filters/Filters.vue';
 import { FILTERS_TYPES } from '@/constants/filters';
 
 export default {

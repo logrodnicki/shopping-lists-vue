@@ -7,7 +7,7 @@
 <script>
 import { onMounted, ref } from 'vue';
 import { getShoppingLists } from '@/api';
-import { Lists } from '@/components';
+import Lists from '@/components/Lists/Lists.vue';
 
 export default {
   components: {
@@ -23,9 +23,6 @@ export default {
       try {
         const response = await getShoppingLists();
 
-        console.log('RES');
-        console.log(response);
-
         if (!response) {
           return;
         }
@@ -35,7 +32,6 @@ export default {
         } = response;
 
         lists.value = data;
-        console.log(data);
       } catch (error) {
         console.log(error);
       } finally {

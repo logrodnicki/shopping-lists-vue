@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-4 items-center mb-4">
+  <div class="flex justify-center gap-4 items-center mb-4">
     <FilterButton
       label="All"
       :selected="selectedFilters === FILTERS_TYPES.ALL"
@@ -23,8 +23,8 @@
 
 <script>
 import useDarkMode from '@/hooks/useDarkMode';
-import { FilterButton } from '@/components';
 import { FILTERS_TYPES } from '@/constants/filters';
+import FilterButton from '@/components/Filters/FilterButton/FilterButton.vue';
 
 export default {
   components: { FilterButton },

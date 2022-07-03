@@ -36,11 +36,13 @@ import { ref } from 'vue';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { MESSAGE_TYPES } from '@/constants/message';
-import { Button, Message, TextInput } from '@/components';
 import { JWT_TOKEN_KEY } from '@/consts';
 import { LOGIN_URL, getUrl } from '@/api';
 import router from '@/router';
 import useDarkMode from '@/hooks/useDarkMode';
+import Message from '@/components/Message/Message.vue';
+import Button from '@/components/Button/Button.vue';
+import TextInput from '@/components/Form/TextInput/TextInput.vue';
 
 export default {
   components: {
@@ -61,8 +63,6 @@ export default {
       passwordErrorMessage.value = '';
 
       if (!email.value || !password.value) {
-        console.log('TEST');
-
         if (!email.value) {
           emailErrorMessage.value = "Email can't be empty";
         }
