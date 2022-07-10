@@ -6,23 +6,23 @@
     <h1 class="text-2xl font-bold" :class="[isDarkMode ? 'text-white' : 'text-gray-800']">
       Log in
     </h1>
-    <Message v-if="!!errorMessage" :message="errorMessage" :type="MESSAGE_TYPES.error"></Message>
+    <Message v-if="!!errors.main" :message="errors.main" :type="MessageTypes.ERROR"></Message>
     <div class="w-full">
       <TextInput
         id="email"
         v-model="email"
         placeholder="test@test.com"
-        type="text"
+        :type="TextInputTypes.TEXT"
         label="Email"
-        :error="emailErrorMessage"
+        :error="errors.email"
       />
       <TextInput
         id="password"
         v-model="password"
         placeholder="***"
-        type="password"
+        :type="TextInputTypes.PASSWORD"
         label="Password"
-        :error="passwordErrorMessage"
+        :error="errors.password"
       />
     </div>
     <div class="w-full">
@@ -31,11 +31,10 @@
   </div>
 </template>
 
-<script>
-import { ref } from 'vue';
-import axios from 'axios';
+<script setup lang="ts">
+import { ref, reactive } from 'vue';
+import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
-import { MESSAGE_TYPES } from '@/constants/message';
 import { JWT_TOKEN_KEY } from '@/consts';
 import { LOGIN_URL, getUrl } from '@/api';
 import router from '@/router';
@@ -43,65 +42,52 @@ import useDarkMode from '@/hooks/useDarkMode';
 import Message from '@/components/Message/Message.vue';
 import Button from '@/components/Button/Button.vue';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
+import { TextInputTypes } from '@/types';
+import { MessageTypes } from '@/types';
 
-export default {
-  components: {
-    Message,
-    TextInput,
-    Button
-  },
-  setup() {
-    const email = ref('');
-    const emailErrorMessage = ref('');
-    const password = ref('');
-    const passwordErrorMessage = ref('');
-    const errorMessage = ref('');
+const email = ref('');
+const password = ref('');
 
-    const loginHandler = async () => {
-      errorMessage.value = '';
-      emailErrorMessage.value = '';
-      passwordErrorMessage.value = '';
+const errors = reactive({
+  main: '',
+  email: '',
+  password: ''
+});
 
-      if (!email.value || !password.value) {
-        if (!email.value) {
-          emailErrorMessage.value = "Email can't be empty";
-        }
+const loginHandler = async () => {
+  errors.main = '';
+  errors.email = '';
+  errors.password = '';
 
-        if (!password.value) {
-          passwordErrorMessage.value = "Password can't be empty";
-        }
+  if (!email.value || !password.value) {
+    if (!email.value) {
+      errors.email = "Email can't be empty";
+    }
 
-        return;
-      }
+    if (!password.value) {
+      errors.password = "Password can't be empty";
+    }
 
-      const url = getUrl(LOGIN_URL);
+    return;
+  }
 
-      try {
-        const response = await axios.post(url, {
-          identifier: email.value,
-          password: password.value
-        });
+  const url = getUrl(LOGIN_URL);
 
-        Cookies.set(JWT_TOKEN_KEY, response.data.jwt);
+  try {
+    const response = await axios.post(url, {
+      identifier: email.value,
+      password: password.value
+    });
 
-        router.push({ name: 'Main' });
-      } catch (error) {
-        errorMessage.value = error.response.data.error.message;
-      }
-    };
+    Cookies.set(JWT_TOKEN_KEY, response.data.jwt);
 
-    const { isDarkMode } = useDarkMode();
-
-    return {
-      email,
-      emailErrorMessage,
-      password,
-      passwordErrorMessage,
-      loginHandler,
-      errorMessage,
-      MESSAGE_TYPES,
-      isDarkMode
-    };
+    router.push({ name: 'Main' });
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      errors.main = error?.response?.data?.error?.message;
+    }
   }
 };
+
+const { isDarkMode } = useDarkMode();
 </script>

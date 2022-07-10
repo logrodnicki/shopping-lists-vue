@@ -22,42 +22,30 @@
   </div>
 </template>
 
-<script setup>
-import { defineProps, defineEmits } from 'vue';
+<script lang="ts" setup>
+import { defineProps, defineEmits, withDefaults } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
+import { TextInputTypes } from '@/types';
 
-defineProps({
-  id: {
-    type: String,
-    required: true
-  },
-  modelValue: {
-    type: String,
-    required: true
-  },
-  type: {
-    validator(value) {
-      return ['text', 'password'].includes(value);
-    },
-    required: true
-  },
-  placeholder: {
-    type: String,
-    required: true
-  },
-  label: {
-    type: String,
-    default: ''
-  },
-  error: {
-    type: String,
-    default: ''
-  }
-});
+interface Props {
+  id: string;
+  modelValue: string;
+  type: TextInputTypes;
+  placeholder: string;
+  label?: string;
+  error?: string;
+}
 
-const emit = defineEmits(['update:modelValue']);
+interface Emits {
+  (e: 'update:modelValue', value: string): void;
+}
+
+withDefaults(defineProps<Props>(), { label: '', error: '' });
+
+const emit = defineEmits<Emits>();
 
 const { isDarkMode } = useDarkMode();
 
-const changeHandler = event => emit('update:modelValue', event.target.value);
+const changeHandler = (event: Event) =>
+  emit('update:modelValue', (event.target as HTMLInputElement).value);
 </script>

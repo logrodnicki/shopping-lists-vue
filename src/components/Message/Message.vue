@@ -2,34 +2,22 @@
   <div
     class="p-1 rounded w-full animate-fade-out text-xs"
     :class="{
-      'bg-red-200 border-2 border-red-400': type === MESSAGE_TYPES.error,
-      'bg-periwinkle-blue border-2 border-cornflower-blue': type === MESSAGE_TYPES.info
+      'bg-red-200 border-2 border-red-400': type === MessageTypes.ERROR,
+      'bg-periwinkle-blue border-2 border-cornflower-blue': type === MessageTypes.INFO
     }"
   >
     {{ message }}
   </div>
 </template>
 
-<script>
-import { MESSAGE_TYPES } from '@/constants/message';
+<script setup lang="ts">
+import { defineProps } from 'vue';
+import { MessageTypes } from '@/types';
 
-export default {
-  props: {
-    message: {
-      type: String,
-      required: true
-    },
-    type: {
-      validator: value => {
-        return Object.values(MESSAGE_TYPES).includes(value);
-      },
-      required: true
-    }
-  },
-  setup() {
-    return {
-      MESSAGE_TYPES
-    };
-  }
-};
+interface Props {
+  message: string;
+  type: MessageTypes;
+}
+
+const props = defineProps<Props>();
 </script>

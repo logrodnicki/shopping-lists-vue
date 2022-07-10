@@ -1,47 +1,37 @@
 <template>
   <div class="w-full">
-    <Lists :lists="lists" />
+    <ShoppingLists :shopping-lists="shoppingLists" />
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { getShoppingLists } from '@/api';
-import Lists from '@/components/Lists/Lists.vue';
+import ShoppingLists from '@/components/ShoppingLists/ShoppingLists.vue';
+import { ShoppingList } from '@/types';
 
-export default {
-  components: {
-    Lists
-  },
-  setup() {
-    const lists = ref([]);
-    const isLoading = ref(false);
+const shoppingLists = ref<ShoppingList[]>([]);
+const isLoading = ref<boolean>(false);
 
-    onMounted(async () => {
-      isLoading.value = true;
+onMounted(async () => {
+  isLoading.value = true;
 
-      try {
-        const response = await getShoppingLists();
+  try {
+    const response = await getShoppingLists();
 
-        if (!response) {
-          return;
-        }
+    if (!response) {
+      return;
+    }
 
-        const {
-          data: { data }
-        } = response;
+    const {
+      data: { data }
+    } = response;
 
-        lists.value = data;
-      } catch (error) {
-        console.log(error);
-      } finally {
-        isLoading.value = false;
-      }
-    });
-
-    return {
-      lists
-    };
+    shoppingLists.value = data;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isLoading.value = false;
   }
-};
+});
 </script>

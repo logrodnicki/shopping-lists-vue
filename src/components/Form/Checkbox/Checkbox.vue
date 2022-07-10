@@ -12,16 +12,15 @@
   </label>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 
-defineProps({
-  checked: {
-    type: Boolean,
-    required: true
-  }
-});
+interface Props {
+  checked: boolean;
+}
+
+defineProps<Props>();
 
 const { isDarkMode } = useDarkMode();
 </script>

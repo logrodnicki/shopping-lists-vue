@@ -7,17 +7,20 @@
   </button>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
 
-defineProps({
-  label: {
-    type: String,
-    required: true
-  }
-});
+interface Props {
+  label: string;
+}
 
-const emit = defineEmits(['click']);
+interface Emits {
+  (e: 'click'): void;
+}
+
+defineProps<Props>();
+
+const emit = defineEmits<Emits>();
 
 const clickHandler = () => emit('click');
 </script>

@@ -16,14 +16,8 @@
   </button>
 </template>
 
-<script>
+<script setup lang="ts">
 import useDarkMode from '@/hooks/useDarkMode';
 
-export default {
-  setup() {
-    return {
-      ...useDarkMode()
-    };
-  }
-};
+const { isDarkMode, toggleDarkMode } = useDarkMode();
 </script>

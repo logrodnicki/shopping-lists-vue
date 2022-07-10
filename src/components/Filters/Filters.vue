@@ -2,51 +2,44 @@
   <div class="flex justify-center gap-4 items-center mb-4">
     <FilterButton
       label="All"
-      :selected="selectedFilters === FILTERS_TYPES.ALL"
-      :type="FILTERS_TYPES.ALL"
+      :selected="selectedFilters === FiltersTypes.ALL"
+      :type="FiltersTypes.ALL"
       @select="selectFilterHandler"
     />
     <FilterButton
       label="Completed"
-      :selected="selectedFilters === FILTERS_TYPES.COMPLETED"
-      :type="FILTERS_TYPES.COMPLETED"
+      :selected="selectedFilters === FiltersTypes.COMPLETED"
+      :type="FiltersTypes.COMPLETED"
       @select="selectFilterHandler"
     />
     <FilterButton
       label="Uncompleted"
-      :selected="selectedFilters === FILTERS_TYPES.UNCOMPLETED"
-      :type="FILTERS_TYPES.UNCOMPLETED"
+      :selected="selectedFilters === FiltersTypes.UNCOMPLETED"
+      :type="FiltersTypes.UNCOMPLETED"
       @select="selectFilterHandler"
     />
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { defineProps, defineEmits } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
-import { FILTERS_TYPES } from '@/constants/filters';
 import FilterButton from '@/components/Filters/FilterButton/FilterButton.vue';
+import { FiltersTypes } from '@/types';
 
-export default {
-  components: { FilterButton },
-  props: {
-    selectedFilters: {
-      validator(value) {
-        return Object.values(FILTERS_TYPES).includes(value);
-      },
-      required: true
-    }
-  },
-  emits: ['select'],
-  setup(props, { emit }) {
-    const { isDarkMode } = useDarkMode();
+interface Props {
+  selectedFilters: FiltersTypes;
+}
 
-    const selectFilterHandler = filter => emit('select', filter);
+interface Emits {
+  (e: 'select', filter: FiltersTypes): void;
+}
 
-    return {
-      isDarkMode,
-      FILTERS_TYPES,
-      selectFilterHandler
-    };
-  }
-};
+const props = defineProps<Props>();
+
+const emit = defineEmits<Emits>();
+
+const { isDarkMode } = useDarkMode();
+
+const selectFilterHandler = (filter: FiltersTypes) => emit('select', filter);
 </script>

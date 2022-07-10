@@ -10,20 +10,9 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import useDarkMode from '@/hooks/useDarkMode';
 import Header from '@/components/Header/Header.vue';
 
-export default {
-  components: {
-    Header
-  },
-  setup() {
-    const { isDarkMode } = useDarkMode();
-
-    return {
-      isDarkMode
-    };
-  }
-};
+const { isDarkMode } = useDarkMode();
 </script>

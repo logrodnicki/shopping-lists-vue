@@ -10,46 +10,29 @@
   </router-link>
 </template>
 
-<script>
-import { toRefs } from 'vue';
-import { LINK_ICONS } from '@/constants/link';
+<script setup lang="ts">
+import { defineProps, toRefs } from 'vue';
+import { LinkIcons } from '@/types/link';
 
-export default {
-  props: {
-    label: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    to: {
-      type: String,
-      required: true
-    },
-    iconType: {
-      validator(value) {
-        return Object.values(LINK_ICONS).includes(value);
-      },
-      default: LINK_ICONS.LIST
+interface Props {
+  label?: string;
+  to: string;
+  iconType: LinkIcons;
+}
+
+const props = defineProps<Props>();
+
+const { iconType } = toRefs(props);
+
+const getIconClassBasedOnType = () => {
+  switch (iconType.value) {
+    default:
+    case LinkIcons.LIST: {
+      return 'list';
     }
-  },
-  setup(props) {
-    const { iconType } = toRefs(props);
-
-    const getIconClassBasedOnType = () => {
-      switch (iconType.value) {
-        default:
-        case LINK_ICONS.LIST: {
-          return 'list';
-        }
-        case LINK_ICONS.CREATE: {
-          return 'plus';
-        }
-      }
-    };
-
-    return {
-      getIconClassBasedOnType
-    };
+    case LinkIcons.CREATE: {
+      return 'plus';
+    }
   }
 };
 </script>

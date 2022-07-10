@@ -15,29 +15,28 @@
   </li>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps, toRefs } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 import router from '@/router';
 import Checkbox from '@/components/Form/Checkbox/Checkbox.vue';
+import { ShoppingList } from '@/types';
 
-const props = defineProps({
-  list: {
-    type: Object,
-    required: true
-  },
-  id: {
-    type: Number,
-    required: true
-  }
-});
+interface Props {
+  shoppingList: ShoppingList;
+}
+
+const props = defineProps<Props>();
 
 const {
-  list: {
+  shoppingList: {
     value: {
-      name,
-      completed,
-      products: { data: listProducts }
+      id,
+      attributes: {
+        name,
+        completed,
+        products: { data: listProducts }
+      }
     }
   }
 } = toRefs(props);
@@ -46,7 +45,7 @@ const { isDarkMode } = useDarkMode();
 
 const productsCount = listProducts.length;
 
-const selectHandler = () => router.push({ name: 'ShoppingList', params: { id: props.id } });
+const selectHandler = () => router.push({ name: 'ShoppingList', params: { id } });
 </script>
 
 <style module>

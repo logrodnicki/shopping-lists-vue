@@ -1,17 +1,17 @@
 {
   "name": "shopping-lists-vue",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview",
     "lint": "eslint --ext .js,.vue ./src",
+    "dev": "vite --host",
     "lint:fix": "eslint --ext .js,.vue --fix src",
-    "test": "npm run lint && npm run pretty",
+    "prepare:husky": "husky install",
     "pretty": "prettier --check ./src",
     "pretty:fix": "prettier --write ./src",
-    "prepare:husky": "husky install"
+    "preview": "vite preview",
+    "test": "npm run lint && npm run pretty"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -21,12 +21,20 @@
     "bootstrap-vue": "^2.22.0",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
+    "ts-standard": "^11.0.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/js-cookie": "^3.0.2",
+    "@types/lodash": "^4.14.182",
+    "@typescript-eslint/eslint-plugin": "^5.30.4",
+    "@typescript-eslint/parser": "^5.30.4",
     "@vitejs/plugin-vue": "^2.3.1",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-service": "^5.0.6",
     "autoprefixer": "^10.4.7",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
@@ -35,6 +43,7 @@
     "postcss": "^8.4.13",
     "prettier": "^2.6.2",
     "tailwindcss": "^3.0.24",
+    "typescript": "~4.5.5",
     "vite": "^2.9.7",
     "vite-plugin-eslint": "^1.6.0"
   }

@@ -44,7 +44,7 @@ export const getShoppingLists = async () => {
   return await makeGetRequest(`${getUrl(SHOPPING_LISTS_URL)}?${urlParams.toString()}`);
 };
 
-export const getShoppingList = async (id) => {
+export const getShoppingList = async id => {
   const urlParams = new URLSearchParams();
 
   urlParams.set('populate', '*');

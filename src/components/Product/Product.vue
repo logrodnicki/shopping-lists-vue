@@ -17,21 +17,28 @@
   </li>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps, defineEmits, computed, toRefs } from 'vue';
 import Checkbox from '@/components/Form/Checkbox/Checkbox.vue';
 import useDarkMode from '@/hooks/useDarkMode';
+import { Product, ProductAttributes } from '@/types';
 
-const props = defineProps({
-  product: {
-    type: Object,
-    required: true
-  }
-});
+interface Props {
+  product: Product;
+}
+
+interface Emits {
+  (
+    e: 'toggleSelect',
+    { updatedProduct, id }: { updatedProduct: ProductAttributes; id: number }
+  ): void;
+}
+
+const props = defineProps<Props>();
 
 const { product } = toRefs(props);
 
-const emit = defineEmits(['toggleSelect']);
+const emit = defineEmits<Emits>();
 
 const name = computed(() => product.value.attributes.name);
 const completed = computed(() => product.value.attributes.completed);

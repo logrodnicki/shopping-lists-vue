@@ -14,29 +14,24 @@
   </button>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
-import { FILTERS_TYPES } from '@/constants/filters';
+import { FiltersTypes } from '@/types';
 
-const props = defineProps({
-  label: {
-    type: String,
-    required: true
-  },
-  selected: {
-    type: Boolean,
-    required: true
-  },
-  type: {
-    validator(value) {
-      return Object.values(FILTERS_TYPES).includes(value);
-    },
-    required: true
-  }
-});
+interface Props {
+  label: string;
+  selected: boolean;
+  type: FiltersTypes;
+}
 
-const emit = defineEmits(['select']);
+interface Emits {
+  (e: 'select', type: FiltersTypes): void;
+}
+
+const props = defineProps<Props>();
+
+const emit = defineEmits<Emits>();
 
 const { isDarkMode } = useDarkMode();
 

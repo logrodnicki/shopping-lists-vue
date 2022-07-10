@@ -7,32 +7,21 @@
     <div>
       <ul class="flex flex-row gap-4">
         <li>
-          <Link label="List" to="/" />
+          <Link label="List" to="/" :icon-type="LinkIcons.LIST" />
         </li>
         <li>
-          <Link label="New" to="/create" :icon-type="LINK_ICONS.CREATE" />
+          <Link label="New" to="/create" :icon-type="LinkIcons.CREATE" />
         </li>
       </ul>
     </div>
   </nav>
 </template>
 
-<script>
+<script setup lang="ts">
 import useDarkMode from '@/hooks/useDarkMode';
-import { LINK_ICONS } from '@/constants/link';
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher.vue';
 import Link from '@/components/Link/Link.vue';
+import { LinkIcons } from '@/types/link';
 
-export default {
-  components: {
-    ThemeSwitcher,
-    Link
-  },
-  setup() {
-    return {
-      ...useDarkMode(),
-      LINK_ICONS
-    };
-  }
-};
+const { isDarkMode } = useDarkMode();
 </script>
