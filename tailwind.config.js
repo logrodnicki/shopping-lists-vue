@@ -35,14 +35,20 @@ module.exports = {
         fadeOut: {
           '0%': { opacity: 0 },
           '100%': { opacity: 1 }
+        },
+        scale: {
+          '0%': { transform: 'scale(0.3)' },
+          '50%': { transform: 'scale(1.1)' },
+          '100%': { transform: 'scale(1)' }
         }
       },
       animation: {
-        'fade-out': 'fadeOut 300ms linear forwards'
+        'fade-out': 'fadeOut 300ms linear forwards',
+        'scale': 'scale 500ms linear forwards'
       },
       translate: {
         '-1/2': '-50%'
-      }
+      },
     },
   },
   plugins: [],

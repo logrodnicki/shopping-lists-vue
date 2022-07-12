@@ -8,7 +8,7 @@
       </button>
       <h1 class="text-xl">{{ shoppingList?.attributes?.name }}</h1>
     </div>
-    <ul class="flex flex-col gap-4">
+    <ul class="flex flex-col gap-4 overflow-auto">
       <Product
         v-for="product in shoppingList?.attributes?.products?.data || []"
         :key="product.id"
@@ -74,7 +74,7 @@ const toggleSelectProductHandler = async ({
   });
 
   const shoppingListCopy = _cloneDeep(shoppingList.value);
-  shoppingListCopy.products.data = updatedProducts;
+  shoppingListCopy.attributes.products.data = updatedProducts;
 
   shoppingList.value = shoppingListCopy;
 };

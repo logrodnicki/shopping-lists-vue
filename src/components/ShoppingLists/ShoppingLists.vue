@@ -1,8 +1,8 @@
 <template>
   <div>
     <Filters :selected-filters="selectedFilter" @select="selectFilterHandler" />
-    <ul class="flex flex-col gap-3">
-      <ListItem
+    <ul class="flex flex-col gap-3 overflow-auto">
+      <ShoppingListItem
         v-for="shoppingList in filteredLists"
         :id="shoppingList.id"
         :key="shoppingList.id"
@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { ref, computed, defineProps, toRefs } from 'vue';
-import ListItem from '@/components/ShoppingLists/ShoppingListItem/ShoppingListsItem.vue';
+import ShoppingListItem from '@/components/ShoppingLists/ShoppingListItem/ShoppingListsItem.vue';
 import Filters from '@/components/Filters/Filters.vue';
 import { FiltersTypes, ShoppingList } from '@/types';
 
