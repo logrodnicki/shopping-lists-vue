@@ -2,20 +2,23 @@
   <div class="text-orange-400 w-full">
     <div class="flex items-center gap-6 mb-8">
       <button class="flex items-center justify-center cursor-pointer" @click="backHandler">
-        <span>
-          <font-awesome-icon icon="arrow-left" size="md" />
+        <span class="">
+          <font-awesome-icon icon="circle-arrow-left" size="lg" />
         </span>
       </button>
       <h1 class="text-xl">{{ shoppingList?.attributes?.name }}</h1>
     </div>
-    <ul class="flex flex-col gap-4 overflow-auto">
-      <Product
-        v-for="product in shoppingList?.attributes?.products?.data || []"
-        :key="product.id"
-        :product="product"
-        @toggle-select="toggleSelectProductHandler"
-      />
-    </ul>
+    <Loader :is-loading="isLoading">
+      <ul class="flex flex-col gap-4 overflow-auto animate-fade-out">
+        <Product
+          v-for="product in shoppingList?.attributes?.products?.data || []"
+          :key="product.id"
+          :product="product"
+          :is-loading="loadingMap[product.id]"
+          @toggle-select="toggleSelectProductHandler"
+        />
+      </ul>
+    </Loader>
   </div>
 </template>
 
@@ -25,6 +28,7 @@ import router from '@/router';
 import { getShoppingList, updateShoppingListProduct } from '@/api';
 import { cloneDeep as _cloneDeep } from 'lodash';
 import Product from '@/components/Product/Product.vue';
+import Loader from '@/components/Loader/Loader.vue';
 import { ProductAttributes, ShoppingList } from '@/types';
 
 interface Props {
@@ -33,8 +37,9 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const shoppingList = ref<ShoppingList>(null);
+const shoppingList = ref<ShoppingList | null>(null);
 const isLoading = ref(false);
+const loadingMap = ref<Record<string, boolean>>({});
 
 onMounted(async () => {
   isLoading.value = true;
@@ -53,6 +58,8 @@ onMounted(async () => {
 
 const backHandler = () => router.push({ name: 'Main' });
 
+const setLoadingMap = (id: number, isLoading: boolean) => (loadingMap.value[id] = isLoading);
+
 const toggleSelectProductHandler = async ({
   id: productId,
   updatedProduct
@@ -60,6 +67,12 @@ const toggleSelectProductHandler = async ({
   id: number;
   updatedProduct: ProductAttributes;
 }): Promise<void> => {
+  if (!shoppingList.value) {
+    return;
+  }
+
+  setLoadingMap(productId, true);
+
   await updateShoppingListProduct(productId, updatedProduct);
 
   const updatedProducts = shoppingList.value.attributes.products.data.map(product => {
@@ -77,5 +90,7 @@ const toggleSelectProductHandler = async ({
   shoppingListCopy.attributes.products.data = updatedProducts;
 
   shoppingList.value = shoppingListCopy;
+
+  setLoadingMap(productId, false);
 };
 </script>

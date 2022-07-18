@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <ShoppingLists :shopping-lists="shoppingLists" />
+    <ShoppingLists :shopping-lists="shoppingLists" :is-loading="isLoading" />
   </div>
 </template>
 

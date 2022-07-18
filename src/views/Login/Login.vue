@@ -26,7 +26,7 @@
       />
     </div>
     <div class="w-full">
-      <Button label="Log in" @click="loginHandler" />
+      <Button label="Log in" :show-loader="isLoading" @click="loginHandler" />
     </div>
   </div>
 </template>
@@ -47,6 +47,7 @@ import { MessageTypes } from '@/types';
 
 const email = ref('');
 const password = ref('');
+const isLoading = ref(false);
 
 const errors = reactive({
   main: '',
@@ -86,6 +87,8 @@ const loginHandler = async () => {
     if (error instanceof AxiosError) {
       errors.main = error?.response?.data?.error?.message;
     }
+  } finally {
+    isLoading.value = false;
   }
 };
 

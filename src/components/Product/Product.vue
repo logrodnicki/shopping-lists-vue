@@ -13,18 +13,21 @@
     >
       {{ name }}
     </div>
+    <Loader :is-loading="isLoading" />
     <div class="text-gray-500 text-sm">{{ amount }} {{ unit }}</div>
   </li>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, toRefs } from 'vue';
+import { defineProps, defineEmits, computed, toRefs, withDefaults } from 'vue';
 import Checkbox from '@/components/Form/Checkbox/Checkbox.vue';
+import Loader from '@/components/Loader/Loader.vue';
 import useDarkMode from '@/hooks/useDarkMode';
 import { Product, ProductAttributes } from '@/types';
 
 interface Props {
   product: Product;
+  isLoading?: boolean;
 }
 
 interface Emits {
@@ -34,7 +37,7 @@ interface Emits {
   ): void;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), { isLoading: false });
 
 const { product } = toRefs(props);
 
@@ -47,9 +50,10 @@ const unit = computed(() => product.value.attributes.unit);
 
 const { isDarkMode } = useDarkMode();
 
-const toggleSelectHandler = () =>
+const toggleSelectHandler = () => {
   emit('toggleSelect', {
     updatedProduct: { ...props.product.attributes, completed: !completed.value },
     id: props.product.id
   });
+};
 </script>
