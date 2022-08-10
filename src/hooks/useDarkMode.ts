@@ -1,18 +1,15 @@
-import { computed } from 'vue';
-// import { useStore } from 'vuex';
 import { useStore } from '@/store';
+import { toRefs } from 'vue';
 
 export default function useDarkMode() {
   const store = useStore();
 
-  // const isDarkMode = computed<Boolean>(() => store.state.isDarkMode);
-
-  // const toggleDarkMode = () => store.commit('toggleDarkMode');
-
   const toggleDarkMode = () => store.toggleDarkMode();
 
+  const { isDarkMode } = toRefs(store.$state);
+
   return {
-    isDarkMode: store.isDarkMode,
+    isDarkMode,
     toggleDarkMode
   };
 }
