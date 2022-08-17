@@ -25,11 +25,11 @@
 <script setup lang="ts">
 import { ref, onMounted, defineProps } from 'vue';
 import router from '@/router';
-import { getShoppingList, updateShoppingListProduct } from '@/api';
+import { getShoppingList, updateShoppingList, updateShoppingListProduct } from '@/api';
 import { cloneDeep as _cloneDeep } from 'lodash';
 import Product from '@/components/Product/Product.vue';
 import Loader from '@/components/Loader/Loader.vue';
-import { ProductAttributes, ShoppingList } from '@/types';
+import { ProductAttributes, ShoppingList, Product as ProductModel } from '@/types';
 
 interface Props {
   id: number;
@@ -75,21 +75,31 @@ const toggleSelectProductHandler = async ({
 
   await updateShoppingListProduct(productId, updatedProduct);
 
-  const updatedProducts = shoppingList.value.attributes.products.data.map(product => {
-    if (product.id !== productId) {
-      return product;
-    }
+  const updatedProducts: ProductModel[] = shoppingList.value.attributes.products.data.map(
+    product => {
+      if (product.id !== productId) {
+        return product;
+      }
 
-    return {
-      id: productId,
-      attributes: { ...updatedProduct }
-    };
-  });
+      return {
+        id: productId,
+        attributes: { ...updatedProduct }
+      };
+    }
+  );
+
+  const isShoppingListCompleted =
+    updatedProducts.filter(p => p.attributes.completed).length === updatedProducts.length;
 
   const shoppingListCopy = _cloneDeep(shoppingList.value);
   shoppingListCopy.attributes.products.data = updatedProducts;
 
   shoppingList.value = shoppingListCopy;
+
+  if (isShoppingListCompleted !== shoppingListCopy?.attributes.completed) {
+    shoppingListCopy.attributes.completed = isShoppingListCompleted;
+    await updateShoppingList(shoppingListCopy.id, { completed: isShoppingListCompleted });
+  }
 
   setLoadingMap(productId, false);
 };
