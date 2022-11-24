@@ -1,7 +1,7 @@
 <template>
   <div
     class="w-screen h-screen flex justify-center items-center flex-col"
-    :class="[isDarkMode ? 'bg-dark-mode' : 'bg-gray-100']"
+    :class="[isDarkMode ? 'bg-dark-mode' : 'bg-gray-50']"
   >
     <Header />
     <main class="w-full max-w-screen-xl h-full p-6 flex justify-center">

@@ -1,8 +1,9 @@
 import Cookies from 'js-cookie';
 import { JWT_TOKEN_KEY } from '@/consts';
 import axios from 'axios';
-import { ProductAttributes, ShoppingListAttributes } from '@/types';
+import { ProductAttributes, SaveProductData, ShoppingListAttributes } from '@/types';
 
+// @ts-ignore
 export const getUrl = (path: string) => `${import.meta.env['VITE_HOST']}/${path}`;
 
 export const API_URL = 'api';
@@ -70,4 +71,19 @@ export const getShoppingList = async (id: number) => {
 
 export const updateShoppingListProduct = async (id: number, data: ProductAttributes) => {
   return await makePutRequest<ProductAttributes>(`${getUrl(PRODUCTS_URL)}/${id}`, { data });
+};
+
+export const saveShoppingList = async (shoppingList: Partial<ShoppingListAttributes>) => {
+  return await makePostRequest<Partial<ShoppingListAttributes>>(getUrl(SHOPPING_LISTS_URL), {
+    data: shoppingList
+  });
+};
+
+export const saveProduct = async (
+  shoppingListProduct: Partial<ProductAttributes>,
+  shoppingListId: number
+) => {
+  return await makePostRequest<SaveProductData>(getUrl(PRODUCTS_URL), {
+    data: { ...shoppingListProduct, shopping_list: shoppingListId }
+  });
 };

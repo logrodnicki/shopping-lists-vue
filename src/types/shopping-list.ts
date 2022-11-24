@@ -28,3 +28,7 @@ export interface ProductAttributes {
   updatedAt: string;
   publishedAt: string;
 }
+
+export interface SaveProductData extends Partial<ProductAttributes> {
+  shopping_list: number;
+}

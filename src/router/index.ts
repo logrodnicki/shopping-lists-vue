@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from 'vue-router';
 import Login from '../views/Login/Login.vue';
 import Main from '../views/Main/Main.vue';
 import ShoppingList from '../views/ShoppingList/ShoppingList.vue';
+import Create from '../views/Create/Create.vue';
 
 const routes = [
   {
@@ -21,6 +22,11 @@ const routes = [
     component: ShoppingList,
     meta: { transition: 'slide-right' },
     props: true
+  },
+  {
+    path: '/create',
+    name: 'Create',
+    component: Create
   }
 ];
 

@@ -11,7 +11,7 @@
       :id="id"
       :value="modelValue"
       :type="type"
-      class="border-2 w-full rounded-md border-gray-500 focus:border-orange-400 text-sm py-1 px-2 placeholder-gray-300 outline-none transition duration-300"
+      class="border-2 w-full rounded-md border-gray-500 focus:border-orange-400 text-sm py-1 px-2 placeholder-gray-500 outline-none transition duration-300"
       :class="[isDarkMode ? 'bg-dark-mode text-orange-400' : 'bg-white text-gray-800']"
       :placeholder="placeholder"
       @change="changeHandler"
