@@ -1,10 +1,12 @@
 <template>
   <div
-    class="p-1 rounded w-full animate-fade-out text-xs"
-    :class="{
-      'bg-red-200 border-2 border-red-400': type === MessageTypes.ERROR,
-      'bg-periwinkle-blue border-2 border-cornflower-blue': type === MessageTypes.INFO
-    }"
+    :class="[
+      $style.wrapper,
+      {
+        [$style.error]: type === MessageTypes.ERROR,
+        [$style.info]: type === MessageTypes.INFO
+      }
+    ]"
   >
     {{ message }}
   </div>
@@ -21,3 +23,17 @@ interface Props {
 
 const props = defineProps<Props>();
 </script>
+
+<style module>
+.wrapper {
+  @apply p-1 rounded w-full animate-fade-out text-xs;
+}
+
+.error {
+  @apply bg-red-200 border-2 border-red-400;
+}
+
+.info {
+  @apply bg-periwinkle-blue border-2 border-cornflower-blue;
+}
+</style>

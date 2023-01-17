@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center gap-4 items-center mb-4">
+  <div :class="[$style.wrapper]">
     <FilterButton
       label="All"
       :selected="selectedFilters === FiltersTypes.ALL"
@@ -43,3 +43,9 @@ const { isDarkMode } = useDarkMode();
 
 const selectFilterHandler = (filter: FiltersTypes) => emit('select', filter);
 </script>
+
+<style module>
+.wrapper {
+  @apply flex justify-center gap-4 items-center mb-4;
+}
+</style>

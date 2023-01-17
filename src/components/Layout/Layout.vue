@@ -1,10 +1,7 @@
 <template>
-  <div
-    class="w-screen h-screen flex justify-center items-center flex-col"
-    :class="[isDarkMode ? 'bg-dark-mode' : 'bg-gray-50']"
-  >
+  <div :class="[$style.wrapper, isDarkMode ? 'bg-dark-mode' : 'bg-gray-50']">
     <Header />
-    <main class="w-full max-w-screen-xl h-full p-6 flex justify-center">
+    <main :class="[$style.main]">
       <slot></slot>
     </main>
   </div>
@@ -16,3 +13,13 @@ import Header from '@/components/Header/Header.vue';
 
 const { isDarkMode } = useDarkMode();
 </script>
+
+<style module>
+.wrapper {
+  @apply w-screen h-screen flex justify-center items-center flex-col;
+}
+
+.main {
+  @apply w-full max-w-screen-md h-full p-6 flex justify-center;
+}
+</style>

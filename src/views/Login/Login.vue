@@ -1,13 +1,20 @@
 <template>
-  <div class="w-72 h-72 flex flex-col items-center justify-between my-auto translate-y-[-25%]">
+  <div :class="[$style.wrapper]">
     <div class="mb-2.5" :class="[isDarkMode ? 'text-white' : 'text-gray-800']">
       <font-awesome-icon icon="circle-user" size="6x" />
     </div>
-    <h1 class="text-2xl font-bold" :class="[isDarkMode ? 'text-white' : 'text-gray-800']">
+    <h1
+      class="text-2xl font-bold"
+      :class="[isDarkMode ? 'text-white' : 'text-gray-800']"
+    >
       Log in
     </h1>
-    <Message v-if="!!errors.main" :message="errors.main" :type="MessageTypes.ERROR"></Message>
-    <div class="w-full">
+    <Message
+      v-if="!!errors.main"
+      :message="errors.main"
+      :type="MessageTypes.ERROR"
+    ></Message>
+    <Box classes="w-full">
       <TextInput
         id="email"
         v-model="email"
@@ -24,9 +31,14 @@
         label="Password"
         :error="errors.password"
       />
-    </div>
-    <div class="w-full">
-      <Button label="Log in" :show-loader="isLoading" @click="loginHandler" />
+    </Box>
+    <div :class="[$style.buttons]">
+      <Button
+        label="Log in"
+        classes="w-full"
+        :show-loader="isLoading"
+        @click="loginHandler"
+      />
     </div>
   </div>
 </template>
@@ -44,6 +56,7 @@ import Button from '@/components/Button/Button.vue';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
 import { TextInputTypes } from '@/types';
 import { MessageTypes } from '@/types';
+import Box from '@/components/Box/Box.vue';
 
 const email = ref('');
 const password = ref('');
@@ -94,3 +107,13 @@ const loginHandler = async () => {
 
 const { isDarkMode } = useDarkMode();
 </script>
+
+<style module>
+.wrapper {
+  @apply w-72 h-72 flex flex-col gap-4 items-center my-auto translate-y-[-25%];
+}
+
+.buttons {
+  @apply w-full flex justify-center;
+}
+</style>

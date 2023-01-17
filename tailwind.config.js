@@ -22,7 +22,10 @@ module.exports = {
       'stone': colors.stone,
       'slate': colors.slate,
       'neutral': colors.neutral,
-      'dark-mode': '#1a1a1a'
+      'dark-mode': '#101010',
+      'box': '#202020',
+      'gray-cod': '#0f0f0f',
+      'mine-shaft': '#1f1f1f'
     },
     fontFamily: {
       inter: ['Inter', 'sans-serif']
@@ -30,6 +33,9 @@ module.exports = {
     extend: {
       maxWidth: {
         90: '90%'
+      },
+      minWidth: {
+        150: '150px'
       },
       keyframes: {
         fadeOut: {
@@ -49,6 +55,9 @@ module.exports = {
       translate: {
         '-1/2': '-50%'
       },
+      gridTemplateColumns: {
+        'buttons': 'repeat(auto-fit, minmax(150px, 1fr))'
+      }
     },
   },
   plugins: [],

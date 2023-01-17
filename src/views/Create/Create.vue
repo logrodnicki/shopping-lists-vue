@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-2xl">
+  <div :class="[$style.wrapper]">
     <h1 class="text-2xl" :class="[isDarkMode ? 'text-white' : 'text-gray-800']">
       New shopping list ({{ products.length }})
     </h1>
@@ -13,7 +13,7 @@
       />
     </div>
     <ul>
-      <NewProduct
+      <ProductForm
         v-for="product in products"
         :key="product.id"
         :product="product"
@@ -21,8 +21,12 @@
         @delete="deleteProductHandler"
       />
     </ul>
-    <div class="w-full flex flex-column gap-2 mt-8">
-      <Button label="New product" :icon="'circle-plus'" @click="addNewProductHandler" />
+    <div :class="[$style.buttons]">
+      <Button
+        label="New product"
+        :icon="'circle-plus'"
+        @click="addNewProductHandler"
+      />
       <Button
         label="Save"
         :icon="'floppy-disk'"
@@ -38,30 +42,28 @@
 import { computed, ref } from 'vue';
 import Button from '@/components/Button/Button.vue';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
-import { NewProduct as NewProductModel, TextInputTypes, Units } from '@/types';
+import {
+  ProductForm as ProductFormModel,
+  TextInputTypes,
+  Units
+} from '@/types';
 import useDarkMode from '@/hooks/useDarkMode';
-import NewProduct from '@/components/NewProduct/NewProduct.vue';
+import ProductForm from '@/components/ProductForm/ProductForm.vue';
 import { uuid } from '@/utils/common';
 import { saveProduct, saveShoppingList } from '@/api';
 
 const shoppingListName = ref('');
-const products = ref<NewProductModel[]>([]);
+const products = ref<ProductFormModel[]>([]);
 const isSaving = ref(false);
 
 const { isDarkMode } = useDarkMode();
 
 const isSaveDisabled = computed(() => {
-  if (!shoppingListName.value || products.value.length === 0) {
-    return true;
-  }
-
-  let isAnyProductEmpty = false;
-
-  products.value.forEach(product => {
-    isAnyProductEmpty = Number(product.amount) < 1 || !product.name;
-  });
-
-  return isAnyProductEmpty;
+  return (
+    !shoppingListName.value ||
+    products.value.length === 0 ||
+    products.value.some(product => Number(product.amount) < 1 || !product.name)
+  );
 });
 
 const addNewProductHandler = (): void => {
@@ -74,7 +76,7 @@ const addNewProductHandler = (): void => {
   });
 };
 
-const updateProductHandler = (updatedProduct: NewProductModel): void => {
+const updateProductHandler = (updatedProduct: ProductFormModel): void => {
   products.value = products.value.map(product => {
     if (product.id !== updatedProduct.id) {
       return product;
@@ -85,7 +87,9 @@ const updateProductHandler = (updatedProduct: NewProductModel): void => {
 };
 
 const deleteProductHandler = (deletedProductId: string): void => {
-  products.value = products.value.filter(product => product.id !== deletedProductId);
+  products.value = products.value.filter(
+    product => product.id !== deletedProductId
+  );
 };
 
 const saveShoppingListHandler = async (): Promise<void> => {
@@ -96,7 +100,10 @@ const saveShoppingListHandler = async (): Promise<void> => {
   isSaving.value = true;
 
   try {
-    const response = await saveShoppingList({ name: shoppingListName.value, completed: false });
+    const response = await saveShoppingList({
+      name: shoppingListName.value,
+      completed: false
+    });
 
     if (!response) {
       return;
@@ -109,7 +116,11 @@ const saveShoppingListHandler = async (): Promise<void> => {
     } = response;
 
     for (const product of products.value) {
-      const { name: productName, unit: productUnit, amount: productAmount } = product;
+      const {
+        name: productName,
+        unit: productUnit,
+        amount: productAmount
+      } = product;
 
       await saveProduct(
         {
@@ -126,3 +137,13 @@ const saveShoppingListHandler = async (): Promise<void> => {
   }
 };
 </script>
+
+<style module>
+.wrapper {
+  @apply w-full max-w-2xl;
+}
+
+.buttons {
+  @apply w-full flex flex-col gap-2 mt-8;
+}
+</style>

@@ -1,10 +1,13 @@
 <template>
   <router-link
-    class="h-8 border-2 border-orange-400 rounded-md px-3 flex items-center flex items-center gap-2"
-    :class="[isDarkMode ? '' : 'shadow-sm shadow-orange-300']"
+    :class="[
+      $style.wrapper,
+      classes,
+      { [$style['wrapper-dark-mode']]: isDarkMode }
+    ]"
     :to="to"
   >
-    <div class="text-orange-400 flex">
+    <div :class="[$style.icon]">
       <font-awesome-icon class="h-4" :icon="iconsMap[iconType]" size="6x" />
     </div>
     <span v-if="!!label" class="text-orange-400">{{ label }}</span>
@@ -20,16 +23,32 @@ interface Props {
   label?: string;
   to: string;
   iconType: LinkIcons;
+  classes?: string;
 }
 
 const props = defineProps<Props>();
 
-const { iconType } = toRefs(props);
+const { iconType, classes } = toRefs(props);
 
 const { isDarkMode } = useDarkMode();
 
 const iconsMap: Record<LinkIcons, string> = {
   [LinkIcons.LIST]: 'list',
-  [LinkIcons.CREATE]: 'plus'
+  [LinkIcons.CREATE]: 'plus',
+  [LinkIcons.UPDATE]: 'pen'
 };
 </script>
+
+<style module>
+.wrapper {
+  @apply h-8 border-2 border-orange-400 rounded-md px-3 flex items-center flex items-center gap-2;
+}
+
+.wrapper-dark-mode {
+  @apply shadow-sm shadow-orange-300;
+}
+
+.icon {
+  @apply text-orange-400 flex;
+}
+</style>

@@ -3,6 +3,7 @@ import Login from '../views/Login/Login.vue';
 import Main from '../views/Main/Main.vue';
 import ShoppingList from '../views/ShoppingList/ShoppingList.vue';
 import Create from '../views/Create/Create.vue';
+import Update from '../views/Update/Update.vue';
 
 const routes = [
   {
@@ -27,6 +28,12 @@ const routes = [
     path: '/create',
     name: 'Create',
     component: Create
+  },
+  {
+    path: '/update/:id',
+    name: 'Update',
+    component: Update,
+    props: true
   }
 ];
 

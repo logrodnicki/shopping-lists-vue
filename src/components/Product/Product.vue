@@ -1,20 +1,26 @@
 <template>
   <li
-    class="flex items-center gap-4 rounded-md py-2 px-4"
-    :class="[isDarkMode ? 'bg-neutral-800' : 'bg-white']"
+    :class="[
+      $style.wrapper,
+      isDarkMode ? 'bg-neutral-800' : 'bg-white shadow-md'
+    ]"
     @click="toggleSelectHandler"
   >
     <Checkbox :checked="completed" />
     <div
-      class="flex-grow transition-all duration-300"
       :class="[
-        completed ? 'text-gray-500 line-through' : isDarkMode ? 'text-white' : 'text-gray-800'
+        $style.name,
+        {
+          [$style['name-completed']]: completed,
+          [$style['name-dark-mode']]: !completed && isDarkMode,
+          [$style['name-light-mode']]: !completed && !isDarkMode
+        }
       ]"
     >
       {{ name }}
     </div>
     <Loader :is-loading="isLoading" />
-    <div class="text-gray-500 text-sm">{{ amount }} {{ unit }}</div>
+    <div :class="[$style.amount]">{{ amount }} {{ unit }}</div>
   </li>
 </template>
 
@@ -52,8 +58,37 @@ const { isDarkMode } = useDarkMode();
 
 const toggleSelectHandler = () => {
   emit('toggleSelect', {
-    updatedProduct: { ...props.product.attributes, completed: !completed.value },
+    updatedProduct: {
+      ...props.product.attributes,
+      completed: !completed.value
+    },
     id: props.product.id
   });
 };
 </script>
+
+<style module>
+.wrapper {
+  @apply flex items-center gap-4 rounded-md py-2 px-4 cursor-pointer;
+}
+
+.name {
+  @apply flex-grow transition-all duration-300;
+}
+
+.name-completed {
+  @apply text-gray-500 line-through;
+}
+
+.name-dark-mode {
+  @apply text-white;
+}
+
+.name-light-mode {
+  @apply text-gray-800;
+}
+
+.amount {
+  @apply text-gray-500 text-sm;
+}
+</style>

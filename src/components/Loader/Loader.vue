@@ -1,10 +1,8 @@
 <template>
-  <div
-    v-if="isLoading"
-    class="animate-spin flex justify-center animate-fade-out"
-    :class="colors[color]"
-  >
-    <font-awesome-icon icon="arrows-rotate" size="xl" />
+  <div v-if="isLoading" :class="[$style.wrapper, colors[color]]">
+    <span class="animate-spin">
+      <font-awesome-icon icon="arrows-rotate" size="xl" />
+    </span>
   </div>
   <template v-else>
     <slot></slot>
@@ -29,3 +27,9 @@ withDefaults(defineProps<Props>(), {
   color: LoaderColors.ORANGE
 });
 </script>
+
+<style module>
+.wrapper {
+  @apply flex justify-center animate-fade-out;
+}
+</style>

@@ -1,4 +1,5 @@
 export enum LinkIcons {
   LIST = 'list',
-  CREATE = 'create'
+  CREATE = 'create',
+  UPDATE = 'update'
 }

@@ -1,13 +1,25 @@
 <template>
   <li
-    class="rounded-xl shadow-gray-300 px-3 py-2 box-border flex items-center gap-4 cursor-pointer"
-    :class="[isDarkMode ? 'bg-neutral-800' : $style['light-mode']]"
+    :class="[
+      $style.wrapper,
+      isDarkMode ? 'bg-mine-shaft' : 'bg-white shadow-md'
+    ]"
     @click="selectHandler"
   >
-    <Checkbox :checked="completed" />
     <div class="flex flex-col mr-auto">
-      <span :class="[isDarkMode ? 'text-orange-400' : 'text-gray-800']">{{ name }}</span>
-      <span class="text-xs text-gray-500">{{ productsCount }} products</span>
+      <span
+        :class="[
+          isDarkMode ? $style['dark-mode'] : $style['light-mode'],
+          {
+            [$style['completed-dark-mode']]: completed && isDarkMode,
+            [$style['completed-light-mode']]: completed && !isDarkMode
+          }
+        ]"
+        >{{ name }}</span
+      >
+      <span :class="[$style['products-count']]"
+        >{{ productsCount }} products</span
+      >
     </div>
     <div class="text-gray-500">
       <font-awesome-icon icon="chevron-right" size="xs" />
@@ -19,7 +31,6 @@
 import { defineProps, toRefs } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 import router from '@/router';
-import Checkbox from '@/components/Form/Checkbox/Checkbox.vue';
 import { ShoppingList } from '@/types';
 
 interface Props {
@@ -45,11 +56,32 @@ const { isDarkMode } = useDarkMode();
 
 const productsCount = listProducts.length;
 
-const selectHandler = () => router.push({ name: 'ShoppingList', params: { id } });
+const selectHandler = () =>
+  router.push({ name: 'ShoppingList', params: { id } });
 </script>
 
 <style module>
+.wrapper {
+  @apply rounded-xl shadow-gray-300 px-4 py-2 box-border flex items-center gap-4 cursor-pointer;
+}
+
 .light-mode {
-  @apply bg-white;
+  @apply text-gray-800;
+}
+
+.dark-mode {
+  @apply text-orange-400;
+}
+
+.completed-light-mode {
+  @apply text-gray-500 line-through;
+}
+
+.completed-dark-mode {
+  @apply text-gray-700 line-through;
+}
+
+.products-count {
+  @apply text-xs text-gray-500;
 }
 </style>

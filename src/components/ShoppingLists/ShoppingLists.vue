@@ -2,7 +2,7 @@
   <div>
     <Filters :selected-filters="selectedFilter" @select="selectFilterHandler" />
     <Loader :is-loading="isLoading">
-      <ul class="flex flex-col gap-3 overflow-auto animate-fade-out">
+      <ul :class="[$style.list]">
         <ShoppingListItem
           v-for="shoppingList in filteredLists"
           :id="shoppingList.id"
@@ -32,7 +32,8 @@ const { shoppingLists } = toRefs(props);
 
 const selectedFilter = ref(FiltersTypes.COMPLETED);
 
-const selectFilterHandler = (filter: FiltersTypes) => (selectedFilter.value = filter);
+const selectFilterHandler = (filter: FiltersTypes) =>
+  (selectedFilter.value = filter);
 
 const filteredLists = computed(() => {
   if (selectedFilter.value === FiltersTypes.ALL) {
@@ -40,9 +41,19 @@ const filteredLists = computed(() => {
   }
 
   if (selectedFilter.value === FiltersTypes.COMPLETED) {
-    return shoppingLists.value.filter(({ attributes: { completed } }) => completed);
+    return shoppingLists.value.filter(
+      ({ attributes: { completed } }) => completed
+    );
   }
 
-  return shoppingLists.value.filter(({ attributes: { completed } }) => !completed);
+  return shoppingLists.value.filter(
+    ({ attributes: { completed } }) => !completed
+  );
 });
 </script>
+
+<style module>
+.list {
+  @apply flex flex-col gap-3 overflow-auto animate-fade-out pb-1 px-1;
+}
+</style>

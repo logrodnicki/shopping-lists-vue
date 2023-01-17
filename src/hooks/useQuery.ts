@@ -75,8 +75,14 @@ class QueryClient implements Client {
     this.queries = [];
   }
 
-  getQuery = <T>({ queryHash, queryFunction, options: { initData } }: GetQuery<T>): Query<T> => {
-    let query = this.queries.find(query => query.queryHash === queryHash) as Query<T>;
+  getQuery = <T>({
+    queryHash,
+    queryFunction,
+    options: { initData }
+  }: GetQuery<T>): Query<T> => {
+    let query = this.queries.find(
+      query => query.queryHash === queryHash
+    ) as Query<T>;
 
     if (!query) {
       query = createQuery<T>({ queryHash, queryFunction, initData });
@@ -96,7 +102,11 @@ const createQueryObserver = <T>(
   client: Client,
   { queryHash, queryFunction, cacheTime, initData }: ObserverOptions<T>
 ) => {
-  const query = client.getQuery<T>({ queryHash, queryFunction, options: { initData } });
+  const query = client.getQuery<T>({
+    queryHash,
+    queryFunction,
+    options: { initData }
+  });
 
   let queryObserver: Observer<T> = {
     getState: () => query.getState(),
@@ -110,7 +120,10 @@ const createQueryObserver = <T>(
       return unsubscribe;
     },
     fetch: () => {
-      if (query.state.lastUpdated && Date.now() - query.state.lastUpdated <= cacheTime) {
+      if (
+        query.state.lastUpdated &&
+        Date.now() - query.state.lastUpdated <= cacheTime
+      ) {
         return;
       }
 
@@ -126,14 +139,22 @@ const queryClient = new QueryClient();
 const useQuery = <T>(
   queryKey: string,
   queryFunction: () => void,
-  { cacheTime = 1000 * 60 * 5, initData = null }: UseQueryOptions<T> = {} as UseQueryOptions<T>
+  {
+    cacheTime = 1000 * 60 * 5,
+    initData = null
+  }: UseQueryOptions<T> = {} as UseQueryOptions<T>
 ): UseQuery<T> => {
   const rerender = () => {
     renderer.value++;
   };
 
   const currentQueryObserver = ref<Observer<T>>(
-    createQueryObserver<T>(queryClient, { queryHash: queryKey, queryFunction, cacheTime, initData })
+    createQueryObserver<T>(queryClient, {
+      queryHash: queryKey,
+      queryFunction,
+      cacheTime,
+      initData
+    })
   );
   const currentQueryState = ref<UseQueryState<T> | null>(
     currentQueryObserver.value.getState()
@@ -160,7 +181,11 @@ const useQuery = <T>(
   };
 };
 
-const createQuery = <T>({ queryHash, queryFunction, initData }: QueryOptions<T>): Query<T> => {
+const createQuery = <T>({
+  queryHash,
+  queryFunction,
+  initData
+}: QueryOptions<T>): Query<T> => {
   const query: Query<T> = {
     state: {
       data: initData,
@@ -222,11 +247,13 @@ export const useIsLoading = (queryKey: string): boolean => {
   const isLoading = ref(false);
 
   onMounted(() => {
-    isLoading.value = queryClient.getQueryByHash(queryKey)?.getState().isLoading || false;
+    isLoading.value =
+      queryClient.getQueryByHash(queryKey)?.getState().isLoading || false;
   });
 
   watch(renderer, () => {
-    isLoading.value = queryClient.getQueryByHash(queryKey)?.getState().isLoading || false;
+    isLoading.value =
+      queryClient.getQueryByHash(queryKey)?.getState().isLoading || false;
   });
 
   return isLoading;

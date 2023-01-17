@@ -6,7 +6,7 @@ export default function useDarkMode() {
 
   const toggleDarkMode = () => store.toggleDarkMode();
 
-  const { isDarkMode } = toRefs(store.$state);
+  const { isDarkMode } = toRefs<{ isDarkMode: boolean }>(store.$state);
 
   return {
     isDarkMode,

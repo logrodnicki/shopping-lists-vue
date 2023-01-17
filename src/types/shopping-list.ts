@@ -1,3 +1,5 @@
+import { Units } from '@/types/units';
+
 export interface ShoppingList {
   id: number;
   attributes: ShoppingListAttributes;
@@ -21,12 +23,12 @@ export interface Product {
 
 export interface ProductAttributes {
   name: string;
-  unit: string;
+  unit: Units;
   amount: number;
   completed: boolean;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
 }
 
 export interface SaveProductData extends Partial<ProductAttributes> {
