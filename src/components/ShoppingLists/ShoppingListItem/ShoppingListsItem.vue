@@ -1,9 +1,11 @@
 <template>
   <li
+    v-if="visible"
     :class="[
       $style.wrapper,
       isDarkMode ? 'bg-mine-shaft' : 'bg-white shadow-md'
     ]"
+    style=""
     @click="selectHandler"
   >
     <div class="flex flex-col mr-auto">
@@ -35,6 +37,7 @@ import { ShoppingList } from '@/types';
 
 interface Props {
   shoppingList: ShoppingList;
+  visible: boolean;
 }
 
 const props = defineProps<Props>();
@@ -49,7 +52,8 @@ const {
         products: { data: listProducts }
       }
     }
-  }
+  },
+  visible
 } = toRefs(props);
 
 const { isDarkMode } = useDarkMode();
@@ -62,7 +66,7 @@ const selectHandler = () =>
 
 <style module>
 .wrapper {
-  @apply rounded-xl shadow-gray-300 px-4 py-2 box-border flex items-center gap-4 cursor-pointer;
+  @apply rounded-xl shadow-gray-300 px-4 py-2 box-border flex items-center gap-4 cursor-pointer animate-show-item;
 }
 
 .light-mode {

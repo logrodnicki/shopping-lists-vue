@@ -8,6 +8,7 @@ import {
   ShoppingList,
   ShoppingListAttributes
 } from '@/types';
+import router from '@/router';
 
 // @ts-ignore
 export const getUrl = (path: string) =>
@@ -20,49 +21,60 @@ export const PRODUCTS_URL = `${API_URL}/products`;
 
 const token = Cookies.get(JWT_TOKEN_KEY);
 
-export const makeRequest = async <T, G>({
-  url,
-  method,
-  data
-}: {
-  url: string;
-  method: string;
-  data?: { data: T };
-}) => {
+export const makeGetRequest = async <T>(url: string) => {
   try {
-    return await axios({
-      method,
-      url,
-      headers: { Authorization: `Bearer ${token}` },
-      data
+    return await axios.get<T>(url, {
+      headers: { Authorization: `Bearer ${token}` }
     });
   } catch (error) {
-    console.log(error);
+    if (error.response.status === 401) {
+      await router.push({ name: 'Login' });
+    }
+
+    throw Error(error.toString());
   }
 };
 
-export const makeGetRequest = async <T>(url: string) => {
-  return await axios.get<T>(url, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-};
-
 export const makePostRequest = async <T, G>(url: string, data: { data: T }) => {
-  return await axios.post<G>(url, data, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+  try {
+    return await axios.post<G>(url, data, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  } catch (error) {
+    if (error.response.status === 401) {
+      await router.push({ name: 'Login' });
+    }
+
+    throw Error(error.toString());
+  }
 };
 
 export const makePutRequest = async <T, G>(url: string, data: { data: T }) => {
-  return await axios.put<G>(url, data, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+  try {
+    return await axios.put<G>(url, data, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  } catch (error) {
+    if (error.response.status === 401) {
+      await router.push({ name: 'Login' });
+    }
+
+    throw Error(error.toString());
+  }
 };
 
 export const makeDeleteRequest = async <T>(url: string) => {
-  return await axios.delete<T>(url, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+  try {
+    return await axios.delete<T>(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  } catch (error) {
+    if (error.response.status === 401) {
+      await router.push({ name: 'Login' });
+    }
+
+    throw Error(error.toString());
+  }
 };
 
 export const getShoppingLists = async () => {

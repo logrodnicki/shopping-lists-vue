@@ -170,6 +170,13 @@ const applyHandler = async (): Promise<void> => {
     }
   } finally {
     isUpdating.value = false;
+
+    router.push({
+      name: 'ShoppingList',
+      params: {
+        id: props.id
+      }
+    });
   }
 };
 </script>

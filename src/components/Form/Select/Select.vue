@@ -106,13 +106,15 @@ const toggleMenuHandler = () => {
   }
 
   isMenuDisplayed.value = !isMenuDisplayed.value;
+
+  const wrapperDimensions = wrapperRef?.value?.getBoundingClientRect();
+
   menuStyles.value = {
     ...menuStyles.value,
     top: `${
-      Number(wrapperRef?.value?.offsetTop) +
-      Number(wrapperRef?.value?.clientHeight)
+      Number(wrapperDimensions.top) + Number(wrapperDimensions.height)
     }px`,
-    left: `${Number(wrapperRef?.value?.offsetLeft)}px`
+    left: `${Number(wrapperDimensions.left)}px`
   };
 };
 
@@ -156,7 +158,7 @@ const closeHandler = (): void => {
 }
 
 .menu {
-  @apply absolute z-10 top-0 w-full mt-1 rounded-md border-2 border-gray-500 animate-fade-out shadow-md;
+  @apply fixed z-10 top-0 w-full mt-1 rounded-md border-2 border-gray-500 animate-fade-out shadow-md;
 }
 
 .menu-dark-mode {

@@ -16,10 +16,12 @@
     <Loader :is-loading="isLoading">
       <ul :class="[$style['products-list']]">
         <Product
-          v-for="product in shoppingList?.attributes?.products?.data || []"
+          v-for="(product, index) in shoppingList?.attributes?.products?.data ||
+          []"
           :key="product.id"
           :product="product"
           :is-loading="loadingMap[product.id]"
+          :visible="index <= counter"
           @toggle-select="toggleSelectProductHandler"
         />
       </ul>
@@ -28,9 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, ref } from 'vue';
+import { defineProps, onMounted, onUnmounted, ref } from 'vue';
 import router from '@/router';
-import { getShoppingList, updateShoppingList, updateProduct } from '@/api';
+import { getShoppingList, updateProduct, updateShoppingList } from '@/api';
 import { cloneDeep as _cloneDeep } from 'lodash';
 import Product from '@/components/Product/Product.vue';
 import Loader from '@/components/Loader/Loader.vue';
@@ -41,6 +43,8 @@ import {
 } from '@/types';
 import Button from '@/components/Button/Button.vue';
 
+const SHOW_ITEM_DELAY = 100;
+
 interface Props {
   id: number;
 }
@@ -50,8 +54,31 @@ const props = defineProps<Props>();
 const shoppingList = ref<ShoppingList | null>(null);
 const isLoading = ref(false);
 const loadingMap = ref<Record<string, boolean>>({});
+const counter = ref(0);
 
-onMounted(async () => {
+let interval: number;
+
+onMounted(() => {
+  fetchShoppingList();
+
+  counter.value = 0;
+
+  interval = setInterval(() => {
+    counter.value++;
+
+    if (
+      counter.value > shoppingList.value?.attributes?.products?.data?.length
+    ) {
+      clearInterval(interval);
+    }
+  }, SHOW_ITEM_DELAY);
+});
+
+onUnmounted(() => {
+  clearInterval(interval);
+});
+
+const fetchShoppingList = async (): Promise<void> => {
   isLoading.value = true;
 
   const response = await getShoppingList(props.id);
@@ -64,7 +91,7 @@ onMounted(async () => {
 
   shoppingList.value = data.data;
   isLoading.value = false;
-});
+};
 
 const backHandler = () => router.push({ name: 'Main' });
 
@@ -129,11 +156,11 @@ const toggleSelectProductHandler = async ({
 
 <style module>
 .wrapper {
-  @apply text-orange-400 w-full;
+  @apply text-orange-400 w-full h-full flex flex-col;
 }
 
 .header {
-  @apply flex items-center gap-6 mb-8 px-1;
+  @apply flex items-center gap-6 mb-8 px-1 animate-show-item;
 }
 
 .back-button {
@@ -141,6 +168,6 @@ const toggleSelectProductHandler = async ({
 }
 
 .products-list {
-  @apply flex flex-col gap-4 overflow-auto animate-fade-out pb-1 px-1;
+  @apply h-full flex flex-col gap-4 animate-fade-out pb-1 px-1;
 }
 </style>

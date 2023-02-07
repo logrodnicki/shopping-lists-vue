@@ -1,12 +1,5 @@
 <template>
-  <router-link
-    :class="[
-      $style.wrapper,
-      classes,
-      { [$style['wrapper-dark-mode']]: isDarkMode }
-    ]"
-    :to="to"
-  >
+  <router-link :class="[$style.wrapper, classes]" :to="to">
     <div :class="[$style.icon]">
       <font-awesome-icon class="h-4" :icon="iconsMap[iconType]" size="6x" />
     </div>
@@ -42,10 +35,6 @@ const iconsMap: Record<LinkIcons, string> = {
 <style module>
 .wrapper {
   @apply h-8 border-2 border-orange-400 rounded-md px-3 flex items-center flex items-center gap-2;
-}
-
-.wrapper-dark-mode {
-  @apply shadow-sm shadow-orange-300;
 }
 
 .icon {

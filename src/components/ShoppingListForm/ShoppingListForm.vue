@@ -1,6 +1,6 @@
 <template>
   <div :class="[$style.wrapper]">
-    <Box classes="p">
+    <Box :classes="$style['name-box']">
       <TextInput
         id="name"
         v-model="name"
@@ -22,7 +22,6 @@
       <Button
         :label="addButtonLabel"
         :icon="'circle-plus'"
-        :disabled="props.isDisabled"
         @click="addProductHandler"
       />
     </div>
@@ -78,7 +77,9 @@ interface Props {
 
 interface Emits {
   (e: 'update', value: { name: string; products: ProductFormModel[] }): void;
+
   (e: 'apply'): void;
+
   (e: 'cancel'): void;
 }
 
@@ -131,7 +132,7 @@ const addProductHandler = (): void => {
   updatedProducts.push({
     id: uuid(),
     name: '',
-    amount: 0,
+    amount: 1,
     unit: Units.PC,
     completed: false,
     isNew: true
@@ -151,14 +152,18 @@ const cancelHandler = (): void => {
 }
 
 .products-list {
-  @apply flex flex-col gap-4;
+  @apply flex flex-col gap-4 relative;
 }
 
 .options-buttons {
-  @apply w-full justify-end gap-2 mt-2 grid grid-cols-buttons;
+  @apply w-full justify-end gap-2 mt-2 grid grid-cols-buttons animate-show-item origin-top;
 }
 
 .buttons {
-  @apply w-full gap-2 grid grid-cols-buttons mt-8;
+  @apply w-full gap-2 grid grid-cols-buttons mt-8 animate-show-item;
+}
+
+.name-box {
+  @apply animate-show-item;
 }
 </style>

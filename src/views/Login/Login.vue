@@ -1,44 +1,49 @@
 <template>
   <div :class="[$style.wrapper]">
-    <div class="mb-2.5" :class="[isDarkMode ? 'text-white' : 'text-gray-800']">
-      <font-awesome-icon icon="circle-user" size="6x" />
-    </div>
-    <h1
-      class="text-2xl font-bold"
-      :class="[isDarkMode ? 'text-white' : 'text-gray-800']"
-    >
-      Log in
-    </h1>
-    <Message
-      v-if="!!errors.main"
-      :message="errors.main"
-      :type="MessageTypes.ERROR"
-    ></Message>
-    <Box classes="w-full">
-      <TextInput
-        id="email"
-        v-model="email"
-        placeholder="test@test.com"
-        :type="TextInputTypes.TEXT"
-        label="Email"
-        :error="errors.email"
-      />
-      <TextInput
-        id="password"
-        v-model="password"
-        placeholder="***"
-        :type="TextInputTypes.PASSWORD"
-        label="Password"
-        :error="errors.password"
-      />
-    </Box>
-    <div :class="[$style.buttons]">
-      <Button
-        label="Log in"
-        classes="w-full"
-        :show-loader="isLoading"
-        @click="loginHandler"
-      />
+    <div :class="[$style.content]">
+      <div
+        class="mb-2.5"
+        :class="[isDarkMode ? 'text-white' : 'text-gray-800']"
+      >
+        <font-awesome-icon icon="circle-user" size="6x" />
+      </div>
+      <h1
+        class="text-2xl font-bold"
+        :class="[isDarkMode ? 'text-white' : 'text-gray-800']"
+      >
+        Log in
+      </h1>
+      <Message
+        v-if="!!errors.main"
+        :message="errors.main"
+        :type="MessageTypes.ERROR"
+      ></Message>
+      <Box classes="w-full">
+        <TextInput
+          id="email"
+          v-model="email"
+          placeholder="test@test.com"
+          :type="TextInputTypes.TEXT"
+          label="Email"
+          :error="errors.email"
+        />
+        <TextInput
+          id="password"
+          v-model="password"
+          placeholder="***"
+          :type="TextInputTypes.PASSWORD"
+          label="Password"
+          :error="errors.password"
+        />
+      </Box>
+      <div :class="[$style.buttons]">
+        <Button
+          label="Log in"
+          classes="w-full"
+          :show-loader="isLoading"
+          @click="loginHandler"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -95,7 +100,7 @@ const loginHandler = async () => {
 
     Cookies.set(JWT_TOKEN_KEY, response.data.jwt);
 
-    router.push({ name: 'Main' });
+    await router.push({ name: 'Main' });
   } catch (error) {
     if (error instanceof AxiosError) {
       errors.main = error?.response?.data?.error?.message;
@@ -110,6 +115,10 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
+  @apply h-full flex items-center min-h-104;
+}
+
+.content {
   @apply w-72 h-72 flex flex-col gap-4 items-center my-auto translate-y-[-25%];
 }
 

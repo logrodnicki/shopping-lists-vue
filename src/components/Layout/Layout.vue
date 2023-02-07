@@ -16,10 +16,10 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
-  @apply w-screen h-screen flex justify-center items-center flex-col;
+  @apply w-screen h-full min-h-screen flex justify-start items-center flex-col;
 }
 
 .main {
-  @apply w-full max-w-screen-md h-full p-6 flex justify-center;
+  @apply w-full max-w-screen-md h-main p-6 flex justify-center;
 }
 </style>

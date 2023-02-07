@@ -1,56 +1,27 @@
 <template>
   <div :class="[$style.wrapper]">
-    <h1 class="text-2xl" :class="[isDarkMode ? 'text-white' : 'text-gray-800']">
-      New shopping list ({{ products.length }})
-    </h1>
-    <div>
-      <TextInput
-        id="name"
-        v-model="shoppingListName"
-        placeholder="dinner"
-        :type="TextInputTypes.TEXT"
-        label="Name"
-      />
-    </div>
-    <ul>
-      <ProductForm
-        v-for="product in products"
-        :key="product.id"
-        :product="product"
-        @update="updateProductHandler"
-        @delete="deleteProductHandler"
-      />
-    </ul>
-    <div :class="[$style.buttons]">
-      <Button
-        label="New product"
-        :icon="'circle-plus'"
-        @click="addNewProductHandler"
-      />
-      <Button
-        label="Save"
-        :icon="'floppy-disk'"
-        :show-loader="isSaving"
-        :disabled="isSaveDisabled"
-        @click="saveShoppingListHandler"
-      />
-    </div>
+    <ShoppingListForm
+      v-if="!isSaving"
+      :name="shoppingListName"
+      :products="products"
+      apply-button-label="Update"
+      :is-loading="isSaving"
+      :is-disabled="isSaving"
+      @update="updateHandler"
+      @cancel="cancelHandler"
+      @apply="saveShoppingListHandler"
+    />
+    <div v-else>Loading...</div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import Button from '@/components/Button/Button.vue';
-import TextInput from '@/components/Form/TextInput/TextInput.vue';
-import {
-  ProductForm as ProductFormModel,
-  TextInputTypes,
-  Units
-} from '@/types';
+import { ProductForm as ProductFormModel } from '@/types';
 import useDarkMode from '@/hooks/useDarkMode';
-import ProductForm from '@/components/ProductForm/ProductForm.vue';
-import { uuid } from '@/utils/common';
 import { saveProduct, saveShoppingList } from '@/api';
+import router from '@/router';
+import ShoppingListForm from '@/components/ShoppingListForm/ShoppingListForm.vue';
 
 const shoppingListName = ref('');
 const products = ref<ProductFormModel[]>([]);
@@ -66,30 +37,19 @@ const isSaveDisabled = computed(() => {
   );
 });
 
-const addNewProductHandler = (): void => {
-  products.value.push({
-    id: uuid(),
-    name: '',
-    amount: 0,
-    unit: Units.PC,
-    completed: false
-  });
+const updateHandler = ({
+  name: updatedName,
+  products: updatedProducts
+}: {
+  name: string;
+  products: ProductFormModel[];
+}): void => {
+  products.value = updatedProducts;
+  shoppingListName.value = updatedName;
 };
 
-const updateProductHandler = (updatedProduct: ProductFormModel): void => {
-  products.value = products.value.map(product => {
-    if (product.id !== updatedProduct.id) {
-      return product;
-    }
-
-    return updatedProduct;
-  });
-};
-
-const deleteProductHandler = (deletedProductId: string): void => {
-  products.value = products.value.filter(
-    product => product.id !== deletedProductId
-  );
+const cancelHandler = (): void => {
+  router.back();
 };
 
 const saveShoppingListHandler = async (): Promise<void> => {

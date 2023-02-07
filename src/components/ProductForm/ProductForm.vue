@@ -1,5 +1,11 @@
 <template>
-  <Box classes="flex gap-4 items-center" list-element>
+  <Box
+    :classes="[
+      $style.box,
+      { [$style['box-new']]: isNew, [$style.removing]: isRemovingActive }
+    ]"
+    list-element
+  >
     <div class="flex-grow">
       <TextInput
         id="name"
@@ -30,7 +36,7 @@
   </Box>
 </template>
 <script lang="ts" setup>
-import { defineProps, toRefs, defineEmits, watch } from 'vue';
+import { defineProps, toRefs, defineEmits, watch, ref } from 'vue';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
 import { ProductForm, TextInputTypes, Units } from '@/types';
 import useDarkMode from '@/hooks/useDarkMode';
@@ -54,6 +60,8 @@ const emit = defineEmits<Emits>();
 
 const { id, name, unit, amount, completed, isNew } = toRefs(props.product);
 
+const isRemovingActive = ref(false);
+
 watch([name, unit, amount], () => {
   changeHandler();
 });
@@ -66,7 +74,12 @@ const units: SelectItem[] = Object.values(Units).map(value => ({
 }));
 
 const deleteHandler = (): void => {
-  emit('delete', id.value);
+  isRemovingActive.value = true;
+
+  setTimeout(() => {
+    isRemovingActive.value = false;
+    emit('delete', id.value);
+  }, 300);
 };
 
 const changeHandler = (): void => {
@@ -80,3 +93,40 @@ const changeHandler = (): void => {
   });
 };
 </script>
+
+<style module>
+@keyframes show {
+  from {
+    opacity: 0;
+    height: 0;
+  }
+
+  to {
+    height: 64px;
+    opacity: 1;
+  }
+}
+
+@keyframes remove {
+  from {
+    height: 64px;
+  }
+
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.box {
+  @apply flex gap-4 items-center animate-show-item;
+}
+
+.box-new {
+  animation: show 500ms linear forwards;
+}
+
+.removing {
+  animation: remove 300ms linear forwards !important;
+}
+</style>

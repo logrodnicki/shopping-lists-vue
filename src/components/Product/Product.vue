@@ -1,5 +1,6 @@
 <template>
   <li
+    v-if="visible"
     :class="[
       $style.wrapper,
       isDarkMode ? 'bg-neutral-800' : 'bg-white shadow-md'
@@ -34,6 +35,7 @@ import { Product, ProductAttributes } from '@/types';
 interface Props {
   product: Product;
   isLoading?: boolean;
+  visible?: boolean;
 }
 
 interface Emits {
@@ -43,7 +45,10 @@ interface Emits {
   ): void;
 }
 
-const props = withDefaults(defineProps<Props>(), { isLoading: false });
+const props = withDefaults(defineProps<Props>(), {
+  isLoading: false,
+  visible: true
+});
 
 const { product } = toRefs(props);
 
@@ -69,7 +74,7 @@ const toggleSelectHandler = () => {
 
 <style module>
 .wrapper {
-  @apply flex items-center gap-4 rounded-md py-2 px-4 cursor-pointer;
+  @apply flex items-center gap-4 rounded-md py-2 px-4 cursor-pointer animate-show-item;
 }
 
 .name {

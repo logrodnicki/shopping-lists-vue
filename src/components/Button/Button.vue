@@ -7,7 +7,8 @@
         [$style['light-mode']]: !isDarkMode,
         [$style['dark-mode']]: isDarkMode,
         [$style.outline]: outline,
-        [$style['outline-dark-mode']]: isDarkMode && outline
+        [$style['outline-dark-mode']]: isDarkMode && outline,
+        [$style['click-animation']]: clickAnimation
       }
     ]"
     :disabled="disabled"
@@ -23,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, withDefaults } from 'vue';
+import { defineProps, defineEmits, withDefaults, ref, onUnmounted } from 'vue';
 import Loader from '@/components/Loader/Loader.vue';
 import { LoaderColors } from '@/types/loader';
 import useDarkMode from '@/hooks/useDarkMode';
@@ -41,6 +42,8 @@ interface Emits {
   (e: 'click'): void;
 }
 
+const clickAnimation = ref(false);
+
 withDefaults(defineProps<Props>(), {
   showLoader: false,
   icon: '',
@@ -54,12 +57,30 @@ const emit = defineEmits<Emits>();
 
 const { isDarkMode } = useDarkMode();
 
-const clickHandler = () => emit('click');
+let timeoutId: number;
+
+const clickHandler = () => {
+  emit('click');
+
+  clickAnimation.value = true;
+
+  timeoutId = setTimeout(() => {
+    clickAnimation.value = false;
+  }, 300);
+};
+
+onUnmounted(() => {
+  clearInterval(timeoutId);
+});
 </script>
 
 <style module>
 .wrapper {
   @apply h-8 min-w-150 px-4 py-2 flex justify-center items-center border-2 rounded-md transition duration-300 disabled:bg-gray-400 disabled:border-gray-600;
+}
+
+.click-animation {
+  @apply animate-click;
 }
 
 .light-mode {
