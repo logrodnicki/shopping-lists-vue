@@ -41,7 +41,7 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
-  @apply rounded-md px-3;
+  @apply rounded-md px-3 transition duration-300;
 }
 
 .light-mode {

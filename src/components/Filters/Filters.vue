@@ -1,9 +1,9 @@
 <template>
   <div :class="[$style.wrapper]">
     <FilterButton
-      label="All"
-      :selected="selectedFilters === FiltersTypes.ALL"
-      :type="FiltersTypes.ALL"
+      label="Uncompleted"
+      :selected="selectedFilters === FiltersTypes.UNCOMPLETED"
+      :type="FiltersTypes.UNCOMPLETED"
       @select="selectFilterHandler"
     />
     <FilterButton
@@ -13,9 +13,9 @@
       @select="selectFilterHandler"
     />
     <FilterButton
-      label="Uncompleted"
-      :selected="selectedFilters === FiltersTypes.UNCOMPLETED"
-      :type="FiltersTypes.UNCOMPLETED"
+      label="All"
+      :selected="selectedFilters === FiltersTypes.ALL"
+      :type="FiltersTypes.ALL"
       @select="selectFilterHandler"
     />
   </div>

@@ -30,7 +30,7 @@ module.exports = {
     extend: {
       height: {
         full: '100%',
-        main: 'calc(100% - 50px)'
+        main: '100%'
       },
       minHeight: {
         104: '26rem'

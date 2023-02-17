@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import useDarkMode from '@/hooks/useDarkMode';
 import Header from '@/components/Header/Header.vue';
 
@@ -20,6 +20,6 @@ const { isDarkMode } = useDarkMode();
 }
 
 .main {
-  @apply w-full max-w-screen-md h-main p-6 flex justify-center;
+  @apply w-full max-w-screen-md h-main p-6 flex justify-center flex-grow;
 }
 </style>
