@@ -14,8 +14,8 @@
   </button>
 </template>
 
-<script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+<script lang="ts" setup>
+import { defineEmits, defineProps } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 import { FiltersTypes } from '@/types';
 
@@ -40,7 +40,7 @@ const selectHandler = () => emit('select', props.type);
 
 <style module>
 .wrapper {
-  @apply border-2 border-orange-400 rounded-md px-4 text-orange-400 transition duration-300 bg-white;
+  @apply border-2 border-orange-400 rounded-xl px-4 text-orange-400 transition duration-300 bg-white;
 }
 
 .selected {
@@ -52,6 +52,6 @@ const selectHandler = () => emit('select', props.type);
 }
 
 .selected-dark-mode {
-  @apply border-orange-400 text-orange-400;
+  @apply border-orange-400 bg-orange-400 text-dark-mode;
 }
 </style>

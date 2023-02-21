@@ -1,13 +1,17 @@
 <template>
-  <router-link :class="[$style.wrapper, classes]" :to="to">
+  <router-link
+    :active-class="$style.active"
+    :class="[$style.wrapper, classes]"
+    :to="to"
+  >
     <div :class="[$style.icon]">
-      <font-awesome-icon class="h-4" :icon="iconsMap[iconType]" size="6x" />
+      <font-awesome-icon :icon="iconsMap[iconType]" class="h-4" size="6x" />
     </div>
-    <span v-if="!!label" class="text-orange-400">{{ label }}</span>
+    <div v-if="!!label" :class="$style.label">{{ label }}</div>
   </router-link>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { defineProps, toRefs } from 'vue';
 import { LinkIcons } from '@/types/link';
 import useDarkMode from '@/hooks/useDarkMode';
@@ -28,16 +32,30 @@ const { isDarkMode } = useDarkMode();
 const iconsMap: Record<LinkIcons, string> = {
   [LinkIcons.LIST]: 'list',
   [LinkIcons.CREATE]: 'plus',
-  [LinkIcons.UPDATE]: 'pen'
+  [LinkIcons.UPDATE]: 'pen',
+  [LinkIcons.LOGOUT]: 'arrow-right-from-bracket'
 };
 </script>
 
-<style module>
+<style lang="scss" module>
 .wrapper {
-  @apply h-8 border-2 border-orange-400 rounded-md px-3 flex items-center flex items-center gap-2;
+  @apply border-2 border-orange-400 rounded-xl p-2 flex items-center flex items-center gap-2 transition duration-300;
 }
 
 .icon {
   @apply text-orange-400 flex;
+}
+
+.label {
+  @apply text-orange-400 leading-4 text-base;
+}
+
+.active {
+  @apply bg-orange-400;
+
+  .icon,
+  .label {
+    @apply text-dark-mode;
+  }
 }
 </style>

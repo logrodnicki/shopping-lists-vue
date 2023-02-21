@@ -5,10 +5,13 @@
       <div>
         <ul :class="[$style.menu]">
           <li>
-            <Link label="List" to="/" :icon-type="LinkIcons.LIST" />
+            <Link :icon-type="LinkIcons.LIST" label="List" to="/" />
           </li>
           <li>
-            <Link label="New" to="/create" :icon-type="LinkIcons.CREATE" />
+            <Link :icon-type="LinkIcons.CREATE" label="New" to="/create" />
+          </li>
+          <li>
+            <Link :icon-type="LinkIcons.LOGOUT" to="/logout" />
           </li>
         </ul>
       </div>
@@ -16,7 +19,7 @@
   </header>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import useDarkMode from '@/hooks/useDarkMode';
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher.vue';
 import Link from '@/components/Link/Link.vue';
@@ -31,7 +34,7 @@ const { isDarkMode } = useDarkMode();
 }
 
 .nav {
-  @apply max-w-screen-md w-full py-2 px-4 sticky top-0 justify-between flex items-center;
+  @apply max-w-screen-md w-full py-2 px-6 sticky top-0 justify-between flex items-center;
 }
 
 .menu {

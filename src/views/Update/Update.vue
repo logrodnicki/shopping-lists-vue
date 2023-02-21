@@ -2,16 +2,18 @@
   <div class="w-full max-w-2xl">
     <ShoppingListForm
       v-if="!isLoading"
+      :is-disabled="isDisabled || isUpdating"
+      :is-loading="isLoading || isUpdating"
       :name="name"
       :products="products"
       apply-button-label="Update"
-      :is-loading="isLoading || isUpdating"
-      :is-disabled="isDisabled || isUpdating"
-      @update="updateHandler"
-      @cancel="cancelHandler"
       @apply="applyHandler"
+      @cancel="cancelHandler"
+      @update="updateHandler"
     />
-    <div v-else>Loading...</div>
+    <div v-else>
+      <Loader :is-loading="isLoading" />
+    </div>
   </div>
 </template>
 
@@ -28,6 +30,7 @@ import {
 import ShoppingListForm from '@/components/ShoppingListForm/ShoppingListForm.vue';
 import router from '@/router';
 import { isEqual as _isEqual } from 'lodash';
+import Loader from '@/components/Loader/Loader.vue';
 
 interface Props {
   id: string;

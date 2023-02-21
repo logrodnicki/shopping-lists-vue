@@ -11,19 +11,19 @@
   </div>
   <li
     v-else
-    class="list-none"
     :class="[
       $style.wrapper,
       props.classes,
       isDarkMode ? $style['dark-mode'] : $style['light-mode']
     ]"
+    class="list-none"
   >
     <slot></slot>
   </li>
 </template>
 
 <script lang="ts" setup>
-import { withDefaults, defineProps } from 'vue';
+import { defineProps, withDefaults } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 
 interface Props {
@@ -41,7 +41,7 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
-  @apply rounded-md px-3 transition duration-300;
+  @apply rounded-xl px-3 transition duration-300;
 }
 
 .light-mode {

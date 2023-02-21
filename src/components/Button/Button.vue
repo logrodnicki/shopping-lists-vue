@@ -15,19 +15,43 @@
     label="label"
     @click="clickHandler"
   >
-    <div v-if="!showLoader" :class="[$style.loader]">
-      <font-awesome-icon v-if="icon" :icon="icon" size="lg" />
-      <span v-if="label">{{ label }}</span>
+    <div v-if="!showLoader && !isPending" :class="[$style.content]">
+      <AnimatedText :disabled="disabledAnimation" :text="label">
+        <template #icon>
+          <font-awesome-icon v-if="icon" :icon="icon" size="lg" />
+        </template>
+      </AnimatedText>
     </div>
-    <Loader v-else :is-loading="showLoader" :color="LoaderColors.GRAY" />
+    <div v-if="!showLoader && isPending" :class="[$style.content]">
+      <AnimatedText text="Done">
+        <template #icon>
+          <font-awesome-icon v-if="icon" icon="check" size="lg" />
+        </template>
+      </AnimatedText>
+    </div>
+    <Loader
+      v-else
+      :color="LoaderColors.GRAY"
+      :icon="LoaderIcon.DOTS"
+      :is-loading="showLoader"
+    />
   </button>
 </template>
 
-<script setup lang="ts">
-import { defineProps, defineEmits, withDefaults, ref, onUnmounted } from 'vue';
+<script lang="ts" setup>
+import {
+  defineEmits,
+  defineProps,
+  onUnmounted,
+  ref,
+  toRefs,
+  watch,
+  withDefaults
+} from 'vue';
 import Loader from '@/components/Loader/Loader.vue';
-import { LoaderColors } from '@/types/loader';
+import { LoaderColors, LoaderIcon } from '@/types/loader';
 import useDarkMode from '@/hooks/useDarkMode';
+import AnimatedText from '@/components/Animations/AnimatedText/AnimatedText.vue';
 
 interface Props {
   label?: string;
@@ -44,7 +68,7 @@ interface Emits {
 
 const clickAnimation = ref(false);
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   showLoader: false,
   icon: '',
   disabled: false,
@@ -55,14 +79,32 @@ withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<Emits>();
 
+const { showLoader } = toRefs(props);
+
+const isPending = ref(false);
+const disabledAnimation = ref(true);
+
 const { isDarkMode } = useDarkMode();
+
+watch(showLoader, value => {
+  if (value || disabledAnimation.value) {
+    return;
+  }
+
+  isPending.value = true;
+
+  setTimeout(() => {
+    isPending.value = false;
+  }, 2000);
+});
 
 let timeoutId: number;
 
 const clickHandler = () => {
-  emit('click');
-
+  disabledAnimation.value = false;
   clickAnimation.value = true;
+
+  emit('click');
 
   timeoutId = setTimeout(() => {
     clickAnimation.value = false;
@@ -76,7 +118,7 @@ onUnmounted(() => {
 
 <style module>
 .wrapper {
-  @apply h-8 min-w-150 px-4 py-2 flex justify-center items-center border-2 rounded-md transition duration-300 disabled:bg-gray-400 disabled:border-gray-600;
+  @apply h-8 min-w-150 px-4 py-2 flex justify-center items-center border-2 rounded-xl transition duration-300 disabled:bg-gray-400 disabled:border-gray-600;
 }
 
 .click-animation {
@@ -99,7 +141,7 @@ onUnmounted(() => {
   @apply text-gray-900 bg-dark-mode text-orange-400;
 }
 
-.loader {
+.content {
   @apply flex items-center gap-2;
 }
 </style>

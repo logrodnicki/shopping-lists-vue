@@ -1,17 +1,15 @@
 <template>
   <div :class="[$style.wrapper]">
     <ShoppingListForm
-      v-if="!isSaving"
+      :is-disabled="isSaving"
+      :is-loading="isSaving"
       :name="shoppingListName"
       :products="products"
       apply-button-label="Update"
-      :is-loading="isSaving"
-      :is-disabled="isSaving"
-      @update="updateHandler"
-      @cancel="cancelHandler"
       @apply="saveShoppingListHandler"
+      @cancel="cancelHandler"
+      @update="updateHandler"
     />
-    <div v-else>Loading...</div>
   </div>
 </template>
 
@@ -19,9 +17,9 @@
 import { computed, ref } from 'vue';
 import { ProductForm as ProductFormModel } from '@/types';
 import useDarkMode from '@/hooks/useDarkMode';
-import { saveProduct, saveShoppingList } from '@/api';
 import router from '@/router';
 import ShoppingListForm from '@/components/ShoppingListForm/ShoppingListForm.vue';
+import { saveProduct, saveShoppingList } from '@/api';
 
 const shoppingListName = ref('');
 const products = ref<ProductFormModel[]>([]);
@@ -101,9 +99,5 @@ const saveShoppingListHandler = async (): Promise<void> => {
 <style module>
 .wrapper {
   @apply w-full max-w-2xl;
-}
-
-.buttons {
-  @apply w-full flex flex-col gap-2 mt-8;
 }
 </style>

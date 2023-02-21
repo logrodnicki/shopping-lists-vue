@@ -2,14 +2,14 @@
   <div :class="[$style.wrapper]">
     <div :class="[$style.content]">
       <div
-        class="mb-2.5"
         :class="[isDarkMode ? 'text-white' : 'text-gray-800']"
+        class="mb-2.5"
       >
         <font-awesome-icon icon="circle-user" size="6x" />
       </div>
       <h1
-        class="text-2xl font-bold"
         :class="[isDarkMode ? 'text-white' : 'text-gray-800']"
+        class="text-2xl font-bold"
       >
         Log in
       </h1>
@@ -22,25 +22,25 @@
         <TextInput
           id="email"
           v-model="email"
-          placeholder="test@test.com"
+          :error="errors.email"
           :type="TextInputTypes.TEXT"
           label="Email"
-          :error="errors.email"
+          placeholder="test@test.com"
         />
         <TextInput
           id="password"
           v-model="password"
-          placeholder="***"
+          :error="errors.password"
           :type="TextInputTypes.PASSWORD"
           label="Password"
-          :error="errors.password"
+          placeholder="***"
         />
       </Box>
       <div :class="[$style.buttons]">
         <Button
-          label="Log in"
-          classes="w-full"
           :show-loader="isLoading"
+          classes="w-full"
+          label="Log in"
           @click="loginHandler"
         />
       </div>
@@ -48,19 +48,18 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, reactive } from 'vue';
+<script lang="ts" setup>
+import { onMounted, reactive, ref } from 'vue';
 import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import { JWT_TOKEN_KEY } from '@/consts';
-import { LOGIN_URL, getUrl } from '@/api';
+import { getUrl, LOGIN_URL } from '@/api';
 import router from '@/router';
 import useDarkMode from '@/hooks/useDarkMode';
 import Message from '@/components/Message/Message.vue';
 import Button from '@/components/Button/Button.vue';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
-import { TextInputTypes } from '@/types';
-import { MessageTypes } from '@/types';
+import { MessageTypes, TextInputTypes } from '@/types';
 import Box from '@/components/Box/Box.vue';
 
 const email = ref('');
@@ -71,6 +70,10 @@ const errors = reactive({
   main: '',
   email: '',
   password: ''
+});
+
+onMounted(() => {
+  Cookies.remove(JWT_TOKEN_KEY);
 });
 
 const loginHandler = async () => {

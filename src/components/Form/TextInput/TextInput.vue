@@ -2,20 +2,20 @@
   <div :class="[$style.wrapper]">
     <label
       v-if="label"
-      :for="id"
       :class="[$style.label, isDarkMode ? 'text-white' : 'text-gray-900']"
+      :for="id"
       >{{ label }}</label
     >
     <input
       :id="id"
-      :value="modelValue"
-      :type="type"
       :class="[
         $style.input,
         isDarkMode ? $style['input-dark-mode'] : $style['input-light-mode']
       ]"
-      :placeholder="placeholder"
       :disabled="props.disabled"
+      :placeholder="placeholder"
+      :type="type"
+      :value="modelValue"
       @change="changeHandler"
     />
     <div v-if="error" :class="[$style.error]">
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, withDefaults } from 'vue';
+import { defineEmits, defineProps, withDefaults } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 import { TextInputTypes } from '@/types';
 
@@ -63,7 +63,7 @@ const changeHandler = (event: Event) =>
 }
 
 .input {
-  @apply border-2 w-full rounded-md focus:border-orange-400 text-sm py-1 px-2 placeholder-gray-500 outline-none transition duration-300 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
+  @apply border-2 w-full rounded-xl focus:border-orange-400 text-sm py-1 px-2 placeholder-gray-500 outline-none transition duration-300 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
 }
 
 .input-dark-mode {

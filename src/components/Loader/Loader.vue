@@ -1,17 +1,18 @@
 <template>
   <div v-if="isLoading" :class="[$style.wrapper, colors[color]]">
-    <span class="animate-spin">
-      <font-awesome-icon icon="arrows-rotate" size="xl" />
-    </span>
+    <AnimatedArrows v-if="icon === LoaderIcon.ARROWS" />
+    <AnimatedDots v-if="icon === LoaderIcon.DOTS" />
   </div>
   <template v-else>
     <slot></slot>
   </template>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { defineProps, withDefaults } from 'vue';
-import { LoaderColors } from '@/types/loader';
+import { LoaderColors, LoaderIcon } from '@/types/loader';
+import AnimatedDots from '@/components/Animations/AnimatedDots/AnimatedDots.vue';
+import AnimatedArrows from '@/components/Animations/AnimatedArrows/AnimatedArrows.vue';
 
 const colors: Record<LoaderColors, string> = {
   [LoaderColors.ORANGE]: 'text-orange-400',
@@ -21,10 +22,12 @@ const colors: Record<LoaderColors, string> = {
 interface Props {
   isLoading: boolean;
   color?: LoaderColors;
+  icon?: LoaderIcon;
 }
 
 withDefaults(defineProps<Props>(), {
-  color: LoaderColors.ORANGE
+  color: LoaderColors.ORANGE,
+  icon: LoaderIcon.ARROWS
 });
 </script>
 
