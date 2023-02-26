@@ -39,7 +39,8 @@ module.exports = {
         90: '90%'
       },
       minWidth: {
-        150: '150px'
+        150: '150px',
+        24: '6rem'
       },
       keyframes: {
         fadeOut: {

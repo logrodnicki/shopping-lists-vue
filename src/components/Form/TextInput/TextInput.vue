@@ -55,7 +55,7 @@ const changeHandler = (event: Event) =>
 
 <style module>
 .wrapper {
-  @apply my-4 flex flex-col gap-2;
+  @apply w-full my-4 flex flex-col gap-2;
 }
 
 .label {

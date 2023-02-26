@@ -9,7 +9,7 @@ const handleClickOutside = (
     return;
   }
 
-  binding?.value();
+  binding?.value?.onClose?.();
 };
 
 const clickOutside = {

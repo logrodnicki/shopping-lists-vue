@@ -5,3 +5,4 @@ export * from './link';
 export * from './messages';
 export * from './new-shopping-list';
 export * from './units';
+export * from './request';

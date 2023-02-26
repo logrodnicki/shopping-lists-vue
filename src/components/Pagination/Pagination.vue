@@ -26,9 +26,9 @@ const FIRST_PAGE_VALUE = 1;
 const BUTTONS_AROUND_CURRENT_PAGE = 2;
 
 interface Props {
-  currentPage: number;
-  amountPerPage: number;
-  allItemsCount: number;
+  page: number;
+  pageSize: number;
+  total: number;
 }
 
 interface PageButton {
@@ -45,10 +45,10 @@ const props = defineProps<Props>();
 
 const emit = defineEmits<Emits>();
 
-const { currentPage, amountPerPage, allItemsCount } = toRefs(props);
+const { page, pageSize, total } = toRefs(props);
 
 const pageButtons = computed<PageButton[]>(() => {
-  const chunksCount = Math.round(allItemsCount.value / amountPerPage.value);
+  const chunksCount = Math.round(total.value / pageSize.value);
 
   const buttons: PageButton[] = [];
 
@@ -56,7 +56,7 @@ const pageButtons = computed<PageButton[]>(() => {
   buttons.push({
     label: 1,
     value: 1,
-    isSelected: Number(currentPage.value) === 1
+    isSelected: Number(page.value) === 1
   });
 
   const buttonsBeforeCurrentPage = getLowestButtonValue();
@@ -72,7 +72,7 @@ const pageButtons = computed<PageButton[]>(() => {
     buttons.push({
       label: i,
       value: i,
-      isSelected: Number(currentPage.value) === Number(i)
+      isSelected: Number(page.value) === Number(i)
     });
   }
 
@@ -92,7 +92,7 @@ const pageButtons = computed<PageButton[]>(() => {
 });
 
 const getLowestButtonValue = (): number => {
-  const lowestValue = Number(currentPage.value) - BUTTONS_AROUND_CURRENT_PAGE;
+  const lowestValue = Number(page.value) - BUTTONS_AROUND_CURRENT_PAGE;
 
   if (lowestValue < FIRST_PAGE_VALUE + 1) {
     return FIRST_PAGE_VALUE + 1;
@@ -102,7 +102,7 @@ const getLowestButtonValue = (): number => {
 };
 
 const getHighestButtonValue = (chunksCount: number): number => {
-  const highestValue = Number(currentPage.value) + BUTTONS_AROUND_CURRENT_PAGE;
+  const highestValue = Number(page.value) + BUTTONS_AROUND_CURRENT_PAGE;
 
   if (highestValue > chunksCount) {
     return chunksCount - 1;

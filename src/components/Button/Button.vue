@@ -12,7 +12,6 @@
       }
     ]"
     :disabled="disabled"
-    label="label"
     @click="clickHandler"
   >
     <div v-if="!showLoader && !isPending" :class="[$style.content]">
@@ -25,7 +24,7 @@
     <div v-if="!showLoader && isPending" :class="[$style.content]">
       <AnimatedText text="Done">
         <template #icon>
-          <font-awesome-icon v-if="icon" icon="check" size="lg" />
+          <font-awesome-icon icon="check" size="lg" />
         </template>
       </AnimatedText>
     </div>
@@ -142,6 +141,6 @@ onUnmounted(() => {
 }
 
 .content {
-  @apply flex items-center gap-2;
+  @apply flex items-center justify-center gap-2;
 }
 </style>

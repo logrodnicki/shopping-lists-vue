@@ -2,15 +2,16 @@ import Cookies from 'js-cookie';
 import { JWT_TOKEN_KEY } from '@/consts';
 import axios from 'axios';
 import {
+  FiltersTypes,
   Product,
   ProductAttributes,
   SaveProductData,
+  SelectedFilters,
   ShoppingList,
   ShoppingListAttributes
 } from '@/types';
 import router from '@/router';
 
-// @ts-ignore
 export const getUrl = (path: string) =>
   `${import.meta.env['VITE_HOST']}/${path}`;
 
@@ -77,12 +78,28 @@ export const makeDeleteRequest = async <T>(url: string) => {
   }
 };
 
-export const getShoppingLists = async () => {
+export const getShoppingLists = async <T>(
+  filters: SelectedFilters,
+  page: number,
+  pageSize: number
+) => {
   const urlParams = new URLSearchParams();
 
   urlParams.set('populate', '*');
+  urlParams.set('pagination[pageSize]', String(pageSize));
+  urlParams.set('pagination[page]', String(page));
 
-  return await makeGetRequest(
+  if (filters.type !== FiltersTypes.ALL) {
+    if (filters.type === FiltersTypes.UNCOMPLETED) {
+      urlParams.set('filters[completed][$eq]', 'false');
+    }
+
+    if (filters.type === FiltersTypes.COMPLETED) {
+      urlParams.set('filters[completed][$eq]', 'true');
+    }
+  }
+
+  return await makeGetRequest<T>(
     `${getUrl(SHOPPING_LISTS_URL)}?${urlParams.toString()}`
   );
 };

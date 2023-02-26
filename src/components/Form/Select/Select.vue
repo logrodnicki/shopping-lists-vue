@@ -1,5 +1,14 @@
 <template>
-  <div ref="wrapperRef" v-click-outside="closeHandler" class="relative">
+  <div ref="wrapperRef" :class="[$style.wrapper, wrapperClasses]">
+    <label
+      v-if="label"
+      :class="[
+        $style.label,
+        isDarkMode ? $style['label-dark-mode'] : $style['label-light-mode']
+      ]"
+    >
+      {{ label }}
+    </label>
     <div
       :class="[
         $style['value-wrapper'],
@@ -7,18 +16,23 @@
           ? $style['value-wrapper-dark-mode']
           : $style['value-wrapper-light-mode']
       ]"
-      @click="toggleMenuHandler"
     >
-      <span v-if="modelValue" class="animate-fade-out">{{ modelValue }}</span>
+      <span
+        v-if="!isMenuDisplayed"
+        :class="$style['displayed-value']"
+        @click="toggleMenuHandler"
+        >{{ modelValue }}</span
+      >
       <input
-        type="text"
-        :value="searchValue"
+        ref="inputRef"
         :class="[
           $style.input,
           isDarkMode ? $style['input-dark-mode'] : $style['input-light-mode']
         ]"
         :disabled="props.disabled"
-        @change="setSearchValueHandler"
+        :value="searchValue"
+        type="text"
+        @input="setSearchValueHandler"
       />
     </div>
     <Teleport to="#modals">
@@ -31,14 +45,14 @@
         :style="menuStyles"
       >
         <li
-          v-for="{ label, value } in filteredItems"
+          v-for="{ label: itemLabel, value } in filteredItems"
           :key="value"
           :class="[$style['menu-item']]"
           @click="selectValueHandler(value)"
         >
-          {{ label }}
+          {{ itemLabel }}
         </li>
-        <li v-if="filteredItems.length === 0" class="animate-fade-out">
+        <li v-if="filteredItems.length === 0" :class="$style['empty-list']">
           No matches
         </li>
       </ul>
@@ -46,15 +60,26 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed, defineEmits, defineProps, onMounted, ref } from 'vue';
+<script lang="ts" setup>
+import {
+  computed,
+  defineEmits,
+  defineProps,
+  onMounted,
+  ref,
+  toRefs,
+  watch
+} from 'vue';
 import { SelectItem } from '@/types/select';
 import useDarkMode from '@/hooks/useDarkMode';
+import { onClickOutside } from '@vueuse/core';
 
 interface Props {
   items: SelectItem[];
   modelValue: string | number;
   disabled?: boolean;
+  wrapperClasses?: string;
+  label?: string;
 }
 
 interface Emits {
@@ -77,12 +102,15 @@ const props = defineProps<Props>();
 
 const emit = defineEmits<Emits>();
 
+const { disabled, items, wrapperClasses, label } = toRefs(props);
+
 const { isDarkMode } = useDarkMode();
 
 const searchValue = ref<string>('');
 const isMenuDisplayed = ref(false);
-const wrapperRef = ref(null);
 const menuStyles = ref(defaultMenuStyles);
+const wrapperRef = ref<HTMLDivElement>();
+const inputRef = ref<HTMLInputElement>();
 
 onMounted(() => {
   menuStyles.value = {
@@ -91,23 +119,38 @@ onMounted(() => {
   };
 });
 
-const filteredItems = computed((): SelectItem[] => {
-  if (!searchValue.value) {
-    return props.items;
+watch(isMenuDisplayed, (value: boolean) => {
+  if (!value) {
+    return;
   }
 
-  return props.items.filter(item => item.label.includes(String(searchValue)));
+  inputRef.value?.focus();
+});
+
+const filteredItems = computed((): SelectItem[] => {
+  if (!searchValue.value) {
+    return items.value;
+  }
+
+  return items.value.filter(item =>
+    item.label.toUpperCase().includes(String(searchValue).toUpperCase())
+  );
 });
 
 const toggleMenuHandler = () => {
-  if (props.disabled) {
+  if (disabled?.value) {
     isMenuDisplayed.value = false;
     return;
   }
 
-  isMenuDisplayed.value = !isMenuDisplayed.value;
+  searchValue.value = '';
+  isMenuDisplayed.value = true;
 
   const wrapperDimensions = wrapperRef?.value?.getBoundingClientRect();
+
+  if (!wrapperDimensions) {
+    return;
+  }
 
   menuStyles.value = {
     ...menuStyles.value,
@@ -130,11 +173,17 @@ const setSearchValueHandler = (event: any): void => {
 const closeHandler = (): void => {
   isMenuDisplayed.value = false;
 };
+
+onClickOutside(wrapperRef, () => closeHandler());
 </script>
 
 <style module>
+.wrapper {
+  @apply relative flex flex-col gap-2;
+}
+
 .value-wrapper {
-  @apply flex items-center gap-2 border-2 rounded-md focus:border-orange-400 text-sm px-2 py-1.5 h-8 transition duration-300;
+  @apply w-full flex items-center gap-2 border-2 rounded-xl focus:border-orange-400 text-sm px-2 py-1.5 h-8 transition duration-300;
 }
 
 .value-wrapper-light-mode {
@@ -158,7 +207,7 @@ const closeHandler = (): void => {
 }
 
 .menu {
-  @apply fixed z-10 top-0 w-full mt-1 rounded-md border-2 border-gray-500 animate-fade-out shadow-md;
+  @apply fixed z-10 top-0 w-full mt-1 rounded-xl border-2 border-gray-500 animate-fade-out shadow-md;
 }
 
 .menu-dark-mode {
@@ -170,6 +219,26 @@ const closeHandler = (): void => {
 }
 
 .menu-item {
-  @apply cursor-pointer p-1.5 hover:bg-gray-cod;
+  @apply text-sm cursor-pointer p-1.5 hover:bg-gray-cod;
+}
+
+.displayed-value {
+  @apply animate-fade-out text-center w-full h-full flex-grow flex items-center justify-center absolute left-0 capitalize;
+}
+
+.empty-list {
+  @apply text-xs animate-fade-out text-center py-2;
+}
+
+.label {
+  @apply text-sm font-bold;
+}
+
+.label-light-mode {
+  @apply text-gray-900;
+}
+
+.label-dark-mode {
+  @apply text-white;
 }
 </style>

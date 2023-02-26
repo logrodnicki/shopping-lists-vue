@@ -1,8 +1,19 @@
 <template>
   <div :class="[$style.wrapper]">
-    <slot v-if="$slots.icon" :styles="disabled ? '' : $style.icon" name="icon">
+    <slot
+      v-if="$slots.icon"
+      :styles="
+        disabled
+          ? ''
+          : [
+              $style.icon,
+              isDarkMode ? $style['icon-dark-mode'] : $style['icon-light-mode']
+            ]
+      "
+      name="icon"
+    >
     </slot>
-    <div :class="$style['text-wrapper']">
+    <div v-if="text" :class="$style['text-wrapper']">
       <span
         v-for="(char, index) in text"
         :key="index"
@@ -17,6 +28,7 @@
 
 <script lang="ts" setup>
 import { defineProps, toRefs, withDefaults } from 'vue';
+import useDarkMode from '@/hooks/useDarkMode';
 
 interface Props {
   text: string;
@@ -26,9 +38,11 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), { disabled: false });
 
 const { text, disabled } = toRefs(props);
+
+const { isDarkMode } = useDarkMode();
 </script>
 
-<style module>
+<style lang="scss" module>
 @keyframes showItem {
   0% {
     opacity: 0;
@@ -64,11 +78,15 @@ const { text, disabled } = toRefs(props);
 }
 
 .wrapper {
-  @apply flex items-center gap-2 animate-fade-out;
+  @apply flex items-center justify-center animate-fade-out;
+}
+
+.only-one-element {
+  @apply gap-0;
 }
 
 .text-wrapper {
-  @apply flex;
+  @apply flex ml-2;
 }
 
 .char {
@@ -77,5 +95,17 @@ const { text, disabled } = toRefs(props);
 
 .icon {
   animation: showIcon 400ms linear forwards;
+
+  ~ {
+    @apply ml-2;
+  }
+}
+
+.icon-light-mode {
+  @apply text-gray-900;
+}
+
+.icon-dark-mode {
+  @apply text-gray-900;
 }
 </style>

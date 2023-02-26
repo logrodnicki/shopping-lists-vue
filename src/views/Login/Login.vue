@@ -54,13 +54,13 @@ import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import { JWT_TOKEN_KEY } from '@/consts';
 import { getUrl, LOGIN_URL } from '@/api';
-import router from '@/router';
 import useDarkMode from '@/hooks/useDarkMode';
 import Message from '@/components/Message/Message.vue';
 import Button from '@/components/Button/Button.vue';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
 import { MessageTypes, TextInputTypes } from '@/types';
 import Box from '@/components/Box/Box.vue';
+import router from '@/router';
 
 const email = ref('');
 const password = ref('');
