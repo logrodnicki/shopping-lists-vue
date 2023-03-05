@@ -1,6 +1,14 @@
 <template>
   <div :class="[$style.wrapper]">
     <Filters
+      :classes="$style['filters-wrapper']"
+      :search-text="selectedFilters.searchText"
+      :sorting-order="selectedFilters.sortingOrder"
+      :type="selectedFilters.type"
+      @update="updateFiltersHandler"
+    />
+    <MobileFilters
+      :classes="$style['mobile-filters-wrapper']"
       :search-text="selectedFilters.searchText"
       :sorting-order="selectedFilters.sortingOrder"
       :type="selectedFilters.type"
@@ -41,10 +49,11 @@ import {
 } from 'vue';
 import ShoppingListItem from '@/components/ShoppingLists/ShoppingListItem/ShoppingListsItem.vue';
 import Filters from '@/components/Filters/Filters.vue';
-import { FiltersTypes, SelectedFilters, ShoppingList } from '@/types';
+import { FiltersType, SelectedFilters, ShoppingList } from '@/types';
 import Loader from '@/components/Loader/Loader.vue';
 import { chunk as _chunk } from 'lodash';
 import Pagination from '@/components/Pagination/Pagination.vue';
+import MobileFilters from '@/components/MobileFilters/MobileFilters.vue';
 
 const SHOW_ITEM_DELAY = 100;
 
@@ -77,10 +86,11 @@ const {
   total
 } = toRefs(props);
 
-const type = ref(FiltersTypes.UNCOMPLETED);
+const type = ref(FiltersType.UNCOMPLETED);
 const counter = ref(0);
 const page = ref(initPage.value);
 const pageSize = ref(initPageSize.value);
+const searchText = ref(selectedFilters.value.searchText);
 
 onMounted(() => {
   const interval = setInterval(() => {
@@ -137,5 +147,13 @@ const updateFiltersHandler = (updatedFilters: SelectedFilters): void => {
 
 .pagination {
   @apply mt-4 animate-show-item;
+}
+
+.filters-wrapper {
+  @apply hidden sm:flex;
+}
+
+.mobile-filters-wrapper {
+  @apply sm:hidden;
 }
 </style>

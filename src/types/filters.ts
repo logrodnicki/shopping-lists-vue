@@ -1,4 +1,4 @@
-export enum FiltersTypes {
+export enum FiltersType {
   ALL = 'all',
   COMPLETED = 'completed',
   UNCOMPLETED = 'uncompleted'
@@ -12,7 +12,7 @@ export enum SortingOrder {
 export interface SelectedFilters {
   searchText: string;
   sortingOrder: SortingOrder;
-  type: FiltersTypes;
+  type: FiltersType;
 
-  [key: string]: string | SortingOrder | FiltersTypes;
+  [key: string]: string | SortingOrder | FiltersType;
 }

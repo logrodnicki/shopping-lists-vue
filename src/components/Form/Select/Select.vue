@@ -19,7 +19,12 @@
     >
       <span
         v-if="!isMenuDisplayed"
-        :class="$style['displayed-value']"
+        :class="[
+          $style['displayed-value'],
+          isDarkMode
+            ? $style['displayed-value-dark-mode']
+            : $style['displayed-value-light-mode']
+        ]"
         @click="toggleMenuHandler"
         >{{ modelValue }}</span
       >
@@ -183,7 +188,7 @@ onClickOutside(wrapperRef, () => closeHandler());
 }
 
 .value-wrapper {
-  @apply w-full flex items-center gap-2 border-2 rounded-xl focus:border-orange-400 text-sm px-2 py-1.5 h-8 transition duration-300;
+  @apply w-full flex items-center gap-2 text-sm rounded-xl transition duration-300;
 }
 
 .value-wrapper-light-mode {
@@ -191,15 +196,15 @@ onClickOutside(wrapperRef, () => closeHandler());
 }
 
 .value-wrapper-dark-mode {
-  @apply bg-dark-mode text-white border-gray-cod;
+  @apply bg-dark-mode text-white;
 }
 
 .input {
-  @apply outline-none text-gray-500 max-w-full w-0 flex-grow transition duration-300 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
+  @apply outline-none text-gray-500 max-w-full w-0 flex-grow transition duration-300 px-2 py-1.5 h-8 border-2 rounded-xl focus:border-orange-400 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
 }
 
 .input-dark-mode {
-  @apply bg-dark-mode text-orange-400;
+  @apply bg-dark-mode text-orange-400 border-gray-cod;
 }
 
 .input-light-mode {
@@ -223,7 +228,15 @@ onClickOutside(wrapperRef, () => closeHandler());
 }
 
 .displayed-value {
-  @apply animate-fade-out text-center w-full h-full flex-grow flex items-center justify-center absolute left-0 capitalize;
+  @apply animate-fade-out text-center w-full h-full flex-grow flex items-center justify-center absolute left-0 capitalize rounded-xl h-8 border-2 truncate;
+}
+
+.displayed-value-light-mode {
+  @apply bg-white text-gray-900 border-gray-300;
+}
+
+.displayed-value-dark-mode {
+  @apply bg-dark-mode text-white border-gray-cod;
 }
 
 .empty-list {

@@ -28,7 +28,7 @@ import useDarkMode from '@/hooks/useDarkMode';
 
 interface Props {
   listElement?: boolean;
-  classes?: string;
+  classes?: string | string[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -41,7 +41,7 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
-  @apply rounded-xl px-3 transition duration-300;
+  @apply rounded-xl p-4 transition duration-300;
 }
 
 .light-mode {

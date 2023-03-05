@@ -5,7 +5,6 @@
       $style.wrapper,
       isDarkMode ? 'bg-mine-shaft' : 'bg-white shadow-md'
     ]"
-    style=""
     @click="selectHandler"
   >
     <div class="flex flex-col mr-auto">
@@ -29,7 +28,7 @@
   </li>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { defineProps, toRefs } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 import router from '@/router';

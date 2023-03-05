@@ -15,16 +15,16 @@
     @click="clickHandler"
   >
     <div v-if="!showLoader && !isPending" :class="[$style.content]">
-      <AnimatedText :disabled="disabledAnimation" :text="label">
+      <AnimatedText :disabled="disabledPendingAnimation" :text="label">
         <template #icon>
-          <font-awesome-icon v-if="icon" :icon="icon" size="lg" />
+          <font-awesome-icon v-if="icon" :icon="icon" size="md" />
         </template>
       </AnimatedText>
     </div>
     <div v-if="!showLoader && isPending" :class="[$style.content]">
       <AnimatedText text="Done">
         <template #icon>
-          <font-awesome-icon icon="check" size="lg" />
+          <font-awesome-icon icon="check" size="md" />
         </template>
       </AnimatedText>
     </div>
@@ -59,6 +59,7 @@ interface Props {
   disabled?: boolean;
   classes?: string;
   outline?: boolean;
+  usePendingAnimation?: boolean;
 }
 
 interface Emits {
@@ -73,20 +74,21 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   label: '',
   classes: '',
-  outline: false
+  outline: false,
+  usePendingAnimation: true
 });
 
 const emit = defineEmits<Emits>();
 
-const { showLoader } = toRefs(props);
+const { showLoader, usePendingAnimation } = toRefs(props);
 
 const isPending = ref(false);
-const disabledAnimation = ref(true);
+const disabledPendingAnimation = ref(true);
 
 const { isDarkMode } = useDarkMode();
 
 watch(showLoader, value => {
-  if (value || disabledAnimation.value) {
+  if (value || disabledPendingAnimation.value) {
     return;
   }
 
@@ -100,12 +102,15 @@ watch(showLoader, value => {
 let timeoutId: number;
 
 const clickHandler = () => {
-  disabledAnimation.value = false;
   clickAnimation.value = true;
 
   emit('click');
 
   timeoutId = setTimeout(() => {
+    if (usePendingAnimation.value) {
+      disabledPendingAnimation.value = false;
+    }
+
     clickAnimation.value = false;
   }, 300);
 };
@@ -125,7 +130,7 @@ onUnmounted(() => {
 }
 
 .light-mode {
-  @apply text-gray-900 bg-orange-400 border-orange-400 shadow-sm shadow-orange-300 disabled:shadow-gray-600;
+  @apply text-gray-900 bg-lime-300 border-lime-300 shadow-sm shadow-lime-300 disabled:shadow-gray-600;
 }
 
 .dark-mode {
@@ -133,7 +138,7 @@ onUnmounted(() => {
 }
 
 .outline {
-  @apply text-gray-900 bg-orange-400;
+  @apply text-gray-900 border-gray-300 shadow-gray-200 bg-white;
 }
 
 .outline-dark-mode {

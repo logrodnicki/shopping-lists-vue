@@ -15,9 +15,11 @@
     </slot>
     <div v-if="text" :class="$style['text-wrapper']">
       <span
-        v-for="(char, index) in text"
+        v-for="(char, index) in splitedText"
         :key="index"
-        :class="[{ [$style.char]: !disabled }]"
+        :class="[
+          { [$style.char]: !disabled, [$style['empty-char']]: char === ' ' }
+        ]"
         :style="{ animationDelay: `${index * 50}ms` }"
       >
         {{ char }}
@@ -27,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, toRefs, withDefaults } from 'vue';
+import { computed, defineProps, toRefs, withDefaults } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 
 interface Props {
@@ -40,6 +42,10 @@ const props = withDefaults(defineProps<Props>(), { disabled: false });
 const { text, disabled } = toRefs(props);
 
 const { isDarkMode } = useDarkMode();
+
+const splitedText = computed(() => {
+  return text.value.split('');
+});
 </script>
 
 <style lang="scss" module>
@@ -91,6 +97,10 @@ const { isDarkMode } = useDarkMode();
 
 .char {
   animation: showItem 400ms linear forwards;
+}
+
+.empty-char {
+  @apply w-1;
 }
 
 .icon {

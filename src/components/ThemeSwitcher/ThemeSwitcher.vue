@@ -1,5 +1,11 @@
 <template>
-  <button :class="[$style.button]" @click="toggleDarkMode">
+  <button
+    :class="[
+      $style.button,
+      isDarkMode ? $style['dark-mode'] : $style['light-mode']
+    ]"
+    @click="toggleDarkMode"
+  >
     <span :class="[$style.icon, $style['left-icon']]">
       <font-awesome-icon icon="sun" size="md" />
     </span>
@@ -10,7 +16,7 @@
   </button>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import useDarkMode from '@/hooks/useDarkMode';
 
 const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -18,11 +24,19 @@ const { isDarkMode, toggleDarkMode } = useDarkMode();
 
 <style module>
 .button {
-  @apply border-2 border-orange-400 rounded-3xl h-8 w-14 p-0.5 relative flex;
+  @apply border-2 border-lime-500 rounded-3xl h-8 w-14 p-0.5 relative flex;
+}
+
+.light-mode {
+  @apply bg-white;
+}
+
+.dark-mode {
+  @apply bg-dark-mode;
 }
 
 .icon {
-  @apply text-orange-400 absolute;
+  @apply text-lime-500 absolute;
 }
 
 .left-icon {
@@ -34,6 +48,6 @@ const { isDarkMode, toggleDarkMode } = useDarkMode();
 }
 
 .dot {
-  @apply rounded-full h-6 w-6 bg-orange-400 transition duration-300;
+  @apply rounded-full h-6 w-6 bg-lime-500 transition duration-300;
 }
 </style>

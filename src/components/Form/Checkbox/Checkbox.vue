@@ -1,6 +1,6 @@
 <template>
   <label :class="[$style.label]">
-    <input type="checkbox" :checked="checked" class="invisible" />
+    <input :checked="checked" class="invisible" type="checkbox" />
     <span
       :class="[
         $style.wrapper,
@@ -18,7 +18,7 @@
   </label>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { defineProps, ref, toRefs, watch } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 
@@ -66,11 +66,11 @@ watch(checked, value => {
 }
 
 .wrapper {
-  @apply h-5 w-5 border-2 border-orange-400 rounded-full absolute top-0 flex items-center justify-center transition duration-300;
+  @apply h-5 w-5 border-2 border-lime-400 rounded-full absolute top-0 flex items-center justify-center transition duration-300;
 }
 
 .checked {
-  @apply bg-orange-400 animate-checked;
+  @apply bg-lime-400 animate-checked;
 }
 
 .unchecked {

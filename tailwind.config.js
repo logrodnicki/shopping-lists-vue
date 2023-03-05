@@ -19,6 +19,7 @@ module.exports = {
       stone: colors.stone,
       slate: colors.slate,
       neutral: colors.neutral,
+      lime: colors.lime,
       'dark-mode': '#101010',
       box: '#202020',
       'gray-cod': '#0f0f0f',

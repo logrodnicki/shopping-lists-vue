@@ -4,9 +4,9 @@
       <TextInput
         id="name"
         v-model="name"
-        placeholder="dinner"
         :type="TextInputTypes.TEXT"
         label="Name"
+        placeholder="dinner"
       />
     </Box>
     <ul v-if="products.length > 0" :class="[$style['products-list']]">
@@ -14,36 +14,47 @@
         v-for="product in products"
         :key="product.id"
         :product="product"
-        @update="updateProductHandler"
         @delete="deleteProductHandler"
+        @update="updateProductHandler"
       />
     </ul>
     <div :class="[$style['options-buttons']]">
       <Button
-        :label="addButtonLabel"
+        :classes="$style['add-button']"
         :icon="'circle-plus'"
+        :label="addButtonLabel"
+        :use-pending-animation="false"
         @click="addProductHandler"
       />
     </div>
     <div :class="[$style.buttons]">
       <Button
-        :label="cancelButtonLabel"
+        :classes="$style['back-button-mobile']"
         :icon="'arrow-left'"
         outline
         @click="cancelHandler"
       />
       <Button
-        :label="applyButtonLabel"
-        :icon="'floppy-disk'"
-        :show-loader="props.isLoading"
+        :classes="$style['back-button']"
+        :icon="'arrow-left'"
+        :label="cancelButtonLabel"
+        outline
+        @click="cancelHandler"
+      />
+      <Button
+        :classes="$style['apply-button']"
         :disabled="props.isDisabled"
+        :icon="'floppy-disk'"
+        :label="applyButtonLabel"
+        :show-loader="props.isLoading"
+        outline
         @click="applyHandler"
       />
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   defineEmits,
   defineProps,
@@ -85,9 +96,9 @@ interface Emits {
 
 const props = withDefaults(defineProps<Props>(), {
   isDisabled: false,
-  addButtonLabel: 'New product',
+  addButtonLabel: 'Add product',
   applyButtonLabel: 'Save',
-  cancelButtonLabel: 'Cancel'
+  cancelButtonLabel: 'Back'
 });
 
 const emit = defineEmits<Emits>();
@@ -156,11 +167,27 @@ const cancelHandler = (): void => {
 }
 
 .options-buttons {
-  @apply w-full justify-end gap-2 mt-2 grid grid-cols-buttons animate-show-item origin-top;
+  @apply w-full flex justify-end gap-2 mt-2 animate-show-item origin-top;
+}
+
+.add-button {
+  @apply w-full sm:w-48;
 }
 
 .buttons {
-  @apply w-full gap-2 grid grid-cols-buttons mt-8 animate-show-item;
+  @apply w-full gap-2 flex flex-row mt-8 animate-show-item sm:justify-between;
+}
+
+.back-button {
+  @apply hidden sm:flex w-48;
+}
+
+.back-button-mobile {
+  @apply w-8 min-w-0 sm:hidden;
+}
+
+.apply-button {
+  @apply w-full sm:w-48;
 }
 
 .name-box {

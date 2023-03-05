@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { JWT_TOKEN_KEY } from '@/consts';
 import axios from 'axios';
 import {
-  FiltersTypes,
+  FiltersType,
   Product,
   ProductAttributes,
   SaveProductData,
@@ -89,12 +89,12 @@ export const getShoppingLists = async <T>(
   urlParams.set('pagination[pageSize]', String(pageSize));
   urlParams.set('pagination[page]', String(page));
 
-  if (filters.type !== FiltersTypes.ALL) {
-    if (filters.type === FiltersTypes.UNCOMPLETED) {
+  if (filters.type !== FiltersType.ALL) {
+    if (filters.type === FiltersType.UNCOMPLETED) {
       urlParams.set('filters[completed][$eq]', 'false');
     }
 
-    if (filters.type === FiltersTypes.COMPLETED) {
+    if (filters.type === FiltersType.COMPLETED) {
       urlParams.set('filters[completed][$eq]', 'true');
     }
   }

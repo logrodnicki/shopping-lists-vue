@@ -1,34 +1,36 @@
 <template>
-  <Box :classes="$style.wrapper">
-    <div :class="$style['input-wrapper']">
-      <TextInput
-        id="search-query"
-        v-model="searchText"
-        :type="TextInputTypes.TEXT"
-        label="Search text"
-        placeholder="eg. potato"
+  <Box :classes="[$style.wrapper, classes]">
+    <form autocomplete="off">
+      <div :class="$style['input-wrapper']">
+        <TextInput
+          id="search-query"
+          v-model="searchText"
+          :type="TextInputTypes.TEXT"
+          label="Search text"
+          placeholder="eg. potato"
+        />
+      </div>
+      <Select
+        v-model="sortingOrder"
+        :items="sortingOrderItems"
+        :wrapper-classes="$style['sorting-order-wrapper']"
+        label="Order"
       />
-    </div>
-    <Select
-      v-model="sortingOrder"
-      :items="sortingOrderItems"
-      :wrapper-classes="$style['sorting-order-wrapper']"
-      label="Order"
-    />
-    <Select
-      v-model="type"
-      :items="typesItems"
-      :wrapper-classes="$style['type-wrapper']"
-      label="Type"
-    />
-    <Button :classes="$style['search-button']" icon="search" />
+      <Select
+        v-model="type"
+        :items="typesItems"
+        :wrapper-classes="$style['type-wrapper']"
+        label="Type"
+      />
+      <Button :classes="$style['search-button']" icon="search" />
+    </form>
   </Box>
 </template>
 
 <script lang="ts" setup>
 import { defineEmits, defineProps, ref, toRefs, watchEffect } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
-import { FiltersTypes, SortingOrder, TextInputTypes } from '@/types';
+import { FiltersType, SortingOrder, TextInputTypes } from '@/types';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
 import Box from '@/components/Box/Box.vue';
 import Select from '@/components/Form/Select/Select.vue';
@@ -36,13 +38,14 @@ import { SelectItem } from '@/types/select';
 import Button from '@/components/Button/Button.vue';
 
 interface Props {
-  type: FiltersTypes;
+  type: FiltersType;
   sortingOrder: SortingOrder;
   searchText: string;
+  classes?: string;
 }
 
 interface Emits {
-  (e: 'select', filter: FiltersTypes): void;
+  (e: 'select', filter: FiltersType): void;
 
   (
     e: 'update',
@@ -50,7 +53,7 @@ interface Emits {
       type,
       sortingOrder,
       searchText
-    }: { type: FiltersTypes; sortingOrder: SortingOrder; searchText: string }
+    }: { type: FiltersType; sortingOrder: SortingOrder; searchText: string }
   ): void;
 }
 
@@ -59,12 +62,13 @@ const props = defineProps<Props>();
 const {
   type: initType,
   sortingOrder: initSortingOrder,
-  searchText: initSearchText
+  searchText: initSearchText,
+  classes
 } = toRefs(props);
 
 const emit = defineEmits<Emits>();
 
-const searchText = ref(initType.value);
+const searchText = ref(initSearchText.value);
 const sortingOrder = ref(initSortingOrder.value);
 const type = ref(initType.value);
 
@@ -81,15 +85,15 @@ const sortingOrderItems: SelectItem[] = [
 const typesItems: SelectItem[] = [
   {
     label: 'Uncompleted',
-    value: FiltersTypes.UNCOMPLETED
+    value: FiltersType.UNCOMPLETED
   },
   {
     label: 'Completed',
-    value: FiltersTypes.COMPLETED
+    value: FiltersType.COMPLETED
   },
   {
     label: 'All',
-    value: FiltersTypes.ALL
+    value: FiltersType.ALL
   }
 ];
 
@@ -104,9 +108,11 @@ watchEffect(() => {
 });
 </script>
 
-<style module>
+<style lang="scss" module>
 .wrapper {
-  @apply flex items-center flex-row gap-3;
+  form {
+    @apply flex items-center flex-row gap-3 w-full;
+  }
 }
 
 .input-wrapper {
@@ -119,6 +125,6 @@ watchEffect(() => {
 }
 
 .search-button {
-  @apply w-12 min-w-0 mb-4 self-end;
+  @apply w-12 min-w-0 self-end;
 }
 </style>

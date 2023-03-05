@@ -16,6 +16,7 @@
       :placeholder="placeholder"
       :type="type"
       :value="modelValue"
+      autocomplete="off"
       @change="changeHandler"
     />
     <div v-if="error" :class="[$style.error]">
@@ -55,7 +56,7 @@ const changeHandler = (event: Event) =>
 
 <style module>
 .wrapper {
-  @apply w-full my-4 flex flex-col gap-2;
+  @apply w-full flex flex-col gap-2;
 }
 
 .label {
@@ -71,7 +72,7 @@ const changeHandler = (event: Event) =>
 }
 
 .input-light-mode {
-  @apply bg-white text-gray-900;
+  @apply bg-white text-gray-900 border-gray-300;
 }
 
 .error {

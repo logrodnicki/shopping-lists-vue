@@ -11,7 +11,7 @@
             <Link :icon-type="LinkIcons.CREATE" label="New" to="/create" />
           </li>
           <li>
-            <Link :icon-type="LinkIcons.LOGOUT" to="/logout" />
+            <Link :icon-type="LinkIcons.LOGOUT" to="/login" />
           </li>
         </ul>
       </div>
@@ -30,7 +30,7 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
-  @apply w-full border-b-2 border-b-orange-400 box-border flex justify-center;
+  @apply w-full border-b-2 border-b-gray-400 box-border flex justify-center;
 }
 
 .nav {

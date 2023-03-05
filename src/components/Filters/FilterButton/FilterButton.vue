@@ -17,16 +17,16 @@
 <script lang="ts" setup>
 import { defineEmits, defineProps } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
-import { FiltersTypes } from '@/types';
+import { FiltersType } from '@/types';
 
 interface Props {
   label: string;
   selected: boolean;
-  type: FiltersTypes;
+  type: FiltersType;
 }
 
 interface Emits {
-  (e: 'select', type: FiltersTypes): void;
+  (e: 'select', type: FiltersType): void;
 }
 
 const props = defineProps<Props>();

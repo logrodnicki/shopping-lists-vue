@@ -39,19 +39,19 @@ const iconsMap: Record<LinkIcons, string> = {
 
 <style lang="scss" module>
 .wrapper {
-  @apply border-2 border-orange-400 rounded-xl p-2 flex items-center flex items-center gap-2 transition duration-300;
+  @apply border-2 border-gray-300 rounded-xl p-2 flex items-center flex items-center gap-2 transition duration-300;
 }
 
 .icon {
-  @apply text-orange-400 flex;
+  @apply text-dark-mode flex;
 }
 
 .label {
-  @apply text-orange-400 leading-4 text-base;
+  @apply text-dark-mode leading-4 text-base;
 }
 
 .active {
-  @apply bg-orange-400;
+  @apply bg-lime-300 border-lime-400;
 
   .icon,
   .label {

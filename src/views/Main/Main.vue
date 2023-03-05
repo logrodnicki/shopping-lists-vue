@@ -19,7 +19,7 @@ import { reactive, ref, watchEffect } from 'vue';
 import { getShoppingLists } from '@/api';
 import ShoppingLists from '@/components/ShoppingLists/ShoppingLists.vue';
 import {
-  FiltersTypes,
+  FiltersType,
   Meta,
   SelectedFilters,
   ShoppingList,
@@ -33,7 +33,7 @@ const isLoading = ref<boolean>(false);
 const selectedFilters = reactive<SelectedFilters>({
   searchText: '',
   sortingOrder: SortingOrder.ASC,
-  type: FiltersTypes.UNCOMPLETED
+  type: FiltersType.UNCOMPLETED
 });
 const page = ref(1);
 const pageSize = ref(ITEMS_PER_PAGE);

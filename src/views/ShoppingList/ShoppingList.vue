@@ -1,15 +1,20 @@
 <template>
   <div :class="[$style.wrapper]">
-    <div :class="[$style.header]">
-      <button :class="[$style['back-button']]" @click="backHandler">
-        <span class="">
-          <font-awesome-icon icon="circle-arrow-left" size="lg" />
-        </span>
+    <div :class="[$style['header-wrapper']]">
+      <button @click="backHandler">
+        <font-awesome-icon icon="chevron-left" size="md" />
       </button>
-      <h1 class="text-xl">{{ shoppingList?.attributes?.name }}</h1>
+      <h1
+        :class="[
+          $style.header,
+          isDarkMode ? $style['header-dark-mode'] : $style['header-light-mode']
+        ]"
+      >
+        {{ shoppingList?.attributes?.name }}
+      </h1>
       <Button
+        :classes="$style['update-button']"
         icon="pen"
-        classes="w-8 ml-auto"
         @click="navigateToUpdateHandler"
       />
     </div>
@@ -19,8 +24,8 @@
           v-for="(product, index) in shoppingList?.attributes?.products?.data ||
           []"
           :key="product.id"
-          :product="product"
           :is-loading="loadingMap[product.id]"
+          :product="product"
           :visible="index <= counter"
           @toggle-select="toggleSelectProductHandler"
         />
@@ -29,7 +34,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { defineProps, onMounted, onUnmounted, ref } from 'vue';
 import router from '@/router';
 import { getShoppingList, updateProduct, updateShoppingList } from '@/api';
@@ -42,6 +47,7 @@ import {
   ShoppingList
 } from '@/types';
 import Button from '@/components/Button/Button.vue';
+import useDarkMode from '@/hooks/useDarkMode';
 
 const SHOW_ITEM_DELAY = 100;
 
@@ -57,6 +63,8 @@ const loadingMap = ref<Record<string, boolean>>({});
 const counter = ref(0);
 
 let interval: number;
+
+const { isDarkMode } = useDarkMode();
 
 onMounted(() => {
   fetchShoppingList();
@@ -156,18 +164,30 @@ const toggleSelectProductHandler = async ({
 
 <style module>
 .wrapper {
-  @apply text-orange-400 w-full h-full flex flex-col;
+  @apply w-full h-full flex flex-col;
 }
 
-.header {
+.header-wrapper {
   @apply flex items-center gap-6 mb-8 px-1 animate-show-item;
 }
 
-.back-button {
-  @apply flex items-center justify-center cursor-pointer;
+.header {
+  @apply text-xl;
+}
+
+.header-light-mode {
+  @apply text-gray-800;
+}
+
+.header-dark-mode {
+  @apply text-orange-400;
 }
 
 .products-list {
   @apply h-full flex flex-col gap-4 animate-fade-out pb-1 px-1;
+}
+
+.update-button {
+  @apply w-8 ml-auto min-w-0;
 }
 </style>
