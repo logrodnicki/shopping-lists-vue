@@ -10,25 +10,29 @@
       <TextInput
         id="name"
         v-model="name"
-        placeholder="carrot"
-        :type="TextInputTypes.TEXT"
         :disabled="props.disabled"
+        :type="TextInputTypes.TEXT"
+        placeholder="carrot"
       />
     </div>
     <div class="w-24">
       <TextInput
         id="amount"
         v-model="amount"
-        placeholder=""
-        :type="TextInputTypes.NUMBER"
         :disabled="props.disabled"
+        :type="TextInputTypes.NUMBER"
+        placeholder=""
       />
     </div>
     <div class="w-20">
       <Select v-model="unit" :items="units" />
     </div>
     <button
-      :class="[isDarkMode ? 'text-orange-400' : 'text -orange-400']"
+      :class="[
+        isDarkMode
+          ? $style['delete-button-dark-mode']
+          : $style['delete-button-light-mode']
+      ]"
       @click="deleteHandler"
     >
       <font-awesome-icon icon="circle-minus" size="lg" />
@@ -36,7 +40,7 @@
   </Box>
 </template>
 <script lang="ts" setup>
-import { defineProps, toRefs, defineEmits, watch, ref } from 'vue';
+import { defineEmits, defineProps, ref, toRefs, watch } from 'vue';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
 import { ProductForm, TextInputTypes, Units } from '@/types';
 import useDarkMode from '@/hooks/useDarkMode';
@@ -51,6 +55,7 @@ interface Props {
 
 interface Emits {
   (e: 'update', value: ProductForm): void;
+
   (e: 'delete', value: string | number): void;
 }
 
@@ -128,5 +133,13 @@ const changeHandler = (): void => {
 
 .removing {
   animation: remove 300ms linear forwards !important;
+}
+
+.delete-button-light-mode {
+  @apply text-lime-400;
+}
+
+.delete-button-dark-mode {
+  @apply text-lime-400;
 }
 </style>

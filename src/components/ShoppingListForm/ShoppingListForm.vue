@@ -46,7 +46,7 @@
         :disabled="props.isDisabled"
         :icon="'floppy-disk'"
         :label="applyButtonLabel"
-        :show-loader="props.isLoading"
+        :show-loader="isLoading"
         outline
         @click="applyHandler"
       />
@@ -107,7 +107,8 @@ const {
   name: initName,
   products: initProducts,
   applyButtonLabel,
-  addButtonLabel
+  addButtonLabel,
+  isLoading
 } = toRefs(props);
 
 const { isDarkMode } = useDarkMode();

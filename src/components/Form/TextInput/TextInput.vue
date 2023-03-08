@@ -64,7 +64,7 @@ const changeHandler = (event: Event) =>
 }
 
 .input {
-  @apply border-2 w-full rounded-xl focus:border-orange-400 text-sm py-1 px-2 placeholder-gray-500 outline-none transition duration-300 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
+  @apply border-2 w-full rounded-xl focus:border-lime-400 text-sm py-1 px-2 placeholder-gray-500 outline-none transition duration-300 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
 }
 
 .input-dark-mode {

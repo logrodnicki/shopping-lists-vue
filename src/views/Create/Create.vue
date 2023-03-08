@@ -1,11 +1,11 @@
 <template>
   <div :class="[$style.wrapper]">
     <ShoppingListForm
-      :is-disabled="isSaving"
+      :is-disabled="isSaveDisabled"
       :is-loading="isSaving"
       :name="shoppingListName"
       :products="products"
-      apply-button-label="Update"
+      apply-button-label="Create"
       @apply="saveShoppingListHandler"
       @cancel="cancelHandler"
       @update="updateHandler"
@@ -19,7 +19,6 @@ import { ProductForm as ProductFormModel } from '@/types';
 import useDarkMode from '@/hooks/useDarkMode';
 import router from '@/router';
 import ShoppingListForm from '@/components/ShoppingListForm/ShoppingListForm.vue';
-import { saveProduct, saveShoppingList } from '@/api';
 
 const shoppingListName = ref('');
 const products = ref<ProductFormModel[]>([]);
@@ -58,40 +57,48 @@ const saveShoppingListHandler = async (): Promise<void> => {
   isSaving.value = true;
 
   try {
-    const response = await saveShoppingList({
-      name: shoppingListName.value,
-      completed: false
-    });
-
-    if (!response) {
-      return;
-    }
-
-    const {
-      data: {
-        data: { id: newShoppingListId }
-      }
-    } = response;
-
-    for (const product of products.value) {
-      const {
-        name: productName,
-        unit: productUnit,
-        amount: productAmount
-      } = product;
-
-      await saveProduct(
-        {
-          completed: false,
-          amount: Number(productAmount),
-          name: productName,
-          unit: productUnit
-        },
-        newShoppingListId
+    // const response = await saveShoppingList({
+    //   name: shoppingListName.value,
+    //   completed: false
+    // });
+    //
+    // if (!response) {
+    //   return;
+    // }
+    //
+    // const {
+    //   data: {
+    //     data: { id: newShoppingListId }
+    //   }
+    // } = response;
+    //
+    // for (const product of products.value) {
+    //   const {
+    //     name: productName,
+    //     unit: productUnit,
+    //     amount: productAmount
+    //   } = product;
+    //
+    //   await saveProduct(
+    //     {
+    //       completed: false,
+    //       amount: Number(productAmount),
+    //       name: productName,
+    //       unit: productUnit
+    //     },
+    //     newShoppingListId
+    //   );
+    // }
+    await new Promise(resolve => {
+      resolve(
+        setTimeout(() => {
+          console.log('TEST TEST');
+          isSaving.value = false;
+        }, 2000)
       );
-    }
+    });
   } finally {
-    isSaving.value = false;
+    // isSaving.value = false;
   }
 };
 </script>

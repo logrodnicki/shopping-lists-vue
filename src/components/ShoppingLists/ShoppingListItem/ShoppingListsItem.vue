@@ -31,7 +31,7 @@
 <script lang="ts" setup>
 import { defineProps, toRefs } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
-import router from '@/router';
+import router, { RoutesNames } from '@/router';
 import { ShoppingList } from '@/types';
 
 interface Props {
@@ -60,7 +60,7 @@ const { isDarkMode } = useDarkMode();
 const productsCount = listProducts.length;
 
 const selectHandler = () =>
-  router.push({ name: 'ShoppingList', params: { id } });
+  router.push({ name: RoutesNames.SHOPPING_LIST, params: { id } });
 </script>
 
 <style module>
@@ -73,7 +73,7 @@ const selectHandler = () =>
 }
 
 .dark-mode {
-  @apply text-orange-400;
+  @apply text-white;
 }
 
 .completed-light-mode {

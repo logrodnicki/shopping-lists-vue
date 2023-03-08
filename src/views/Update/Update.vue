@@ -29,7 +29,7 @@ import {
   updateShoppingList
 } from '@/api';
 import ShoppingListForm from '@/components/ShoppingListForm/ShoppingListForm.vue';
-import router from '@/router';
+import router, { RoutesNames } from '@/router';
 import { isEqual as _isEqual } from 'lodash';
 import Loader from '@/components/Loader/Loader.vue';
 
@@ -176,7 +176,7 @@ const applyHandler = async (): Promise<void> => {
     isUpdating.value = false;
 
     router.push({
-      name: 'ShoppingList',
+      name: RoutesNames.SHOPPING_LIST,
       params: {
         id: props.id
       }

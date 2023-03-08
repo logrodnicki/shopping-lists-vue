@@ -1,7 +1,14 @@
 <template>
   <div :class="[$style.wrapper]">
     <div :class="[$style['header-wrapper']]">
-      <button @click="backHandler">
+      <button
+        :class="[
+          isDarkMode
+            ? $style['back-button-dark-mode']
+            : $style['back-button-light-mode']
+        ]"
+        @click="backHandler"
+      >
         <font-awesome-icon icon="chevron-left" size="md" />
       </button>
       <h1
@@ -36,7 +43,7 @@
 
 <script lang="ts" setup>
 import { defineProps, onMounted, onUnmounted, ref } from 'vue';
-import router from '@/router';
+import router, { RoutesNames } from '@/router';
 import { getShoppingList, updateProduct, updateShoppingList } from '@/api';
 import { cloneDeep as _cloneDeep } from 'lodash';
 import Product from '@/components/Product/Product.vue';
@@ -75,6 +82,7 @@ onMounted(() => {
     counter.value++;
 
     if (
+      !shoppingList.value?.attributes?.products?.data?.length ||
       counter.value > shoppingList.value?.attributes?.products?.data?.length
     ) {
       clearInterval(interval);
@@ -101,11 +109,11 @@ const fetchShoppingList = async (): Promise<void> => {
   isLoading.value = false;
 };
 
-const backHandler = () => router.push({ name: 'Main' });
+const backHandler = () => router.push({ name: RoutesNames.MAIN });
 
 const navigateToUpdateHandler = (): void => {
   router.push({
-    name: 'Update',
+    name: RoutesNames.UPDATE,
     params: {
       id: shoppingList.value?.id
     }
@@ -180,7 +188,15 @@ const toggleSelectProductHandler = async ({
 }
 
 .header-dark-mode {
-  @apply text-orange-400;
+  @apply text-lime-400;
+}
+
+.back-button-light-mode {
+  @apply text-gray-900;
+}
+
+.back-button-dark-mode {
+  @apply text-lime-400;
 }
 
 .products-list {

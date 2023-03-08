@@ -18,7 +18,7 @@
         :message="errors.main"
         :type="MessageTypes.ERROR"
       ></Message>
-      <Box classes="w-full">
+      <Box :classes="$style['form-wrapper']">
         <TextInput
           id="email"
           v-model="email"
@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import { JWT_TOKEN_KEY } from '@/consts';
@@ -60,7 +60,7 @@ import Button from '@/components/Button/Button.vue';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
 import { MessageTypes, TextInputTypes } from '@/types';
 import Box from '@/components/Box/Box.vue';
-import router from '@/router';
+import router, { RoutesNames } from '@/router';
 
 const email = ref('');
 const password = ref('');
@@ -72,9 +72,9 @@ const errors = reactive({
   password: ''
 });
 
-onMounted(() => {
-  Cookies.remove(JWT_TOKEN_KEY);
-});
+// onMounted(() => {
+//   Cookies.remove(JWT_TOKEN_KEY);
+// });
 
 const loginHandler = async () => {
   errors.main = '';
@@ -103,7 +103,7 @@ const loginHandler = async () => {
 
     Cookies.set(JWT_TOKEN_KEY, response.data.jwt);
 
-    await router.push({ name: 'Main' });
+    await router.push({ name: RoutesNames.MAIN });
   } catch (error) {
     if (error instanceof AxiosError) {
       errors.main = error?.response?.data?.error?.message;
@@ -118,7 +118,7 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
-  @apply h-full flex items-center min-h-104;
+  @apply h-full flex items-center min-h-104 self-center;
 }
 
 .content {
@@ -127,5 +127,9 @@ const { isDarkMode } = useDarkMode();
 
 .buttons {
   @apply w-full flex justify-center;
+}
+
+.form-wrapper {
+  @apply w-full flex flex-col gap-4;
 }
 </style>

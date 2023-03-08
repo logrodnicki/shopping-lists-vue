@@ -8,14 +8,28 @@
     />
     <Modal :visible="areFiltersVisible">
       <template #content>
-        <div :class="$style['filters-modal']">
-          <h3 :class="$style['filters-modal-header']">
+        <div
+          :class="[
+            $style['filters-modal'],
+            isDarkMode
+              ? $style['filters-modal-dark-mode']
+              : $style['filters-modal-light-mode']
+          ]"
+        >
+          <h3
+            :class="[
+              $style['filters-modal-header'],
+              isDarkMode
+                ? $style['filters-modal-header-dark-mode']
+                : $style['filters-modal-header-light-mode']
+            ]"
+          >
             <span>Filters</span>
             <button @click="closeModalHandler">
               <font-awesome-icon icon="xmark" size="md" />
             </button>
           </h3>
-          <div :class="$style['input-wrapper']">
+          <Box>
             <TextInput
               id="search-query"
               v-model="searchText"
@@ -23,19 +37,23 @@
               label="Search text"
               placeholder="eg. potato"
             />
-          </div>
-          <Select
-            v-model="sortingOrder"
-            :items="sortingOrderItems"
-            :wrapper-classes="$style['sorting-order-wrapper']"
-            label="Order"
-          />
-          <Select
-            v-model="type"
-            :items="typesItems"
-            :wrapper-classes="$style['type-wrapper']"
-            label="Type"
-          />
+          </Box>
+          <Box>
+            <Select
+              v-model="sortingOrder"
+              :items="sortingOrderItems"
+              :wrapper-classes="$style['sorting-order-wrapper']"
+              label="Order"
+            />
+          </Box>
+          <Box>
+            <Select
+              v-model="type"
+              :items="typesItems"
+              :wrapper-classes="$style['type-wrapper']"
+              label="Type"
+            />
+          </Box>
           <Button
             :classes="$style['apply-button']"
             icon="search"
@@ -159,12 +177,28 @@ const closeModalHandler = () => {
 }
 
 .filters-modal {
-  @apply bg-white w-full h-2/4 p-4 flex flex-col gap-4 rounded-t-lg;
+  @apply w-full h-2/4 p-4 flex flex-col gap-4 rounded-t-lg;
   animation: showModal 300ms linear forwards;
+}
+
+.filters-modal-light-mode {
+  @apply bg-gray-50;
+}
+
+.filters-modal-dark-mode {
+  @apply bg-dark-mode;
 }
 
 .filters-modal-header {
   @apply flex justify-between items-center w-full;
+}
+
+.filters-modal-header-light-mode {
+  @apply text-dark-mode;
+}
+
+.filters-modal-header-dark-mode {
+  @apply text-white;
 }
 
 .apply-button {

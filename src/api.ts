@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { JWT_TOKEN_KEY } from '@/consts';
-import axios from 'axios';
+import axios, { Method } from 'axios';
 import {
   FiltersType,
   Product,
@@ -10,7 +10,7 @@ import {
   ShoppingList,
   ShoppingListAttributes
 } from '@/types';
-import router from '@/router';
+import router, { RoutesNames } from '@/router';
 
 export const getUrl = (path: string) =>
   `${import.meta.env['VITE_HOST']}/${path}`;
@@ -22,60 +22,41 @@ export const PRODUCTS_URL = `${API_URL}/products`;
 
 const token = Cookies.get(JWT_TOKEN_KEY);
 
-export const makeGetRequest = async <T>(url: string) => {
+const makeRequest = async <T, G>(
+  url: string,
+  method: Method,
+  data?: { data: G }
+) => {
   try {
-    return await axios.get<T>(url, {
-      headers: { Authorization: `Bearer ${token}` }
+    return await axios({
+      url,
+      method,
+      headers: { Authorization: `Bearer ${token}` },
+      data
     });
   } catch (error) {
     if (error.response.status === 401) {
-      await router.push({ name: 'Login' });
+      await router.push({ name: RoutesNames.LOGIN });
     }
 
     throw Error(error.toString());
   }
+};
+
+export const makeGetRequest = async <T>(url: string) => {
+  return makeRequest<T, undefined>(url, 'GET');
 };
 
 export const makePostRequest = async <T, G>(url: string, data: { data: T }) => {
-  try {
-    return await axios.post<G>(url, data, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-  } catch (error) {
-    if (error.response.status === 401) {
-      await router.push({ name: 'Login' });
-    }
-
-    throw Error(error.toString());
-  }
+  return makeRequest<G, T>(url, 'POST', data);
 };
 
 export const makePutRequest = async <T, G>(url: string, data: { data: T }) => {
-  try {
-    return await axios.put<G>(url, data, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-  } catch (error) {
-    if (error.response.status === 401) {
-      await router.push({ name: 'Login' });
-    }
-
-    throw Error(error.toString());
-  }
+  return makeRequest<G, T>(url, 'PUT', data);
 };
 
 export const makeDeleteRequest = async <T>(url: string) => {
-  try {
-    return await axios.delete<T>(url, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-  } catch (error) {
-    if (error.response.status === 401) {
-      await router.push({ name: 'Login' });
-    }
-
-    throw Error(error.toString());
-  }
+  return makeRequest<T, undefined>(url, 'DELETE');
 };
 
 export const getShoppingLists = async <T>(

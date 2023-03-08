@@ -10,6 +10,7 @@
       {{ label }}
     </label>
     <div
+      ref="inputWrapperRef"
       :class="[
         $style['value-wrapper'],
         isDarkMode
@@ -43,6 +44,7 @@
     <Teleport to="#modals">
       <ul
         v-if="isMenuDisplayed"
+        ref="menuRef"
         :class="[
           $style.menu,
           isDarkMode ? $style['menu-dark-mode'] : $style['menu-light-mode']
@@ -70,6 +72,7 @@ import {
   computed,
   defineEmits,
   defineProps,
+  nextTick,
   onMounted,
   ref,
   toRefs,
@@ -116,6 +119,8 @@ const isMenuDisplayed = ref(false);
 const menuStyles = ref(defaultMenuStyles);
 const wrapperRef = ref<HTMLDivElement>();
 const inputRef = ref<HTMLInputElement>();
+const inputWrapperRef = ref<HTMLInputElement>();
+const menuRef = ref<HTMLUListElement>();
 
 onMounted(() => {
   menuStyles.value = {
@@ -151,19 +156,28 @@ const toggleMenuHandler = () => {
   searchValue.value = '';
   isMenuDisplayed.value = true;
 
-  const wrapperDimensions = wrapperRef?.value?.getBoundingClientRect();
+  nextTick(() => {
+    const wrapperDimensions = inputWrapperRef?.value?.getBoundingClientRect();
+    const menuDimensions = menuRef?.value?.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
 
-  if (!wrapperDimensions) {
-    return;
-  }
+    if (!wrapperDimensions) {
+      return;
+    }
 
-  menuStyles.value = {
-    ...menuStyles.value,
-    top: `${
-      Number(wrapperDimensions.top) + Number(wrapperDimensions.height)
-    }px`,
-    left: `${Number(wrapperDimensions.left)}px`
-  };
+    let topPosition =
+      Number(wrapperDimensions.top) + Number(wrapperDimensions.height);
+
+    if (menuDimensions && topPosition + menuDimensions.height > windowHeight) {
+      topPosition = wrapperDimensions.top - menuDimensions.height - 10;
+    }
+
+    menuStyles.value = {
+      ...menuStyles.value,
+      top: `${topPosition}px`,
+      left: `${Number(wrapperDimensions.left)}px`
+    };
+  });
 };
 
 const selectValueHandler = (value: string | number): void => {
@@ -200,11 +214,11 @@ onClickOutside(wrapperRef, () => closeHandler());
 }
 
 .input {
-  @apply outline-none text-gray-500 max-w-full w-0 flex-grow transition duration-300 px-2 py-1.5 h-8 border-2 rounded-xl focus:border-orange-400 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
+  @apply outline-none text-gray-500 max-w-full w-0 flex-grow transition duration-300 px-2 py-1.5 h-8 border-2 rounded-xl focus:border-lime-400 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
 }
 
 .input-dark-mode {
-  @apply bg-dark-mode text-orange-400 border-gray-cod;
+  @apply bg-dark-mode text-lime-400 border-gray-cod;
 }
 
 .input-light-mode {

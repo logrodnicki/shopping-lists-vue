@@ -6,7 +6,7 @@
       {
         [$style['light-mode']]: !isDarkMode,
         [$style['dark-mode']]: isDarkMode,
-        [$style.outline]: outline,
+        [$style.outline]: !isDarkMode && outline,
         [$style['outline-dark-mode']]: isDarkMode && outline,
         [$style['click-animation']]: clickAnimation
       }
@@ -29,7 +29,7 @@
       </AnimatedText>
     </div>
     <Loader
-      v-else
+      v-if="showLoader"
       :color="LoaderColors.GRAY"
       :icon="LoaderIcon.DOTS"
       :is-loading="showLoader"
@@ -122,7 +122,7 @@ onUnmounted(() => {
 
 <style module>
 .wrapper {
-  @apply h-8 min-w-150 px-4 py-2 flex justify-center items-center border-2 rounded-xl transition duration-300 disabled:bg-gray-400 disabled:border-gray-600;
+  @apply h-8 min-w-150 px-4 py-2 flex justify-center items-center border-2 rounded-xl transition duration-300;
 }
 
 .click-animation {
@@ -130,11 +130,11 @@ onUnmounted(() => {
 }
 
 .light-mode {
-  @apply text-gray-900 bg-lime-300 border-lime-300 shadow-sm shadow-lime-300 disabled:shadow-gray-600;
+  @apply text-gray-900 bg-lime-300 border-lime-300 shadow-sm shadow-lime-300 disabled:bg-gray-300 disabled:border-gray-400;
 }
 
 .dark-mode {
-  @apply text-gray-900 bg-orange-400 border-orange-400 shadow-sm;
+  @apply text-gray-900 bg-lime-400 border-lime-400 shadow-sm disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-900;
 }
 
 .outline {
@@ -142,7 +142,7 @@ onUnmounted(() => {
 }
 
 .outline-dark-mode {
-  @apply text-gray-900 bg-dark-mode text-orange-400;
+  @apply text-gray-900 bg-dark-mode text-lime-400;
 }
 
 .content {
