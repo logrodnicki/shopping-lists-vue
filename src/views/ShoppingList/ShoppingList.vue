@@ -109,7 +109,7 @@ const fetchShoppingList = async (): Promise<void> => {
   isLoading.value = false;
 };
 
-const backHandler = () => router.push({ name: RoutesNames.MAIN });
+const backHandler = () => router.push({ name: RoutesNames.HOME });
 
 const navigateToUpdateHandler = (): void => {
   router.push({

@@ -103,7 +103,7 @@ const loginHandler = async () => {
 
     Cookies.set(JWT_TOKEN_KEY, response.data.jwt);
 
-    await router.push({ name: RoutesNames.MAIN });
+    await router.push({ name: RoutesNames.HOME });
   } catch (error) {
     if (error instanceof AxiosError) {
       errors.main = error?.response?.data?.error?.message;

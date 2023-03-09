@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import eslintPlugin from 'vite-plugin-eslint';
 import path from 'path';
+import viteCompression from 'vite-plugin-compression';
 
 const projectRootDir = path.resolve(__dirname);
 
@@ -15,12 +16,12 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "^/api": {
-        target: "http://localhost:3000",
+      '^/api': {
+        target: 'http://localhost:3000',
         changeOrigin: true,
-        secure: false,
-      },
-    },
+        secure: false
+      }
+    }
   },
-  plugins: [vue(), eslintPlugin()],
+  plugins: [vue(), eslintPlugin(), viteCompression()]
 });

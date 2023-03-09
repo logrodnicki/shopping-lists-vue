@@ -10,7 +10,7 @@
         isDarkMode ? $style['icon-dark-mode'] : $style['icon-light-mode']
       ]"
     >
-      <font-awesome-icon :icon="iconsMap[iconType]" class="h-4" size="6x" />
+      <font-awesome-icon :icon="iconsMap[iconType]" size="md" />
     </div>
     <div
       v-if="!!label"

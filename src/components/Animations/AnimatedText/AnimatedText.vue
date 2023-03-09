@@ -106,7 +106,7 @@ const splitedText = computed(() => {
 .icon {
   animation: showIcon 400ms linear forwards;
 
-  ~ {
+  + div {
     @apply ml-2;
   }
 }

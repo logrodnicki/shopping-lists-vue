@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from '../views/Login/Login.vue';
-import Main from '../views/Main/Main.vue';
-import ShoppingList from '../views/ShoppingList/ShoppingList.vue';
-import Create from '../views/Create/Create.vue';
-import Update from '../views/Update/Update.vue';
+
+const Login = () => import('@/views/Login/Login.vue');
+const Home = () => import('@/views/Home/Home.vue');
+const ShoppingList = () => import('@/views/ShoppingList/ShoppingList.vue');
+const Create = () => import('@/views/Create/Create.vue');
+const Update = () => import('@/views/Update/Update.vue');
 
 export enum RoutesNames {
-  MAIN = 'Main',
+  HOME = 'Home',
   LOGIN = 'Login',
   SHOPPING_LIST = 'ShoppingList',
   CREATE = 'Create',
@@ -16,8 +17,8 @@ export enum RoutesNames {
 const routes = [
   {
     path: '/',
-    name: RoutesNames.MAIN,
-    component: Main,
+    name: RoutesNames.HOME,
+    component: Home,
     meta: { transition: 'slide-left' }
   },
   {

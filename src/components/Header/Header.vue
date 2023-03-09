@@ -5,10 +5,10 @@
       <div>
         <ul :class="[$style.menu]">
           <li>
-            <Link :icon-type="LinkIcons.LIST" label="List" to="/" />
+            <Link :icon-type="LinkIcons.LIST" to="/" />
           </li>
           <li>
-            <Link :icon-type="LinkIcons.CREATE" label="New" to="/create" />
+            <Link :icon-type="LinkIcons.CREATE" to="/create" />
           </li>
           <li>
             <Link :icon-type="LinkIcons.LOGOUT" to="/login" />

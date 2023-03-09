@@ -4,6 +4,7 @@
       $style.button,
       isDarkMode ? $style['dark-mode'] : $style['light-mode']
     ]"
+    aria-label="Theme Switcher"
     @click="toggleDarkMode"
   >
     <span :class="[$style.icon, $style['left-icon']]">
