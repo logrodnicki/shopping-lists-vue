@@ -1,16 +1,6 @@
 <template>
   <div :class="[$style.wrapper]">
     <div :class="[$style['header-wrapper']]">
-      <button
-        :class="[
-          isDarkMode
-            ? $style['back-button-dark-mode']
-            : $style['back-button-light-mode']
-        ]"
-        @click="backHandler"
-      >
-        <font-awesome-icon icon="chevron-left" size="md" />
-      </button>
       <h1
         :class="[
           $style.header,
@@ -19,11 +9,18 @@
       >
         {{ shoppingList?.attributes?.name }}
       </h1>
-      <Button
-        :classes="$style['update-button']"
-        icon="pen"
-        @click="navigateToUpdateHandler"
-      />
+      <div :class="$style['buttons-wrapper']">
+        <Button
+          :classes="$style['back-button']"
+          icon="chevron-left"
+          @click="backHandler"
+        />
+        <Button
+          :classes="$style['update-button']"
+          icon="pen"
+          @click="navigateToUpdateHandler"
+        />
+      </div>
     </div>
     <Loader :is-loading="isLoading">
       <ul :class="[$style['products-list']]">
@@ -176,7 +173,7 @@ const toggleSelectProductHandler = async ({
 }
 
 .header-wrapper {
-  @apply flex items-center gap-6 mb-8 px-1 animate-show-item;
+  @apply flex items-center justify-between gap-6 mb-8 px-1 animate-show-item;
 }
 
 .header {
@@ -191,19 +188,16 @@ const toggleSelectProductHandler = async ({
   @apply text-lime-400;
 }
 
-.back-button-light-mode {
-  @apply text-gray-900;
-}
-
-.back-button-dark-mode {
-  @apply text-lime-400;
-}
-
 .products-list {
   @apply h-full flex flex-col gap-4 animate-fade-out pb-1 px-1;
 }
 
-.update-button {
-  @apply w-8 ml-auto min-w-0;
+.buttons-wrapper {
+  @apply flex gap-2;
+}
+
+.update-button,
+.back-button {
+  @apply w-8 min-w-0;
 }
 </style>

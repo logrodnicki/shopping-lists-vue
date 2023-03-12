@@ -2,6 +2,7 @@
   <div class="w-full max-w-2xl">
     <ShoppingListForm
       v-if="!isLoading"
+      :highlight-empty-fields="highlightEmptyFields"
       :is-disabled="isDisabled || isUpdating"
       :is-loading="isLoading || isUpdating"
       :name="name"
@@ -42,9 +43,9 @@ const props = defineProps<Props>();
 const shoppingList = ref<ShoppingList | null>(null);
 const isLoading = ref(false);
 const isUpdating = ref(false);
-
 const products = ref<ProductForm[]>([]);
 const name = ref('');
+const highlightEmptyFields = ref(false);
 
 onMounted(async () => {
   isLoading.value = true;
@@ -90,14 +91,18 @@ const updateHandler = ({
 }): void => {
   products.value = updatedProducts;
   name.value = updatedName;
+  highlightEmptyFields.value = false;
 };
 
-const cancelHandler = (): void => {
-  router.back();
-};
+const cancelHandler = (): void => router.back();
 
 const applyHandler = async (): Promise<void> => {
   if (!shoppingList?.value?.id || isUpdating.value || isLoading.value) {
+    return;
+  }
+
+  if (isDisabled.value) {
+    highlightEmptyFields.value = true;
     return;
   }
 

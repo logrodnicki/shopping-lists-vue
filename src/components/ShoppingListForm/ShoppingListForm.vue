@@ -4,6 +4,7 @@
       <TextInput
         id="name"
         v-model="name"
+        :highlight-if-empty="highlightEmptyFields"
         :type="TextInputTypes.TEXT"
         label="Name"
         placeholder="dinner"
@@ -13,6 +14,7 @@
       <ProductForm
         v-for="product in products"
         :key="product.id"
+        :highlight-empty-fields="highlightEmptyFields"
         :product="product"
         @delete="deleteProductHandler"
         @update="updateProductHandler"
@@ -43,7 +45,7 @@
       />
       <Button
         :classes="$style['apply-button']"
-        :disabled="props.isDisabled"
+        :disabled="isDisabled"
         :icon="'floppy-disk'"
         :label="applyButtonLabel"
         :show-loader="isLoading"
@@ -84,6 +86,8 @@ interface Props {
   addButtonLabel?: string;
   applyButtonLabel?: string;
   cancelButtonLabel?: string;
+  error?: string;
+  highlightEmptyFields?: boolean;
 }
 
 interface Emits {
@@ -98,7 +102,9 @@ const props = withDefaults(defineProps<Props>(), {
   isDisabled: false,
   addButtonLabel: 'Add product',
   applyButtonLabel: 'Save',
-  cancelButtonLabel: 'Back'
+  cancelButtonLabel: 'Back',
+  error: '',
+  highlightEmptyFields: false
 });
 
 const emit = defineEmits<Emits>();
@@ -108,7 +114,10 @@ const {
   products: initProducts,
   applyButtonLabel,
   addButtonLabel,
-  isLoading
+  isLoading,
+  error,
+  isDisabled,
+  highlightEmptyFields
 } = toRefs(props);
 
 const { isDarkMode } = useDarkMode();

@@ -2,13 +2,17 @@
   <div :class="[$style.wrapper]">
     <div :class="[$style.content]">
       <div
-        :class="[isDarkMode ? 'text-white' : 'text-gray-800']"
+        :class="[
+          isDarkMode ? $style['icon-dark-mode'] : $style['icon-light-mode']
+        ]"
         class="mb-2.5"
       >
         <font-awesome-icon icon="circle-user" size="6x" />
       </div>
       <h1
-        :class="[isDarkMode ? 'text-white' : 'text-gray-800']"
+        :class="[
+          isDarkMode ? $style['test-dark-mode'] : $style['text-light-mode']
+        ]"
         class="text-2xl font-bold"
       >
         Log in
@@ -17,7 +21,7 @@
         v-if="!!errors.main"
         :message="errors.main"
         :type="MessageTypes.ERROR"
-      ></Message>
+      />
       <Box :classes="$style['form-wrapper']">
         <TextInput
           id="email"
@@ -72,10 +76,6 @@ const errors = reactive({
   password: ''
 });
 
-// onMounted(() => {
-//   Cookies.remove(JWT_TOKEN_KEY);
-// });
-
 const loginHandler = async () => {
   errors.main = '';
   errors.email = '';
@@ -119,6 +119,16 @@ const { isDarkMode } = useDarkMode();
 <style module>
 .wrapper {
   @apply h-full flex items-center min-h-104 self-center;
+}
+
+.icon-light-mode,
+.text-light-mode {
+  @apply text-dark-mode;
+}
+
+.icon-dark-mode,
+.test-dark-mode {
+  @apply text-white;
 }
 
 .content {

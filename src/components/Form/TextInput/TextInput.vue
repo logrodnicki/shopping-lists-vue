@@ -10,9 +10,10 @@
       :id="id"
       :class="[
         $style.input,
-        isDarkMode ? $style['input-dark-mode'] : $style['input-light-mode']
+        isDarkMode ? $style['input-dark-mode'] : $style['input-light-mode'],
+        { [$style['empty-input']]: isEmpty }
       ]"
-      :disabled="props.disabled"
+      :disabled="disabled"
       :placeholder="placeholder"
       :type="type"
       :value="modelValue"
@@ -26,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, defineProps, withDefaults } from 'vue';
+import { computed, defineEmits, defineProps, toRefs, withDefaults } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 import { TextInputTypes } from '@/types';
 
@@ -38,17 +39,28 @@ interface Props {
   label?: string;
   error?: string;
   disabled?: boolean;
+  highlightIfEmpty?: boolean;
 }
 
 interface Emits {
   (e: 'update:modelValue', value: string): void;
 }
 
-const props = withDefaults(defineProps<Props>(), { label: '', error: '' });
+const props = withDefaults(defineProps<Props>(), {
+  label: '',
+  error: '',
+  highlightIfEmpty: false
+});
+
+const { highlightIfEmpty, disabled } = toRefs(props);
 
 const emit = defineEmits<Emits>();
 
 const { isDarkMode } = useDarkMode();
+
+const isEmpty = computed(() => {
+  return highlightIfEmpty.value && !props.modelValue;
+});
 
 const changeHandler = (event: Event) =>
   emit('update:modelValue', (event.target as HTMLInputElement).value);
@@ -77,5 +89,9 @@ const changeHandler = (event: Event) =>
 
 .error {
   @apply transition duration-300 text-red-500 text-xs h-4;
+}
+
+.empty-input {
+  @apply border-red-500;
 }
 </style>

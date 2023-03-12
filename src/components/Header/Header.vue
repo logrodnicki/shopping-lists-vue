@@ -2,7 +2,7 @@
   <header :class="[$style.wrapper]">
     <nav :class="[$style.nav]">
       <ThemeSwitcher />
-      <div>
+      <div v-if="!isLogin">
         <ul :class="[$style.menu]">
           <li>
             <Link :icon-type="LinkIcons.LIST" to="/" />
@@ -24,8 +24,16 @@ import useDarkMode from '@/hooks/useDarkMode';
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher.vue';
 import Link from '@/components/Link/Link.vue';
 import { LinkIcons } from '@/types/link';
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+import { RoutesNames } from '@/router';
 
 const { isDarkMode } = useDarkMode();
+const route = useRoute();
+
+const isLogin = computed(() => {
+  return route.name === RoutesNames.LOGIN;
+});
 </script>
 
 <style module>

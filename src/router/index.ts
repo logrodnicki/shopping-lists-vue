@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import Cookies from 'js-cookie';
+import { JWT_TOKEN_KEY } from '@/consts';
 
 const Login = () => import('@/views/Login/Login.vue');
 const Home = () => import('@/views/Home/Home.vue');
@@ -49,6 +51,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  const token = Cookies.get(JWT_TOKEN_KEY);
+
+  if (to.name !== RoutesNames.LOGIN && !token) {
+    next({ name: RoutesNames.LOGIN });
+    return;
+  } else next();
 });
 
 export default router;

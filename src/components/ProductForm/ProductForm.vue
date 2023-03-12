@@ -11,6 +11,7 @@
         id="name"
         v-model="name"
         :disabled="props.disabled"
+        :highlight-if-empty="highlightEmptyFields"
         :type="TextInputTypes.TEXT"
         placeholder="carrot"
       />
@@ -20,6 +21,7 @@
         id="amount"
         v-model="amount"
         :disabled="props.disabled"
+        :highlight-if-empty="highlightEmptyFields"
         :type="TextInputTypes.NUMBER"
         placeholder=""
       />
@@ -51,6 +53,7 @@ import { SelectItem } from '@/types/select';
 interface Props {
   product: ProductForm;
   disabled?: boolean;
+  highlightEmptyFields?: boolean;
 }
 
 interface Emits {

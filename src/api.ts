@@ -20,13 +20,13 @@ export const LOGIN_URL = `${API_URL}/auth/local`;
 export const SHOPPING_LISTS_URL = `${API_URL}/shopping-lists`;
 export const PRODUCTS_URL = `${API_URL}/products`;
 
-const token = Cookies.get(JWT_TOKEN_KEY);
-
 const makeRequest = async <T, G>(
   url: string,
   method: Method,
   data?: { data: G }
 ) => {
+  const token = Cookies.get(JWT_TOKEN_KEY);
+
   try {
     return await axios({
       url,
@@ -36,6 +36,7 @@ const makeRequest = async <T, G>(
     });
   } catch (error) {
     if (error.response.status === 401) {
+      Cookies.remove(JWT_TOKEN_KEY);
       await router.push({ name: RoutesNames.LOGIN });
     }
 

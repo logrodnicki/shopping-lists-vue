@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { defineProps } from 'vue';
 import { MessageTypes } from '@/types';
 
@@ -26,14 +26,14 @@ const props = defineProps<Props>();
 
 <style module>
 .wrapper {
-  @apply p-1 rounded w-full animate-fade-out text-xs;
+  @apply p-1 rounded-xl w-full animate-fade-out text-xs border-2 transition duration-300;
 }
 
 .error {
-  @apply bg-red-200 border-2 border-red-400;
+  @apply bg-red-200 border-red-500 text-red-500;
 }
 
 .info {
-  @apply bg-periwinkle-blue border-2 border-cornflower-blue;
+  @apply bg-periwinkle-blue border-cornflower-blue;
 }
 </style>

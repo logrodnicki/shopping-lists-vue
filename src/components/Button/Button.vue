@@ -8,10 +8,11 @@
         [$style['dark-mode']]: isDarkMode,
         [$style.outline]: !isDarkMode && outline,
         [$style['outline-dark-mode']]: isDarkMode && outline,
-        [$style['click-animation']]: clickAnimation
+        [$style['click-animation']]: clickAnimation,
+        [$style['disabled-light-mode']]: !isDarkMode && disabled,
+        [$style['disabled-dark-mode']]: isDarkMode && disabled
       }
     ]"
-    :disabled="disabled"
     @click="clickHandler"
   >
     <div v-if="!showLoader && !isPending" :class="[$style.content]">
@@ -80,7 +81,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<Emits>();
 
-const { showLoader, usePendingAnimation } = toRefs(props);
+const { showLoader, usePendingAnimation, disabled } = toRefs(props);
 
 const isPending = ref(false);
 const disabledPendingAnimation = ref(true);
@@ -130,11 +131,11 @@ onUnmounted(() => {
 }
 
 .light-mode {
-  @apply text-gray-900 bg-lime-300 border-lime-300 shadow-sm shadow-lime-300 disabled:bg-gray-300 disabled:border-gray-400;
+  @apply text-gray-900 bg-lime-300 border-lime-300 shadow-sm shadow-lime-300;
 }
 
 .dark-mode {
-  @apply text-gray-900 bg-lime-400 border-lime-400 shadow-sm disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-900;
+  @apply text-gray-900 bg-lime-400 border-lime-400 shadow-sm;
 }
 
 .outline {
@@ -147,5 +148,13 @@ onUnmounted(() => {
 
 .content {
   @apply flex items-center justify-center gap-2;
+}
+
+.disabled-light-mode {
+  @apply bg-gray-300 border-gray-400;
+}
+
+.disabled-dark-mode {
+  @apply bg-gray-300 border-gray-400 text-gray-900;
 }
 </style>
