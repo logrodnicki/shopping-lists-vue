@@ -34,6 +34,7 @@
       :color="LoaderColors.GRAY"
       :icon="LoaderIcon.DOTS"
       :is-loading="showLoader"
+      :disabled="disabled"
     />
   </button>
 </template>
@@ -65,6 +66,7 @@ interface Props {
 
 interface Emits {
   (e: 'click'): void;
+  (e: 'afterPending'): void;
 }
 
 const clickAnimation = ref(false);
@@ -97,6 +99,7 @@ watch(showLoader, value => {
 
   setTimeout(() => {
     isPending.value = false;
+    emit('afterPending');
   }, 2000);
 });
 
@@ -131,7 +134,7 @@ onUnmounted(() => {
 }
 
 .light-mode {
-  @apply text-gray-900 bg-lime-300 border-lime-300 shadow-sm shadow-lime-300;
+  @apply text-gray-900 bg-lime-400 border-lime-400 shadow-sm shadow-lime-300;
 }
 
 .dark-mode {
@@ -143,7 +146,7 @@ onUnmounted(() => {
 }
 
 .outline-dark-mode {
-  @apply text-gray-900 bg-dark-mode text-lime-400;
+  @apply text-gray-900 bg-dark-mode text-lime-400 border-white;
 }
 
 .content {

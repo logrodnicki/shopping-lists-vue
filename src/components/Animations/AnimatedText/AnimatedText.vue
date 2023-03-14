@@ -11,8 +11,7 @@
             ]
       "
       name="icon"
-    >
-    </slot>
+    />
     <div v-if="text" :class="$style['text-wrapper']">
       <span
         v-for="(char, index) in splitedText"

@@ -8,8 +8,8 @@
     "dev": "vite --host",
     "lint:fix": "eslint --ext .js,.vue --fix src",
     "prepare:husky": "husky install",
-    "pretty": "prettier --check ./src",
-    "pretty:fix": "prettier --write ./src",
+    "pretty": "prettier --config ./.prettierrc.js --check ./src",
+    "pretty:fix": "prettier --config ./.prettierrc.js --write ./src",
     "preview": "vite preview",
     "test": "npm run lint && npm run pretty"
   },

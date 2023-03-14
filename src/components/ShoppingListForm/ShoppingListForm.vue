@@ -1,5 +1,13 @@
 <template>
   <div :class="[$style.wrapper]">
+    <h1
+      :class="[
+        $style.title,
+        isDarkMode ? $style['title-dark-mode'] : $style['title-light-mode']
+      ]"
+    >
+      {{ title }}
+    </h1>
     <Box :classes="$style['name-box']">
       <TextInput
         id="name"
@@ -50,6 +58,7 @@
         :label="applyButtonLabel"
         :show-loader="isLoading"
         outline
+        @after-pending="afterApplyHandler"
         @click="applyHandler"
       />
     </div>
@@ -88,6 +97,7 @@ interface Props {
   cancelButtonLabel?: string;
   error?: string;
   highlightEmptyFields?: boolean;
+  title?: string;
 }
 
 interface Emits {
@@ -96,6 +106,7 @@ interface Emits {
   (e: 'apply'): void;
 
   (e: 'cancel'): void;
+  (e: 'afterApply'): void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -104,7 +115,8 @@ const props = withDefaults(defineProps<Props>(), {
   applyButtonLabel: 'Save',
   cancelButtonLabel: 'Back',
   error: '',
-  highlightEmptyFields: false
+  highlightEmptyFields: false,
+  title: 'Create'
 });
 
 const emit = defineEmits<Emits>();
@@ -115,9 +127,9 @@ const {
   applyButtonLabel,
   addButtonLabel,
   isLoading,
-  error,
   isDisabled,
-  highlightEmptyFields
+  highlightEmptyFields,
+  title
 } = toRefs(props);
 
 const { isDarkMode } = useDarkMode();
@@ -162,9 +174,9 @@ const addProductHandler = (): void => {
   products.value = updatedProducts;
 };
 
-const cancelHandler = (): void => {
-  emit('cancel');
-};
+const cancelHandler = (): void => emit('cancel');
+
+const afterApplyHandler = (): void => emit('afterApply');
 </script>
 
 <style module>
@@ -202,5 +214,17 @@ const cancelHandler = (): void => {
 
 .name-box {
   @apply animate-show-item;
+}
+
+.title {
+  @apply text-xl;
+}
+
+.title-light-mode {
+  @apply text-dark-mode;
+}
+
+.title-dark-mode {
+  @apply text-white;
 }
 </style>

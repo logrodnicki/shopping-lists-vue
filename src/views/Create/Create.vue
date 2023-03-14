@@ -1,7 +1,6 @@
 <template>
   <div :class="[$style.wrapper]">
     <ShoppingListForm
-      :error="error"
       :highlight-empty-fields="highlightEmptyFields"
       :is-disabled="isDisabled"
       :is-loading="isSaving"
@@ -11,6 +10,7 @@
       @apply="saveShoppingListHandler"
       @cancel="cancelHandler"
       @update="updateHandler"
+      @after-apply="afterSavingHandler"
     />
   </div>
 </template>
@@ -19,7 +19,7 @@
 import { computed, ref } from 'vue';
 import { ProductForm as ProductFormModel } from '@/types';
 import useDarkMode from '@/hooks/useDarkMode';
-import router from '@/router';
+import router, { RoutesNames } from '@/router';
 import ShoppingListForm from '@/components/ShoppingListForm/ShoppingListForm.vue';
 import { saveProduct, saveShoppingList } from '@/api';
 
@@ -101,10 +101,16 @@ const saveShoppingListHandler = async (): Promise<void> => {
     isSaving.value = false;
   }
 };
+
+const afterSavingHandler = (): void => {
+  setTimeout(() => {
+    router.push({ name: RoutesNames.HOME });
+  }, 1500);
+};
 </script>
 
 <style module>
 .wrapper {
-  @apply w-full max-w-2xl;
+  @apply w-full max-w-screen-md p-6;
 }
 </style>

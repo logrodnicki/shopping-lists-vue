@@ -85,7 +85,8 @@ const pageButtons = computed<PageButton[]>(() => {
   //last button
   buttons.push({
     label: chunksCount,
-    value: chunksCount
+    value: chunksCount,
+    isSelected: Number(page.value) === chunksCount
   });
 
   return buttons;
@@ -126,14 +127,14 @@ const buttonClickHandler = (value: number): void => {
 }
 
 .element {
-  @apply rounded-md h-8 w-8 text-orange-400 transition duration-300 flex items-center justify-center;
+  @apply rounded-md h-8 w-8 text-lime-400 transition duration-300 flex items-center justify-center;
 }
 
 .page-button {
-  @apply border-2 border-orange-400 rounded-md h-8 w-8 text-orange-400 transition duration-300;
+  @apply border-2 border-lime-400 rounded-md h-8 w-8 text-lime-400 transition duration-300;
 
   &.page-button-selected {
-    @apply bg-orange-400 text-black;
+    @apply bg-lime-400 text-black;
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <Teleport v-if="visible" to="#modals">
     <div :class="$style['modal-overlay']">
       <div :class="$style['modal-overlay-background']" />
-      <slot name="content"></slot>
+      <slot name="content" />
     </div>
   </Teleport>
 </template>

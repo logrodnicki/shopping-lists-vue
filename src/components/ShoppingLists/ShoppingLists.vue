@@ -24,7 +24,7 @@
           :visible="index <= counter"
         />
       </ul>
-      <div v-if="shoppingLists.length > total" :class="[$style.pagination]">
+      <div v-if="total > pageSize" :class="[$style.pagination]">
         <Pagination
           :page="page"
           :page-size="pageSize"
@@ -55,7 +55,7 @@ import { chunk as _chunk } from 'lodash';
 import Pagination from '@/components/Pagination/Pagination.vue';
 import MobileFilters from '@/components/MobileFilters/MobileFilters.vue';
 
-const SHOW_ITEM_DELAY = 100;
+const SHOW_ITEM_DELAY = 110;
 
 interface Props {
   shoppingLists: ShoppingList[];
@@ -90,7 +90,6 @@ const type = ref(FiltersType.UNCOMPLETED);
 const counter = ref(0);
 const page = ref(initPage.value);
 const pageSize = ref(initPageSize.value);
-const searchText = ref(selectedFilters.value.searchText);
 
 onMounted(() => {
   const interval = setInterval(() => {
@@ -146,7 +145,7 @@ const updateFiltersHandler = (updatedFilters: SelectedFilters): void => {
 }
 
 .pagination {
-  @apply mt-4 animate-show-item;
+  @apply mt-auto pt-4 flex justify-center;
 }
 
 .filters-wrapper {

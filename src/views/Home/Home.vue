@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div :class="$style.wrapper">
     <ShoppingLists
       :is-loading="isLoading"
       :page="page"
@@ -26,7 +26,7 @@ import {
   SortingOrder
 } from '@/types';
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 8;
 
 const shoppingLists = ref<ShoppingList[]>([]);
 const isLoading = ref<boolean>(false);
@@ -87,3 +87,9 @@ const updatePageSizeHandler = (value: number): void => {
   pageSize.value = value;
 };
 </script>
+
+<style module>
+.wrapper {
+  @apply w-full h-full max-w-screen-md p-6 absolute top-0 left-0;
+}
+</style>

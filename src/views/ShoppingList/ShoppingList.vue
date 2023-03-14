@@ -1,40 +1,44 @@
 <template>
   <div :class="[$style.wrapper]">
-    <div :class="[$style['header-wrapper']]">
-      <h1
-        :class="[
-          $style.header,
-          isDarkMode ? $style['header-dark-mode'] : $style['header-light-mode']
-        ]"
-      >
-        {{ shoppingList?.attributes?.name }}
-      </h1>
-      <div :class="$style['buttons-wrapper']">
-        <Button
-          :classes="$style['back-button']"
-          icon="chevron-left"
-          @click="backHandler"
-        />
-        <Button
-          :classes="$style['update-button']"
-          icon="pen"
-          @click="navigateToUpdateHandler"
-        />
+    <div :class="$style.content">
+      <div :class="[$style['header-wrapper']]">
+        <h1
+          :class="[
+            $style.header,
+            isDarkMode
+              ? $style['header-dark-mode']
+              : $style['header-light-mode']
+          ]"
+        >
+          {{ shoppingList?.attributes?.name }}
+        </h1>
+        <div :class="$style['buttons-wrapper']">
+          <Button
+            :classes="$style['back-button']"
+            icon="chevron-left"
+            @click="backHandler"
+          />
+          <Button
+            :classes="$style['update-button']"
+            icon="pen"
+            @click="navigateToUpdateHandler"
+          />
+        </div>
       </div>
+      <Loader :is-loading="isLoading">
+        <ul :class="[$style['products-list']]">
+          <Product
+            v-for="(product, index) in shoppingList?.attributes?.products
+              ?.data || []"
+            :key="product.id"
+            :is-loading="loadingMap[product.id]"
+            :product="product"
+            :visible="index <= counter"
+            @toggle-select="toggleSelectProductHandler"
+          />
+        </ul>
+      </Loader>
     </div>
-    <Loader :is-loading="isLoading">
-      <ul :class="[$style['products-list']]">
-        <Product
-          v-for="(product, index) in shoppingList?.attributes?.products?.data ||
-          []"
-          :key="product.id"
-          :is-loading="loadingMap[product.id]"
-          :product="product"
-          :visible="index <= counter"
-          @toggle-select="toggleSelectProductHandler"
-        />
-      </ul>
-    </Loader>
   </div>
 </template>
 
@@ -169,7 +173,11 @@ const toggleSelectProductHandler = async ({
 
 <style module>
 .wrapper {
-  @apply w-full h-full flex flex-col;
+  @apply w-full max-w-screen-md h-full p-6;
+}
+
+.content {
+  @apply flex flex-col;
 }
 
 .header-wrapper {

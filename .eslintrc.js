@@ -1,11 +1,10 @@
-// eslint-disable-next-line no-undef
 module.exports = {
   extends: [
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended'
     // 'plugin:vue/vue3-essential',
     // 'plugin:vue/vue3-strongly-recommended',
-    'eslint:recommended',
-    'plugin:vue/vue3-recommended',
-    'prettier'
+    // 'prettier'
     // 'eslint-config-prettier'
   ],
   rules: {

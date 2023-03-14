@@ -7,7 +7,7 @@
       isDarkMode ? $style['dark-mode'] : $style['light-mode']
     ]"
   >
-    <slot></slot>
+    <slot />
   </div>
   <li
     v-else
@@ -18,7 +18,7 @@
     ]"
     class="list-none"
   >
-    <slot></slot>
+    <slot />
   </li>
 </template>
 

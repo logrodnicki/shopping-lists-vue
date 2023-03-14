@@ -242,7 +242,7 @@ onClickOutside(wrapperRef, () => closeHandler());
 }
 
 .displayed-value {
-  @apply animate-fade-out text-center w-full h-full flex-grow flex items-center justify-center absolute left-0 capitalize rounded-xl h-8 border-2 truncate;
+  @apply animate-fade-out transition duration-300 text-center w-full h-full flex-grow flex items-center justify-center absolute left-0 capitalize rounded-xl h-8 border-2 truncate;
 }
 
 .displayed-value-light-mode {
@@ -258,7 +258,7 @@ onClickOutside(wrapperRef, () => closeHandler());
 }
 
 .label {
-  @apply text-sm font-bold;
+  @apply text-sm font-bold transition duration-300;
 }
 
 .label-light-mode {

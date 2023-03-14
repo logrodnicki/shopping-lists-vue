@@ -2,7 +2,7 @@
   <div :class="[$style.wrapper, isDarkMode ? 'bg-dark-mode' : 'bg-gray-50']">
     <Header />
     <main :class="[$style.main]">
-      <slot></slot>
+      <slot />
     </main>
   </div>
 </template>
@@ -16,10 +16,10 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
-  @apply w-screen h-full min-h-screen flex justify-start items-center flex-col;
+  @apply h-full min-h-screen flex justify-start items-center flex-col;
 }
 
 .main {
-  @apply w-full max-w-screen-md h-main p-6 flex justify-center flex-grow;
+  @apply w-full max-w-screen-md h-main flex justify-center flex-grow relative overflow-x-hidden;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div v-if="isLoading" :class="[$style.wrapper, colors[color]]">
     <AnimatedArrows v-if="icon === LoaderIcon.ARROWS" />
-    <AnimatedDots v-if="icon === LoaderIcon.DOTS" />
+    <AnimatedDots v-if="icon === LoaderIcon.DOTS" :disabled="disabled" />
   </div>
   <template v-else>
-    <slot></slot>
+    <slot />
   </template>
 </template>
 
@@ -23,11 +23,13 @@ interface Props {
   isLoading: boolean;
   color?: LoaderColors;
   icon?: LoaderIcon;
+  disabled?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
   color: LoaderColors.ORANGE,
-  icon: LoaderIcon.ARROWS
+  icon: LoaderIcon.ARROWS,
+  disabled: false
 });
 </script>
 

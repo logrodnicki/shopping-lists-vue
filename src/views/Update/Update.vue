@@ -9,6 +9,7 @@
       :products="products"
       apply-button-label="Update"
       cancel-button-label="Back"
+      title="Update"
       @apply="applyHandler"
       @cancel="cancelHandler"
       @update="updateHandler"

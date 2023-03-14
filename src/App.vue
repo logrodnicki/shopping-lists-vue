@@ -13,55 +13,32 @@ import Layout from '@/components/Layout/Layout.vue';
 </script>
 
 <style>
-.fade-enter-from {
-  opacity: 0;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
 }
-
-.fade-enter-active {
-  transition: opacity 300ms ease-out;
-}
-
+.fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
 
-.fade-leave-active {
-  transition: opacity 300ms ease-out;
+.slide-right-leave-active,
+.slide-right-enter-active,
+.slide-left-leave-active,
+.slide-left-enter-active {
+  position: absolute;
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
 }
 
-.slide-right-enter-from {
-  opacity: 0;
-  transform: translateX(100%);
-}
-
-.slide-right-enter-active {
-  transition: opacity 300ms ease-out, transform 300ms ease-out;
-}
-
+.slide-left-enter-from,
 .slide-right-leave-to {
   opacity: 0;
   transform: translateX(-100%);
 }
 
-.slide-right-leave-active {
-  transition: opacity 300ms ease-out, transform 300ms ease-out;
-}
-
-.slide-left-enter-from {
-  opacity: 0;
-  transform: translateX(-100%);
-}
-
-.slide-left-enter-active {
-  transition: opacity 300ms ease-out, transform 300ms ease-out;
-}
-
-.slide-left-leave-to {
+.slide-left-leave-to,
+.slide-right-enter-from {
   opacity: 0;
   transform: translateX(100%);
-}
-
-.slide-left-leave-active {
-  transition: opacity 300ms ease-out, transform 300ms ease-out;
 }
 </style>
