@@ -1,11 +1,6 @@
 <template>
   <div :class="[$style.wrapper]">
-    <h1
-      :class="[
-        $style.title,
-        isDarkMode ? $style['title-dark-mode'] : $style['title-light-mode']
-      ]"
-    >
+    <h1 :class="[$style.title]">
       {{ title }}
     </h1>
     <Box :classes="$style['name-box']">
@@ -217,14 +212,6 @@ const afterApplyHandler = (): void => emit('afterApply');
 }
 
 .title {
-  @apply text-xl;
-}
-
-.title-light-mode {
-  @apply text-dark-mode;
-}
-
-.title-dark-mode {
-  @apply text-white;
+  @apply text-xl text-dark-mode dark:text-white;
 }
 </style>

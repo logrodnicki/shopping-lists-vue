@@ -1,40 +1,18 @@
 <template>
   <div ref="wrapperRef" :class="[$style.wrapper, wrapperClasses]">
-    <label
-      v-if="label"
-      :class="[
-        $style.label,
-        isDarkMode ? $style['label-dark-mode'] : $style['label-light-mode']
-      ]"
-    >
+    <label v-if="label" :class="[$style.label]">
       {{ label }}
     </label>
-    <div
-      ref="inputWrapperRef"
-      :class="[
-        $style['value-wrapper'],
-        isDarkMode
-          ? $style['value-wrapper-dark-mode']
-          : $style['value-wrapper-light-mode']
-      ]"
-    >
+    <div ref="inputWrapperRef" :class="[$style['value-wrapper']]">
       <span
         v-if="!isMenuDisplayed"
-        :class="[
-          $style['displayed-value'],
-          isDarkMode
-            ? $style['displayed-value-dark-mode']
-            : $style['displayed-value-light-mode']
-        ]"
+        :class="[$style['displayed-value']]"
         @click="toggleMenuHandler"
         >{{ modelValue }}</span
       >
       <input
         ref="inputRef"
-        :class="[
-          $style.input,
-          isDarkMode ? $style['input-dark-mode'] : $style['input-light-mode']
-        ]"
+        :class="[$style.input]"
         :disabled="props.disabled"
         :value="searchValue"
         type="text"
@@ -45,10 +23,7 @@
       <ul
         v-if="isMenuDisplayed"
         ref="menuRef"
-        :class="[
-          $style.menu,
-          isDarkMode ? $style['menu-dark-mode'] : $style['menu-light-mode']
-        ]"
+        :class="[$style.menu]"
         :style="menuStyles"
       >
         <li
@@ -202,55 +177,23 @@ onClickOutside(wrapperRef, () => closeHandler());
 }
 
 .value-wrapper {
-  @apply w-full flex items-center gap-2 text-sm rounded-xl transition duration-300;
-}
-
-.value-wrapper-light-mode {
-  @apply bg-white text-gray-800;
-}
-
-.value-wrapper-dark-mode {
-  @apply bg-dark-mode text-white;
+  @apply w-full flex items-center gap-2 text-sm rounded-xl transition duration-300 bg-white text-gray-800 dark:bg-dark-mode dark:text-white;
 }
 
 .input {
-  @apply outline-none text-gray-500 max-w-full w-0 flex-grow transition duration-300 px-2 py-1.5 h-8 border-2 rounded-xl focus:border-lime-400 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
-}
-
-.input-dark-mode {
-  @apply bg-dark-mode text-lime-400 border-gray-cod;
-}
-
-.input-light-mode {
-  @apply bg-white text-gray-800;
+  @apply outline-none text-gray-500 max-w-full w-0 flex-grow transition duration-300 px-2 py-1.5 h-8 border-2 rounded-xl focus:border-lime-400 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700 bg-white text-gray-800  dark:bg-dark-mode dark:text-lime-400 dark:border-gray-cod;
 }
 
 .menu {
-  @apply fixed z-10 top-0 w-full mt-1 rounded-xl border-2 border-gray-500 animate-fade-out shadow-md;
-}
-
-.menu-dark-mode {
-  @apply bg-mine-shaft text-white border-gray-cod;
-}
-
-.menu-light-mode {
-  @apply bg-white text-gray-800 border-gray-200;
+  @apply p-1 fixed z-10 top-0 w-full mt-1 rounded-xl border-2 border-lime-400 animate-fade-out shadow-md bg-white text-gray-800 dark:bg-mine-shaft dark:text-white dark:border-gray-cod;
 }
 
 .menu-item {
-  @apply text-sm cursor-pointer p-1.5 hover:bg-gray-cod;
+  @apply text-sm cursor-pointer rounded-xl p-1.5 hover:bg-lime-400;
 }
 
 .displayed-value {
-  @apply animate-fade-out transition duration-300 text-center w-full h-full flex-grow flex items-center justify-center absolute left-0 capitalize rounded-xl h-8 border-2 truncate;
-}
-
-.displayed-value-light-mode {
-  @apply bg-white text-gray-900 border-gray-300;
-}
-
-.displayed-value-dark-mode {
-  @apply bg-dark-mode text-white border-gray-cod;
+  @apply animate-fade-out transition duration-300 text-center w-full h-full flex-grow flex items-center justify-center absolute left-0 capitalize rounded-xl h-8 border-2 truncate bg-white text-gray-900 border-gray-300 dark:bg-dark-mode dark:text-white dark:border-gray-cod;
 }
 
 .empty-list {
@@ -258,14 +201,6 @@ onClickOutside(wrapperRef, () => closeHandler());
 }
 
 .label {
-  @apply text-sm font-bold transition duration-300;
-}
-
-.label-light-mode {
-  @apply text-gray-900;
-}
-
-.label-dark-mode {
-  @apply text-white;
+  @apply text-sm font-bold transition duration-300 text-gray-900 dark:text-white;
 }
 </style>

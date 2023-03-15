@@ -1,22 +1,10 @@
 <template>
   <div :class="[$style.wrapper]">
     <div :class="[$style.content]">
-      <div
-        :class="[
-          isDarkMode ? $style['icon-dark-mode'] : $style['icon-light-mode']
-        ]"
-        class="mb-2.5"
-      >
+      <div :class="[$style.icon]">
         <font-awesome-icon icon="circle-user" size="6x" />
       </div>
-      <h1
-        :class="[
-          isDarkMode ? $style['test-dark-mode'] : $style['text-light-mode']
-        ]"
-        class="text-2xl font-bold"
-      >
-        Log in
-      </h1>
+      <h1 :class="[$style.text]">Log in</h1>
       <Message
         v-if="!!errors.main"
         :message="errors.main"
@@ -121,14 +109,17 @@ const { isDarkMode } = useDarkMode();
   @apply h-full flex items-center min-h-104 self-center;
 }
 
-.icon-light-mode,
-.text-light-mode {
-  @apply text-dark-mode;
+.text {
+  @apply text-2xl font-bold;
 }
 
-.icon-dark-mode,
-.test-dark-mode {
-  @apply text-white;
+.icon {
+  @apply mb-2.5;
+}
+
+.icon,
+.text {
+  @apply text-dark-mode dark:text-white;
 }
 
 .content {

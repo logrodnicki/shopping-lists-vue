@@ -1,5 +1,5 @@
 <template>
-  <div :class="[$style.wrapper, isDarkMode ? 'bg-dark-mode' : 'bg-gray-50']">
+  <div :class="[$style.wrapper]">
     <Header />
     <main :class="[$style.main]">
       <slot />
@@ -16,7 +16,7 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
-  @apply h-full min-h-screen flex justify-start items-center flex-col;
+  @apply h-full min-h-screen flex justify-start items-center flex-col bg-gray-50 dark:bg-dark-mode;
 }
 
 .main {

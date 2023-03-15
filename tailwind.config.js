@@ -1,7 +1,10 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-  darkMode: 'class',
+  darkMode: ['class', '[data-mode="dark"]'],
+  experimental: {
+    darkModeVariant: true
+  },
   content: ['./index.html', './src/**/*.{vue,js}'],
   theme: {
     colors: {

@@ -2,14 +2,7 @@
   <div :class="[$style.wrapper]">
     <div :class="$style.content">
       <div :class="[$style['header-wrapper']]">
-        <h1
-          :class="[
-            $style.header,
-            isDarkMode
-              ? $style['header-dark-mode']
-              : $style['header-light-mode']
-          ]"
-        >
+        <h1 :class="[$style.header]">
           {{ shoppingList?.attributes?.name }}
         </h1>
         <div :class="$style['buttons-wrapper']">
@@ -185,15 +178,7 @@ const toggleSelectProductHandler = async ({
 }
 
 .header {
-  @apply text-xl;
-}
-
-.header-light-mode {
-  @apply text-gray-800;
-}
-
-.header-dark-mode {
-  @apply text-lime-400;
+  @apply text-xl text-gray-800 dark:text-lime-400;
 }
 
 .products-list {

@@ -29,14 +29,7 @@
     <div class="w-20">
       <Select v-model="unit" :items="units" />
     </div>
-    <button
-      :class="[
-        isDarkMode
-          ? $style['delete-button-dark-mode']
-          : $style['delete-button-light-mode']
-      ]"
-      @click="deleteHandler"
-    >
+    <button :class="[$style['delete-button']]" @click="deleteHandler">
       <font-awesome-icon icon="circle-minus" size="lg" />
     </button>
   </Box>
@@ -138,11 +131,7 @@ const changeHandler = (): void => {
   animation: remove 300ms linear forwards !important;
 }
 
-.delete-button-light-mode {
-  @apply text-lime-400;
-}
-
-.delete-button-dark-mode {
+.delete-button {
   @apply text-lime-400;
 }
 </style>

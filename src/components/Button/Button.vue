@@ -4,13 +4,9 @@
       $style.wrapper,
       classes,
       {
-        [$style['light-mode']]: !isDarkMode,
-        [$style['dark-mode']]: isDarkMode,
-        [$style.outline]: !isDarkMode && outline,
-        [$style['outline-dark-mode']]: isDarkMode && outline,
+        [$style.outline]: outline,
         [$style['click-animation']]: clickAnimation,
-        [$style['disabled-light-mode']]: !isDarkMode && disabled,
-        [$style['disabled-dark-mode']]: isDarkMode && disabled
+        [$style.disabled]: disabled
       }
     ]"
     @click="clickHandler"
@@ -126,38 +122,22 @@ onUnmounted(() => {
 
 <style module>
 .wrapper {
-  @apply h-8 min-w-150 px-4 py-2 flex justify-center items-center border-2 rounded-xl transition duration-300;
+  @apply h-8 min-w-150 px-4 py-2 flex justify-center items-center border-2 rounded-xl transition duration-300 text-gray-900 bg-lime-400 border-lime-400 shadow-sm shadow-lime-300 dark:text-gray-900 dark:bg-lime-400 dark:border-lime-400 dark:shadow-none;
 }
 
 .click-animation {
   @apply animate-click;
 }
 
-.light-mode {
-  @apply text-gray-900 bg-lime-400 border-lime-400 shadow-sm shadow-lime-300;
-}
-
-.dark-mode {
-  @apply text-gray-900 bg-lime-400 border-lime-400 shadow-sm;
-}
-
 .outline {
-  @apply text-gray-900 border-gray-300 shadow-gray-200 bg-white;
-}
-
-.outline-dark-mode {
-  @apply text-gray-900 bg-dark-mode text-lime-400 border-white;
+  @apply text-gray-900 border-gray-300 shadow-gray-200 bg-white dark:text-gray-900 dark:bg-dark-mode dark:text-lime-400 dark:border-white;
 }
 
 .content {
   @apply flex items-center justify-center gap-2;
 }
 
-.disabled-light-mode {
-  @apply bg-gray-300 border-gray-400;
-}
-
-.disabled-dark-mode {
-  @apply bg-gray-300 border-gray-400 text-gray-900;
+.disabled {
+  @apply bg-gray-300 border-gray-400 dark:text-gray-900 dark:bg-gray-300 dark:border-gray-400;
 }
 </style>

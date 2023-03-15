@@ -1,20 +1,12 @@
 <template>
-  <li
-    v-if="visible"
-    :class="[
-      $style.wrapper,
-      isDarkMode ? 'bg-neutral-800' : 'bg-white shadow-md'
-    ]"
-    @click="toggleSelectHandler"
-  >
+  <li v-if="visible" :class="[$style.wrapper]" @click="toggleSelectHandler">
     <Checkbox :checked="completed" />
     <div
       :class="[
         $style.name,
         {
           [$style['name-completed']]: completed,
-          [$style['name-dark-mode']]: !completed && isDarkMode,
-          [$style['name-light-mode']]: !completed && !isDarkMode
+          [$style['name']]: !completed
         }
       ]"
     >
@@ -74,7 +66,7 @@ const toggleSelectHandler = () => {
 
 <style module>
 .wrapper {
-  @apply flex items-center gap-4 rounded-md py-2 px-4 cursor-pointer animate-show-item;
+  @apply flex items-center gap-4 rounded-md py-2 px-4 cursor-pointer animate-show-item bg-white shadow-md dark:bg-neutral-800 dark:shadow-none;
 }
 
 .name {
@@ -85,12 +77,8 @@ const toggleSelectHandler = () => {
   @apply text-gray-500 line-through;
 }
 
-.name-dark-mode {
-  @apply text-white;
-}
-
-.name-light-mode {
-  @apply text-gray-800;
+.name {
+  @apply text-gray-800 dark:text-white;
 }
 
 .amount {

@@ -1,18 +1,9 @@
 <template>
   <div :class="[$style.wrapper]">
-    <label
-      v-if="label"
-      :class="[$style.label, isDarkMode ? 'text-white' : 'text-gray-900']"
-      :for="id"
-      >{{ label }}</label
-    >
+    <label v-if="label" :class="[$style.label]" :for="id">{{ label }}</label>
     <input
       :id="id"
-      :class="[
-        $style.input,
-        isDarkMode ? $style['input-dark-mode'] : $style['input-light-mode'],
-        { [$style['empty-input']]: isEmpty }
-      ]"
+      :class="[$style.input, { [$style['empty-input']]: isEmpty }]"
       :disabled="disabled"
       :placeholder="placeholder"
       :type="type"
@@ -72,19 +63,11 @@ const changeHandler = (event: Event) =>
 }
 
 .label {
-  @apply text-sm font-bold;
+  @apply text-sm font-bold text-gray-900 dark:text-white;
 }
 
 .input {
-  @apply border-2 w-full rounded-xl focus:border-lime-400 text-sm py-1 px-2 placeholder-gray-500 outline-none transition duration-300 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700;
-}
-
-.input-dark-mode {
-  @apply bg-dark-mode text-white border-gray-cod;
-}
-
-.input-light-mode {
-  @apply bg-white text-gray-900 border-gray-300;
+  @apply border-2 w-full rounded-xl focus:border-lime-400 text-sm py-1 px-2 placeholder-gray-500 outline-none transition duration-300 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700 bg-white text-gray-900 border-gray-300 dark:bg-dark-mode dark:text-white dark:border-gray-cod;
 }
 
 .error {

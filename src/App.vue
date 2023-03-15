@@ -10,6 +10,14 @@
 
 <script setup lang="ts">
 import Layout from '@/components/Layout/Layout.vue';
+import { onMounted } from 'vue';
+import { useStore } from '@/store';
+
+const store = useStore();
+
+onMounted(() => {
+  store.initDarkMode();
+});
 </script>
 
 <style>

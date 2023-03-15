@@ -1,23 +1,8 @@
 <template>
-  <div
-    v-if="!props.listElement"
-    :class="[
-      $style.wrapper,
-      props.classes,
-      isDarkMode ? $style['dark-mode'] : $style['light-mode']
-    ]"
-  >
+  <div v-if="!props.listElement" :class="[$style.wrapper, props.classes]">
     <slot />
   </div>
-  <li
-    v-else
-    :class="[
-      $style.wrapper,
-      props.classes,
-      isDarkMode ? $style['dark-mode'] : $style['light-mode']
-    ]"
-    class="list-none"
-  >
+  <li v-else :class="[$style.wrapper, props.classes]" class="list-none">
     <slot />
   </li>
 </template>
@@ -41,14 +26,6 @@ const { isDarkMode } = useDarkMode();
 
 <style module>
 .wrapper {
-  @apply rounded-xl p-4 transition duration-300;
-}
-
-.light-mode {
-  @apply bg-white shadow-md;
-}
-
-.dark-mode {
-  @apply bg-mine-shaft;
+  @apply rounded-xl p-4 transition duration-300 bg-white shadow-md dark:bg-mine-shaft dark:shadow-none;
 }
 </style>

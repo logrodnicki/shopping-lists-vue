@@ -131,10 +131,10 @@ const buttonClickHandler = (value: number): void => {
 }
 
 .page-button {
-  @apply border-2 border-lime-400 rounded-md h-8 w-8 text-lime-400 transition duration-300;
+  @apply border-2 border-gray-300 dark:border-white rounded-xl h-8 w-8 text-dark-mode dark:text-lime-400 transition duration-300;
 
   &.page-button-selected {
-    @apply bg-lime-400 text-black;
+    @apply bg-lime-300 border-lime-400 text-black;
   }
 }
 </style>

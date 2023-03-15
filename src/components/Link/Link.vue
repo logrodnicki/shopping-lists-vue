@@ -4,21 +4,10 @@
     :class="[$style.wrapper, classes]"
     :to="to"
   >
-    <div
-      :class="[
-        $style.icon,
-        isDarkMode ? $style['icon-dark-mode'] : $style['icon-light-mode']
-      ]"
-    >
+    <div :class="[$style.icon]">
       <font-awesome-icon :icon="iconsMap[iconType]" size="md" />
     </div>
-    <div
-      v-if="!!label"
-      :class="[
-        $style.label,
-        isDarkMode ? $style['label-dark-mode'] : $style['label-light-mode']
-      ]"
-    >
+    <div v-if="!!label" :class="[$style.label]">
       {{ label }}
     </div>
   </router-link>
@@ -56,27 +45,11 @@ const iconsMap: Record<LinkIcons, string> = {
 }
 
 .icon {
-  @apply flex;
-}
-
-.icon-light-mode {
-  @apply text-dark-mode;
-}
-
-.icon-dark-mode {
-  @apply text-lime-400;
+  @apply flex text-dark-mode dark:text-lime-400;
 }
 
 .label {
-  @apply leading-4 text-base;
-}
-
-.label-light-mode {
-  @apply text-dark-mode;
-}
-
-.label-dark-mode {
-  @apply text-lime-400;
+  @apply leading-4 text-base text-dark-mode dark:text-lime-400;
 }
 
 .active {

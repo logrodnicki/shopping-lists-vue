@@ -25,15 +25,7 @@ const { isDarkMode, toggleDarkMode } = useDarkMode();
 
 <style module>
 .button {
-  @apply border-2 border-lime-500 rounded-3xl h-8 w-14 p-0.5 relative flex;
-}
-
-.light-mode {
-  @apply bg-white;
-}
-
-.dark-mode {
-  @apply bg-dark-mode;
+  @apply border-2 border-lime-500 rounded-3xl h-8 w-14 p-0.5 relative flex bg-white dark:bg-dark-mode;
 }
 
 .icon {

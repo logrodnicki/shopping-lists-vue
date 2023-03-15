@@ -13,6 +13,19 @@ export const useStore = defineStore('main', {
     toggleDarkMode() {
       localStorage.setItem('darkMode', String(!this.isDarkMode));
       this.isDarkMode = !this.isDarkMode;
+
+      const root = window.document.documentElement;
+      root.classList.toggle('dark');
+      root.setAttribute('data-mode', this.isDarkMode ? 'dark' : 'light');
+    },
+    initDarkMode() {
+      const root = window.document.documentElement;
+
+      if (this.isDarkMode) {
+        root.classList?.add('dark');
+      }
+
+      root.setAttribute('data-mode', this.isDarkMode ? 'dark' : 'light');
     }
   }
 });
