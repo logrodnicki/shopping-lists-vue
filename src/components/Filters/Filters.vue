@@ -22,13 +22,17 @@
         :wrapper-classes="$style['type-wrapper']"
         label="Type"
       />
-      <Button :classes="$style['search-button']" icon="search" />
+      <Button
+        :classes="$style['search-button']"
+        icon="search"
+        @click="applyHandler"
+      />
     </form>
   </Box>
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, defineProps, ref, toRefs, watchEffect } from 'vue';
+import { defineEmits, defineProps, ref, toRefs } from 'vue';
 import useDarkMode from '@/hooks/useDarkMode';
 import { FiltersType, SortingOrder, TextInputTypes } from '@/types';
 import TextInput from '@/components/Form/TextInput/TextInput.vue';
@@ -99,13 +103,13 @@ const typesItems: SelectItem[] = [
 
 const { isDarkMode } = useDarkMode();
 
-watchEffect(() => {
+const applyHandler = () => {
   emit('update', {
     sortingOrder: sortingOrder.value,
     searchText: searchText.value,
     type: type.value
   });
-});
+};
 </script>
 
 <style lang="scss" module>

@@ -150,7 +150,8 @@ const toggleMenuHandler = () => {
     menuStyles.value = {
       ...menuStyles.value,
       top: `${topPosition}px`,
-      left: `${Number(wrapperDimensions.left)}px`
+      left: `${Number(wrapperDimensions.left)}px`,
+      width: `${wrapperDimensions.width}px`
     };
   });
 };
@@ -181,15 +182,15 @@ onClickOutside(wrapperRef, () => closeHandler());
 }
 
 .input {
-  @apply outline-none text-gray-500 max-w-full w-0 flex-grow transition duration-300 px-2 py-1.5 h-8 border-2 rounded-xl focus:border-lime-400 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700 bg-white text-gray-800  dark:bg-dark-mode dark:text-lime-400 dark:border-gray-cod;
+  @apply outline-none text-gray-500 max-w-full w-0 flex-grow transition duration-300 px-2 py-1.5 h-8 border-2 rounded-xl focus:border-lime-400 disabled:bg-gray-400 disabled:border-gray-600 disabled:text-gray-700 bg-white text-gray-800 dark:bg-dark-mode dark:text-lime-400 dark:border-gray-cod dark:focus:border-lime-400;
 }
 
 .menu {
-  @apply p-1 fixed z-10 top-0 w-full mt-1 rounded-xl border-2 border-lime-400 animate-fade-out shadow-md bg-white text-gray-800 dark:bg-mine-shaft dark:text-white dark:border-gray-cod;
+  @apply p-2 fixed z-10 top-0 w-full mt-1 rounded-xl border-2 border-lime-400 animate-fade-out shadow-md bg-white text-gray-800 dark:bg-mine-shaft dark:text-white dark:border-lime-400;
 }
 
 .menu-item {
-  @apply text-sm cursor-pointer rounded-xl p-1.5 hover:bg-lime-400;
+  @apply text-sm cursor-pointer rounded-xl p-1.5 transition duration-300 hover:bg-lime-400 hover:text-dark-mode;
 }
 
 .displayed-value {

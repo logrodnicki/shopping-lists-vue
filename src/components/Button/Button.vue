@@ -9,6 +9,7 @@
         [$style.disabled]: disabled
       }
     ]"
+    type="button"
     @click="clickHandler"
   >
     <div v-if="!showLoader && !isPending" :class="[$style.content]">
