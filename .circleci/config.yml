@@ -5,7 +5,7 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build:
+  preparation:
     docker:
       - image: cimg/node:19.7.0
     steps:
@@ -30,9 +30,6 @@ jobs:
   deploy:
     docker:
       - image: cimg/node:19.7.0
-    environment:
-      NETLIFY_AUTH_TOKEN: 67opcXXVhM9QPP4a8yF44UCXYA5rW14Ih1C0FHOZDBM
-      NETLIFY_SITE_ID: 811b7ca5-9f07-4091-bcd6-323549c438a5
     steps:
       - checkout
       - restore_cache:
@@ -48,7 +45,7 @@ jobs:
           command: npm install netlify-cli -g
       - run:
           name: Netlify deploy
-          command: netlify deploy --prod --dir=dist --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN
+          command: netlify deploy --prod --dir=dist --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
 
   say-hello:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -69,12 +66,12 @@ workflows:
   deploy-workflow:
     jobs:
       - say-hello
-      - build:
+      - preparation:
           requires:
             - say-hello
       - statics-tests:
           requires:
-            - build
+            - preparation
       - hold:
           type: approval
           requires:
