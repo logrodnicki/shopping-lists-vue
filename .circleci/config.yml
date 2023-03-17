@@ -5,6 +5,48 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
+  build:
+    docker:
+      - image: cimg/node:19.7.0
+    steps:
+      - checkout
+      - run:
+          name: Install deps
+          command: npm install
+      - save_cache:
+          key: v1-shopping-lists-vue-deps-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+  statics-tests:
+    docker:
+      - image: cimg/node:19.7.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-shopping-lists-vue-deps-cache-{{ checksum "package.json" }}
+      - run:
+          name: Check statics tests
+          command: npm run static
+  deploy:
+    docker:
+      - image: cimg/node:19.7.0
+    environment:
+      NETLIFY_AUTH_TOKEN: 67opcXXVhM9QPP4a8yF44UCXYA5rW14Ih1C0FHOZDBM
+      NETLIFY_SITE_ID: 811b7ca5-9f07-4091-bcd6-323549c438a5
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-shopping-lists-vue-deps-cache-{{ checksum "package.json" }}
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World DEPLOY!!!!"
+      - run:
+          name: Build app
+          command: npm run build
+      - run:
+          name: Netlify deploy
+          command: netlify deploy --prod --dir=dist --site $NETLIFY_SITE_ID --auth $NETLIFY_ACCESS_TOKEN
+
   say-hello:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
@@ -21,6 +63,27 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  deploy-workflow:
     jobs:
       - say-hello
+      - build:
+          requires:
+            - say-hello
+      - statics-tests:
+          requires:
+            - build
+      - hold:
+          type: approval
+          requires:
+            - statics-tests
+          filters:
+            branches:
+              only:
+                - main
+      - deploy:
+          requires:
+            - hold
+          filters:
+            branches:
+              only:
+                - main

@@ -11,7 +11,7 @@
     "pretty": "prettier --config ./.prettierrc.js --check ./src",
     "pretty:fix": "prettier --config ./.prettierrc.js --write ./src",
     "preview": "vite preview",
-    "test": "npm run lint && npm run pretty"
+    "static": "npm run lint && npm run pretty"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
