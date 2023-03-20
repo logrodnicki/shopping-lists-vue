@@ -23,5 +23,8 @@ export default defineConfig({
       }
     }
   },
+  build: {
+    minify: 'esbuild'
+  },
   plugins: [vue(), eslintPlugin(), viteCompression()]
 });
