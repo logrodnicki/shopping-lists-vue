@@ -46,7 +46,7 @@ jobs:
 workflows:
   deploy-workflow:
     jobs:
-      - preparation:
+      - preparation
       - statics-tests:
           requires:
             - preparation
