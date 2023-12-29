@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'Vue';
+import { defineProps } from 'vue';
 import { computed, defineEmits, toRefs } from 'vue';
 
 const FIRST_PAGE_VALUE = 1;
